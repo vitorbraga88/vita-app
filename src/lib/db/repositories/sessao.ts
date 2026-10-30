@@ -102,15 +102,20 @@ export function finalizarSessao(id: number, duracaoMin: number, kcalEstimado: nu
   return getSessao(id)!;
 }
 
-export function listarHistorico(usuarioId: number, limite = 50): Array<Sessao & { treino_nome: string | null }> {
+export function listarHistorico(
+  usuarioId: number,
+  limite = 50
+): Array<Sessao & { treino_nome: string | null; numero_series: number }> {
   return getDb()
     .prepare(
-      `SELECT s.*, t.nome as treino_nome FROM sessao s
+      `SELECT s.*, t.nome as treino_nome,
+              (SELECT COUNT(*) FROM sessao_serie ss WHERE ss.sessao_id = s.id) as numero_series
+       FROM sessao s
        LEFT JOIN treino t ON t.id = s.treino_id
        WHERE s.usuario_id = ? AND s.status = 'concluido'
        ORDER BY s.iniciado_em DESC LIMIT ?`
     )
-    .all(usuarioId, limite) as Array<Sessao & { treino_nome: string | null }>;
+    .all(usuarioId, limite) as Array<Sessao & { treino_nome: string | null; numero_series: number }>;
 }
 
 /** Load evolution for a given exercise across completed sessions (max load per session). */

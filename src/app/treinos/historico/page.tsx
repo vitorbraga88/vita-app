@@ -7,6 +7,8 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { HistoricoClient } from "./HistoricoClient";
 import { getEvolucaoCargaAction } from "./actions";
 
+export const dynamic = "force-dynamic";
+
 export default async function HistoricoPage() {
   const usuario = getUsuarioAtual();
   const sessoes = listarHistorico(usuario.id);

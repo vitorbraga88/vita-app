@@ -7,6 +7,8 @@ import { PesoSecao } from "@/components/evolucao/PesoSecao";
 import { MedidasSecao } from "@/components/evolucao/MedidasSecao";
 import { MetaSecao } from "@/components/evolucao/MetaSecao";
 
+export const dynamic = "force-dynamic";
+
 export default async function EvolucaoPage() {
   const usuario = getUsuarioAtual();
   const hoje = hojeISOLocal();

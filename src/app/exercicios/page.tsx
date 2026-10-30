@@ -2,6 +2,8 @@ import { listarExercicios } from "@/lib/db/repositories/exercicio";
 import { SecaoNav } from "@/components/treinos/SecaoNav";
 import { ExerciciosClient } from "@/components/exercicios/ExerciciosClient";
 
+export const dynamic = "force-dynamic";
+
 export default async function ExerciciosPage() {
   const exercicios = listarExercicios();
 

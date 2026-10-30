@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { SessaoGuiadaClient, type ExercicioSessaoData } from "./SessaoGuiadaClient";
 
+export const dynamic = "force-dynamic";
+
 export default async function SessaoTreinoPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const treinoId = Number(id);

@@ -4,6 +4,10 @@ import { listarExercicios } from "@/lib/db/repositories/exercicio";
 import { SecaoNav } from "@/components/treinos/SecaoNav";
 import { TreinosClient } from "@/components/treinos/TreinosClient";
 
+// VITA reads SQLite on every request (workouts can change anytime); static
+// prerendering would freeze this page with build-time data.
+export const dynamic = "force-dynamic";
+
 export default async function TreinosPage() {
   const usuario = getUsuarioAtual();
   const treinosBase = listarTreinos(usuario.id);

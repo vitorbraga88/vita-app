@@ -7,6 +7,10 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { WeeklyBarChart } from "@/components/charts/WeeklyBarChart";
 import { WorkoutCard } from "@/components/workout/WorkoutCard";
 
+// VITA reads SQLite + the current date on every request; static prerendering
+// would freeze the dashboard with build-time data.
+export const dynamic = "force-dynamic";
+
 export default async function DashboardPage() {
   const dados = await getDashboardData();
   const hoje = new Date().toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long" });

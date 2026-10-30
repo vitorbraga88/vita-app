@@ -7,6 +7,8 @@ import { NutricaoVazio } from "@/components/nutricao/NutricaoVazio";
 import { MacroBar } from "@/components/charts/MacroBar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
+export const dynamic = "force-dynamic";
+
 export default async function NutricaoPage({ searchParams }: PageProps<"/nutricao">) {
   const sp = await searchParams;
   const dataParam = typeof sp.data === "string" ? sp.data : undefined;

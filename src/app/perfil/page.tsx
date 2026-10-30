@@ -3,6 +3,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FormularioPerfil } from "@/components/perfil/FormularioPerfil";
 import { ToggleAparencia } from "@/components/perfil/ToggleAparencia";
 
+export const dynamic = "force-dynamic";
+
 export default async function PerfilPage() {
   const usuario = getUsuarioAtual();
 

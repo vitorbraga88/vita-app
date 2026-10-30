@@ -25,3 +25,18 @@ de entrega (funcionalidades concluídas × pendentes × bloqueadas).
   20.19.5 → segfault (exit 139) ao `require()`. Trocado para
   `better-sqlite3@12.11.1`, que declara suporte explícito a `20.x` — ver
   `RELATORIO-SKILLS.md` para o desvio documentado.
+
+## 2026-10-30
+
+- Design system implementado (tokens.css, 15 componentes base retemados do
+  shadcn/Base UI) + Dashboard construído e iterado 3× (v1→v2→v3) com bugs reais
+  corrigidos a cada rodada (console, contraste WCAG, fuso horário, cross-tema).
+- 7 módulos restantes (`/treinos`, `/treinos/[id]`, `/treinos/historico`,
+  `/exercicios`, `/evolucao`, `/nutricao`, `/perfil`) construídos em paralelo por
+  4 subagentes com contratos compartilhados (design system + repositórios já
+  prontos); integrados, revisados e commitados por mim.
+- Etapa 4 completa: contraste medido (script), axe-core (0 violações em 8
+  rotas), Vitest (20/20), Playwright E2E (3/3 fluxos), `npm run build` (bug real
+  de rotas estáticas encontrado e corrigido), Lighthouse real (Dashboard LCP
+  1.9s, Performance 82).
+- Status final detalhado, com pendências reais sem maquiagem, em `progresso.md`.

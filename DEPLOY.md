@@ -144,3 +144,35 @@ O botão “Testar agora” continua simulado, sem publicação.
   contagens, configurações e `integrity_check`). Idempotente.
 - **Reinício:** o VITA não sobe sozinho após reboot do host (observado em 30/10/2026,
   ~15:36). Depois de um reboot, rode `scripts/reiniciar-producao.sh`.
+
+---
+
+## 8. Reinício automático (aplicado em 30/10/2026 pelo Hermes)
+
+O VITA agora sobe sozinho após reboot e volta se o processo cair.
+
+Arquivos:
+- Unidade: ~/.config/systemd/user/vita.service
+- Log: /tmp/vita.log
+- Linger: habilitado (necessário para o serviço de usuário subir sem login)
+
+Comandos de operação:
+
+    systemctl --user status vita.service     # ver estado
+    systemctl --user restart vita.service    # reiniciar
+    systemctl --user stop vita.service       # parar
+    tail -f /tmp/vita.log                    # acompanhar log
+
+Configuração:
+- Restart=always, RestartSec=10
+- enabled em default.target
+- Linger=yes (loginctl enable-linger vitorbraga)
+
+Verificado em 30/10/2026:
+- systemctl --user is-active -> active
+- curl http://localhost:3900/ -> 200
+- kill -9 no processo -> voltou sozinho em menos de 20s
+- dados intactos após o crash: 795 series / 36 sessoes / 132 exercicios, integrity ok
+
+OBS: /tmp/vita.log é apagado no reboot. Se precisar de log persistente,
+migrar para ~/vita.log ou journalctl --user -u vita.

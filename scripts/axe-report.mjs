@@ -4,7 +4,7 @@
 import { chromium } from "playwright";
 import AxeBuilder from "@axe-core/playwright";
 
-const ROTAS = ["/", "/treinos", "/treinos/1", "/treinos/historico", "/exercicios", "/evolucao", "/nutricao", "/perfil"];
+const ROTAS = ["/", "/treinos", "/treinos/1", "/treinos/historico", "/exercicios", "/evolucao", "/nutricao", "/ajustes"];
 
 const browser = await chromium.launch();
 let totalCritico = 0;

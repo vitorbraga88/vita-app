@@ -10,8 +10,8 @@ src/
     exercicios/               # /exercicios
     evolucao/                 # /evolucao
     nutricao/                 # /nutricao
-    perfil/                   # /perfil
-    layout.tsx                # shell raiz: ThemeProvider, AppShell, Toaster, lang="pt-BR"
+    ajustes/                  # /ajustes (perfil + preferências; /perfil redireciona 308)
+    layout.tsx                # shell raiz: aparência do banco no <html>, AppShell, Toaster, lang="pt-BR"
     globals.css                # import dos tokens + mapeamento @theme do Tailwind
   components/
     ui/                       # primitivos retemados (Button, Input, Card, Tabs, Sheet, Select,

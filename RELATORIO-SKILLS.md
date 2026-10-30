@@ -199,3 +199,37 @@ são `devDependency`/`dependency` locais do projeto ou `npx` efêmero).
 | 2 | Os 33 exercícios do dono ficaram `sistema=1` | Bug em dois pontos: `aplicarMetadadosMidia` (Fase 1, `6570f16`) gravava `sistema=1` ao anexar mídia OpenGym a registro sem `fonte`, e o teste `mediaMigration.test.ts` fixou esse comportamento; `aplicarCatalogoCurado` (Fase 2, `028f605`) repetia a regra no enriquecimento. Não havia motivo de produto | Enriquecer nunca muda o dono; só o `INSERT` de catálogo grava `sistema=1`. Dois testes falharam antes (`sistema: 1`) e passam depois. Produção: ids 1–33 conferidos nome a nome com `EXERCICIOS_SEED`, backup `vita.db.bak-2026-10-30T11-12-28-204Z-pre-sistema0`, `UPDATE` de 33 linhas → `sistema=0` **33**, `sistema=1` **99**, total **132**; 19 `treino_exercicio` apontando para ids 1–33, 0 órfãos |
 | 3 | `ffprobe` ausente sem dizer o substituto | — | Linha "Limitação de plataforma" da §8 corrigida acima |
 | 4 | Sessão 38 (Push, `em_andamento`, 0 séries, 2026-10-30 08:11:53) elevou sessões para 37 | `src/app/treinos/[id]/page.tsx` chamava `iniciarSessao()` no GET: qualquer visita a `/treinos/[id]` gravava uma sessão (mesma origem da sessão 37 removida antes). O servidor não registra requisições, então o autor da visita não foi identificado | Removida com autorização, backup `…-pre-remover-sessao38`, condicionada a 0 séries → 795/36/28/1/132, `integrity_check ok`. Causa corrigida: a página só lê a sessão em andamento; a sessão nasce na transação da 1ª série (`registrarSerieDoTreino`). E2E `sessao-sem-efeito-get.spec.ts` falhou antes (11 → 12 sessões só por abrir a página) e passa depois |
+
+## 10. Fase 3 — Ajustes (`/ajustes`)
+
+Escopo: configuração e persistência das 10 seções. Nada é enviado (água, suplemento,
+pesagem, notificação real = Fase 4; relógio = Fase 5).
+
+| Prova | Estado | Evidência exercida (produção, porta 3900, build final) |
+|---|---|---|
+| a) Migração aditiva + dados protegidos | [OK] | `node scripts/migrar-configuracao.mjs` → backup `vita.db.bak-2026-10-30T12-42-41-579Z-pre-configuracao`, `criadas: [configuracao, notificacao_envio]`, antes = depois = `795/36/28/1/132`, `integrity_check: ok`; 2ª execução → `criadas: []` |
+| b) 10 seções renderizam | [OK] | `screenshots/fase3-secao-01-perfil.png` … `fase3-secao-10-dados.png`; mobile `fase3-mobile-ajustes.png` |
+| c) 3 toggles + F5 | [OK] | `hidratacao.ativo`, `pesagem.ativo`, `treino.vibracao` alterados → recarga → `aria-checked` `true`/`true`/`false`; `fase3-persistencia-apos-f5.png` |
+| d) `SELECT chave, valor FROM configuracao ORDER BY chave` | [OK] | durante a prova: `hidratacao.ativo|true`, `pesagem.ativo|true`, `pesagem.hora|"06:45:00-03:00"`, `treino.ativo|true`, `treino.vibracao|false`; depois de desfazer: `hidratacao.ativo|false`, `pesagem.ativo|false`, `pesagem.hora|"07:00:00-03:00"`, `treino.ativo|false` |
+| e) Default quando a chave não existe | [OK] | linha `treino.vibracao` apagada → `count(*) = 0`; `getConfig(1,"treino.vibracao")` → `true` (default do catálogo); `getConfig(1,"treino.vibracao",false)` → `false` (padrão do chamador); página `200`, switch "Vibração" `aria-checked=true` |
+| f) Dependentes desabilitados, não escondidos | [OK] | Treino desligado: "Incremento membros superiores" `visível=true`, `disabled=true`; ligado: `disabled=false`. `fase3-dependentes-antes.png` / `fase3-dependentes-depois.png` |
+| g) Horário com `-03:00` | [OK] | UI `06:45` → banco `"06:45:00-03:00"`, `atualizado_em 2026-10-30T11:03:00-03:00`. Offset vem de `Intl` (America/Recife); `Z`/`+00:00` são rejeitados (teste) |
+| h) Console do navegador | [OK] | `console: []` (erros/avisos e `pageerror`, desktop e mobile, durante toda a prova) |
+| i) `curl /ajustes` → 200 | [OK] | executado no fechamento do relatório (ver resposta final) |
+| Acessibilidade | [OK] | axe WCAG 2.0/2.1 A/AA com as 10 seções **abertas**: 0 violações (1440 e 390 px). Corrigido no caminho: chips "Dom…Sáb" violavam 2.5.3 (label-in-name) |
+| Exportar/importar | [OK] | `GET /ajustes/exportar` → `200`, `attachment; filename="vita-ajustes-2026-10-30.json"`, 58 chaves; importação com chave inválida → rejeitada inteira (0 linhas); válida → 58 linhas, tela reflete |
+
+Achados e correções durante a fase:
+
+- **Escala tipográfica nunca aplicada (entregas anteriores).** As classes de tamanho
+  usavam valor arbitrário sem type hint e o Tailwind v4 as compilava como `color`; todo
+  texto saía em 17px (medido: h1 = 17px em `/`, `/nutricao`, `/ajustes`). Corrigido em
+  commit próprio (117 classes, 51 arquivos); medido depois: h1 28px, seção 22px, legenda 12px.
+- **`next dev` perde os locks POSIX do SQLite após a 1ª Server Action** (medido em
+  `/proc/locks`; `next start` mantém). Com o lock perdido, uma conexão externa de escrita
+  que fecha apaga o WAL e as gravações seguintes do servidor de dev somem (visto em
+  `/proc/<pid>/fd` → `vita.e2e.db-wal (deleted)`). E2E migrado para build de produção
+  (`.next-e2e`, porta 3901): 3 execuções completas seguidas, 15/15 cada.
+- Falha de rede numa action derrubava a seção no error boundary; agora reverte o controle
+  e avisa ("Sem conexão com o servidor. Nada foi salvo.") — teste E2E dedicado.
+- Overflow horizontal de 11px no mobile (cabeçalho "Suplementação" + chip) → 0px.

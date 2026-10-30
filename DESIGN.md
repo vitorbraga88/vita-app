@@ -172,7 +172,7 @@ src/
     exercicios/page.tsx
     evolucao/page.tsx
     nutricao/page.tsx
-    perfil/page.tsx
+    ajustes/page.tsx        # /perfil → 308 para /ajustes (Fase 3)
   components/
     ui/                     # Button, Input, Card, Skeleton, EmptyState, ErrorState, Tabs, Sheet, Toast, Avatar
     charts/                 # BarChart, LineChart, ProgressRing, MacroBar
@@ -238,7 +238,7 @@ contraste WCAG real:
    gráficos (também torna screenshots determinísticos para QA).
 
 
-## 6. Modo claro (opcional, toggle em /perfil)
+## 6. Aparência (Ajustes → Aparência: escuro, claro ou seguir o sistema)
 
 ```css
 [data-theme="light"] {
@@ -248,5 +248,13 @@ contraste WCAG real:
 }
 ```
 `--accent` permanece igual nos dois modos (identidade da marca). Dark é o
-padrão (`<html data-theme="dark">` por default, sem flash — definido no
-`layout.tsx` antes da hidratação).
+padrão. A preferência fica no banco (`configuracao`, sem localStorage) e o
+`layout.tsx` a escreve no servidor como `data-theme`, `data-densidade`,
+`data-fonte` e `data-movimento` no `<html>` — sem flash. "Seguir o sistema"
+usa os tokens claros sob `prefers-color-scheme: light`.
+
+**Correção (Fase 3):** a escala `--t-*` só passou a valer de fato quando as
+classes de tamanho ganharam o type hint `length:` dentro do valor arbitrário do
+Tailwind. Sem ele, o Tailwind v4 compilava a classe como **cor** e todo texto
+saía em 17px. (Não escreva a classe literal em Markdown: o Tailwind também
+varre `.md` e geraria CSS inválido.)

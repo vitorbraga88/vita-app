@@ -81,3 +81,81 @@
   --warn: #986e03;
   --err: #ed0c0c;
 }
+
+/* Native controls (time/date inputs, select popups, scrollbars) follow the active theme. */
+:root,
+[data-theme="dark"],
+[data-theme="sistema"] {
+  color-scheme: dark;
+}
+[data-theme="light"] {
+  color-scheme: light;
+}
+
+/* "Seguir o sistema": dark tokens by default (above), light ones when the OS asks for light.
+   Must repeat the light block — a media query cannot join the selector list. */
+@media (prefers-color-scheme: light) {
+  [data-theme="sistema"] {
+    color-scheme: light;
+    --bg-0: #f7f8fa;
+    --bg-1: #ffffff;
+    --bg-2: #f0f2f5;
+    --bg-3: #e5e8ed;
+    --fg-0: #14161b;
+    --fg-1: #4a5160;
+    --fg-2: #5d6574;
+    --border: rgba(10, 11, 15, 0.08);
+    --border-strong: rgba(10, 11, 15, 0.14);
+    --glass-bg: rgba(255, 255, 255, 0.72);
+    --accent-text: #4b6f06;
+    --ok: #1d845f;
+    --warn: #986e03;
+    --err: #ed0c0c;
+  }
+}
+
+/* Density: tighter spacing only. Touch targets are fixed 48px (h-12) and do not shrink. */
+[data-densidade="compacto"] {
+  --s-4: 12px;
+  --s-5: 16px;
+  --s-6: 20px;
+  --s-8: 24px;
+  --s-10: 32px;
+}
+
+/* Larger type scale, same hierarchy (+2px steps). */
+[data-fonte="grande"] {
+  --t-cap: 14px;
+  --t-fn: 17px;
+  --t-body: 19px;
+  --t-t3: 22px;
+  --t-t2: 24px;
+  --t-t1: 30px;
+  --t-xl: 38px;
+}
+
+/* Reduced motion: forced by the setting, or by the OS when the setting is off ("sistema"). */
+[data-movimento="reduzido"] {
+  --dur: 0ms;
+}
+[data-movimento="reduzido"] *,
+[data-movimento="reduzido"] *::before,
+[data-movimento="reduzido"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-movimento="sistema"] {
+    --dur: 0ms;
+  }
+  [data-movimento="sistema"] *,
+  [data-movimento="sistema"] *::before,
+  [data-movimento="sistema"] *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -8,6 +8,13 @@ export function listarPesoRegistros(usuarioId: number, dias: number): PesoRegist
     .all(usuarioId, isoLocalDiasAtras(dias)) as PesoRegistro[];
 }
 
+/** Most recent weighing, or undefined if none. Read-only use (e.g. /ajustes "peso atual"). */
+export function getUltimoPeso(usuarioId: number): PesoRegistro | undefined {
+  return getDb()
+    .prepare("SELECT * FROM peso_registro WHERE usuario_id = ? ORDER BY data DESC LIMIT 1")
+    .get(usuarioId) as PesoRegistro | undefined;
+}
+
 export function registrarPeso(usuarioId: number, data: string, pesoKg: number): PesoRegistro {
   const db = getDb();
   db.prepare(

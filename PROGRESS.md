@@ -61,3 +61,13 @@ de entrega (funcionalidades concluídas × pendentes × bloqueadas).
   dono voltaram a `sistema=0` (33/99/132) e o enriquecimento de mídia não muda mais o
   dono; `/treinos/[id]` deixou de criar sessão no GET (sessão 38 vazia removida com
   backup, referência 795/36/28/1/132 restaurada).
+
+- Fase 3 — `/ajustes`: 10 seções persistidas em `configuracao` (58 chaves, default
+  central, horários `-03:00`), migração aditiva com backup em produção (795/36/28/1/132
+  intactos). Aparência saiu do localStorage (`next-themes` removido) para o banco,
+  aplicada no `<html>` pelo servidor. `/perfil` → 308 `/ajustes`.
+- Corrigidos no caminho: escala tipográfica (Tailwind lia as classes como cor), overflow
+  mobile, violação WCAG 2.5.3 nos chips, falha de rede derrubando a seção, e E2E migrado
+  do `next dev` (perde locks do SQLite após Server Action) para build de produção.
+- Verificação: Vitest 61/61 (16 arquivos), Playwright 15/15 em 3 execuções seguidas,
+  axe 0 violações com seções abertas, build de produção e provas a–i em `RELATORIO-SKILLS.md` §10.

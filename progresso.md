@@ -15,7 +15,8 @@ limitação de plataforma/tempo, cada um na sua categoria.
 **Etapa 2 — aplicação**
 - 8 rotas funcionais, todas retornando 200, console limpo, sem violação crítica de
   acessibilidade (axe-core, WCAG2A/AA): `/`, `/treinos`, `/treinos/[id]`,
-  `/treinos/historico`, `/exercicios`, `/evolucao`, `/nutricao`, `/perfil`.
+  `/treinos/historico`, `/exercicios`, `/evolucao`, `/nutricao`, `/ajustes`
+  (`/perfil` responde 308 → `/ajustes` desde a Fase 3).
 - CRUD completo de exercícios e treinos (criar, compor exercícios do treino, editar,
   excluir com tratamento de erro de FK). Catálogo curado com 132 exercícios OpenGym
   únicos, thumbnail e clip local; a biblioteca, o editor e a sessão guiada abrem
@@ -29,8 +30,12 @@ limitação de plataforma/tempo, cada um na sua categoria.
   anterior, meta de peso editável.
 - Nutrição: refeições por período, busca de alimento, macros do dia com `MacroBar`, alerta
   discreto ao passar a meta de kcal.
-- Perfil: dados pessoais editáveis + alternância de aparência (dark/light) funcional via
-  `next-themes`.
+- Ajustes (`/ajustes`, Fase 3): 10 seções em acordeão (Perfil, Aparência, Hidratação,
+  Suplementação, Pesagem, Treino, Nutrição, Notificações, Amazfit T-Rex 3, Dados), cada
+  controle salvo na hora no SQLite (`configuracao`, 58 chaves com default central),
+  horários com offset de America/Recife, dependentes desabilitados (não escondidos) pelo
+  toggle da seção. Aparência (tema escuro/claro/sistema, densidade, fonte, movimento)
+  vem do banco e é aplicada no `<html>` pelo servidor — sem localStorage.
 - Responsivo confirmado em 3 breakpoints reais (390×844, 820×1180, 1440×900) — sidebar
   colapsa para ícones no tablet, vira tab bar fixa no mobile.
 
@@ -51,10 +56,10 @@ limitação de plataforma/tempo, cada um na sua categoria.
   (confirmado programaticamente), foco visível confirmado via navegação por Tab real.
 - Dados coerentes: 3 verificações independentes com consulta SQL direta batendo exatamente
   com o número exibido na tela (kcal/proteína/carbo/gordura do dia, treinos da semana).
-- Testes: Vitest 32/32 (10 arquivos — domínio, isolamento do seed e importação
-  idempotente do catálogo); Playwright E2E 7/7 fluxos reais (criar
-  exercício→sessão→histórico; peso→gráfico; refeição→macros;
-  biblioteca/editor/sessão com mídia) — todos passaram após reseed.
+- Testes: Vitest 61/61 (16 arquivos — domínio, catálogo e importação, configuração,
+  horários de Recife, metas automáticas, isolamento do seed); Playwright 15/15 contra build
+  de produção (fluxos de treino, peso, refeição, mídia, sessão sem efeito no GET e 7 de
+  ajustes) — 3 execuções completas seguidas sem falha.
 - Build de produção: `npm run build` passa, TypeScript limpo. **Bug real encontrado e
   corrigido**: 6 das 8 rotas saíam `○ Static` (prerendeadas uma vez no build, congelando os
   dados) — adicionado `export const dynamic = "force-dynamic"` em todas.
@@ -83,9 +88,12 @@ limitação de plataforma/tempo, cada um na sua categoria.
   (alternativa explicitamente aceita no escopo da tarefa).
 - **Edição de nome/divisão de um treino já existente não foi implementada** — só criar,
   compor exercícios e excluir (não estava no escopo pedido explicitamente).
-- **Campo `aparencia` do usuário no banco é best-effort**: o toggle dark/light funciona de
-  verdade via `next-themes` (o que importa pro usuário); a sincronização com a coluna do
-  banco não foi testada em todos os caminhos.
+- **Lembretes, suplementos, pesagem e Amazfit ainda não disparam nada** — a Fase 3 entrega
+  só configuração e persistência. "Testar agora" grava um envio **simulado** no histórico;
+  entrega real por ntfy/Web Push é Fase 4, relógio é Fase 5.
+- **Configurações de treino (som do cronômetro, vibração, progressão) são persistidas mas
+  ainda não alteram o cronômetro nem a sessão guiada** — consumo dessas chaves fica para a
+  fase que implementar as regras.
 - **Figma MCP não habilitado** — falta `FIGMA_API_KEY`, que não existe neste ambiente.
 
 ## 🚫 Bloqueado por limitação de ambiente (não por falta de esforço)

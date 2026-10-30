@@ -40,6 +40,8 @@ ambiente (ver `RELATORIO-SKILLS.md`, seção de auditoria).
 | `node scripts/verificar-midia.mjs` | verifica dimensões e reprodução local dos assets |
 | `npm run lint` | ESLint |
 | `node scripts/check-contrast.mjs` | razão de contraste WCAG de cada par texto/fundo dos tokens |
+| `node scripts/migrar-configuracao.mjs` | migração aditiva (backup + `schema.sql`) das tabelas de ajustes em `data/vita.db` |
+| `scripts/reiniciar-producao.sh` | troca o servidor da porta 3900 pelo build atual e espera HTTP 200 |
 
 ## Estrutura
 
@@ -70,6 +72,16 @@ foco do registro de séries.
 
 O app não busca mídia em runtime. Os arquivos vêm da fonte com seus próprios
 termos de licença; mantenha este uso pessoal e privado, sem redistribuí-los.
+
+### Ajustes
+
+`/ajustes` reúne perfil, aparência, lembretes (hidratação, suplementação, pesagem,
+treino, nutrição), notificações, Amazfit T-Rex 3 e dados. Cada controle salva na hora
+na tabela `configuracao` (valor JSON; catálogo de 58 chaves com default em
+`src/lib/domain/configuracao/catalogo.ts`); chave ausente ou inválida usa o default.
+Horários são gravados como `HH:mm:ss-03:00` (America/Recife). Metas de kcal, macros e
+água continuam na tabela `meta`: o modo automático calcula e grava lá. `/perfil`
+redireciona (308) para `/ajustes`.
 
 ## Documentos da entrega
 

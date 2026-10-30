@@ -1,5 +1,6 @@
 import { getDb } from "@/lib/db/client";
-import type { Aparencia, Objetivo, Sexo, Usuario } from "@/lib/db/types";
+import type { Usuario } from "@/lib/db/types";
+import type { CampoPerfil } from "@/lib/domain/configuracao/perfil";
 
 /** Single-user app: always returns the seeded user (id 1), creating a fallback if missing. */
 export function getUsuarioAtual(): Usuario {
@@ -14,29 +15,11 @@ export function getUsuarioAtual(): Usuario {
   return db.prepare("SELECT * FROM usuario WHERE id = ?").get(info.lastInsertRowid) as Usuario;
 }
 
-export interface AtualizarUsuarioInput {
-  nome?: string;
-  objetivo?: Objetivo;
-  altura_cm?: number | null;
-  data_nascimento?: string | null;
-  sexo?: Sexo | null;
-  aparencia?: Aparencia;
-}
-
-export function atualizarUsuario(id: number, input: AtualizarUsuarioInput): Usuario {
+/** Updates one identity column of `usuario`. `campo` is a closed union, so the interpolated
+ * column name can only be one of the five whitelisted columns. Value must be pre-validated
+ * by `validarCampoPerfil`. */
+export function atualizarCampoUsuario(id: number, campo: CampoPerfil, valor: string | number | null): Usuario {
   const db = getDb();
-  const atual = db.prepare("SELECT * FROM usuario WHERE id = ?").get(id) as Usuario;
-  const merged = { ...atual, ...input };
-  db.prepare(
-    `UPDATE usuario SET nome=?, objetivo=?, altura_cm=?, data_nascimento=?, sexo=?, aparencia=? WHERE id=?`
-  ).run(
-    merged.nome,
-    merged.objetivo,
-    merged.altura_cm,
-    merged.data_nascimento,
-    merged.sexo,
-    merged.aparencia,
-    id
-  );
+  db.prepare(`UPDATE usuario SET ${campo} = ? WHERE id = ?`).run(valor, id);
   return db.prepare("SELECT * FROM usuario WHERE id = ?").get(id) as Usuario;
 }

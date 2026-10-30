@@ -6,6 +6,7 @@
     "node": "22.12.x"
   },
   "scripts": {
+    "predev": "node scripts/verificar-runtime.mjs",
     "dev": "next dev -p 3900",
     "build": "next build",
     "prestart": "node scripts/verificar-runtime.mjs",
@@ -14,7 +15,9 @@
     "seed": "tsx src/lib/db/seed.ts && node scripts/aplicar-midia.mjs",
     "seed:e2e": "VITA_DB_PATH=data/vita.e2e.db npm run seed",
     "importar:catalogo": "node scripts/importar-catalogo-curado.mjs",
-    "dev:e2e": "next dev -p 3901",
+    "build:e2e": "VITA_DIST_DIR=.next-e2e next build",
+    "prestart:e2e": "node scripts/verificar-runtime.mjs",
+    "start:e2e": "VITA_DIST_DIR=.next-e2e next start -p 3901",
     "test": "vitest run",
     "test:e2e": "playwright test"
   },
@@ -26,7 +29,6 @@
     "lucide-react": "1.64.0",
     "motion": "14.8.0",
     "next": "16.4.3",
-    "next-themes": "^0.4.6",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "recharts": "3.10.1",

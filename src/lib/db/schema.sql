@@ -131,6 +131,29 @@ CREATE TABLE IF NOT EXISTS meta (
   UNIQUE(usuario_id, tipo)
 );
 
+-- Ajustes (/ajustes). Additive: valor is JSON validated by src/lib/domain/configuracao/catalogo.ts;
+-- timestamps are ISO-8601 with the America/Recife offset (…-03:00), never UTC.
+CREATE TABLE IF NOT EXISTS configuracao (
+  usuario_id      INTEGER NOT NULL REFERENCES usuario(id) ON DELETE CASCADE,
+  chave           TEXT NOT NULL,
+  valor           TEXT NOT NULL,
+  atualizado_em   TEXT NOT NULL,
+  PRIMARY KEY (usuario_id, chave)
+);
+
+-- Notification log (last 20 shown in /ajustes). teste=1 rows come from "Testar agora" and
+-- never count toward the once-per-day rule; data_local is the Recife calendar day.
+CREATE TABLE IF NOT EXISTS notificacao_envio (
+  id              INTEGER PRIMARY KEY AUTOINCREMENT,
+  usuario_id      INTEGER NOT NULL REFERENCES usuario(id) ON DELETE CASCADE,
+  tipo            TEXT NOT NULL CHECK (tipo IN ('hidratacao','suplementacao','pesagem','treino','nutricao')),
+  canal           TEXT NOT NULL CHECK (canal IN ('ntfy','webpush','ambos')),
+  teste           INTEGER NOT NULL DEFAULT 0 CHECK (teste IN (0,1)),
+  status          TEXT NOT NULL,
+  data_local      TEXT NOT NULL,
+  enviado_em      TEXT NOT NULL
+);
+
 CREATE INDEX IF NOT EXISTS idx_sessao_usuario ON sessao(usuario_id, iniciado_em);
 CREATE INDEX IF NOT EXISTS idx_sessao_serie_sessao ON sessao_serie(sessao_id);
 CREATE INDEX IF NOT EXISTS idx_sessao_serie_exercicio ON sessao_serie(exercicio_id, criado_em);
@@ -138,3 +161,4 @@ CREATE INDEX IF NOT EXISTS idx_peso_usuario ON peso_registro(usuario_id, data);
 CREATE INDEX IF NOT EXISTS idx_medida_usuario ON medida(usuario_id, data);
 CREATE INDEX IF NOT EXISTS idx_refeicao_usuario ON refeicao(usuario_id, data);
 CREATE INDEX IF NOT EXISTS idx_treino_exercicio_treino ON treino_exercicio(treino_id, ordem);
+CREATE INDEX IF NOT EXISTS idx_notificacao_envio_usuario ON notificacao_envio(usuario_id, id);

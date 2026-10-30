@@ -87,3 +87,8 @@ de entrega (funcionalidades concluídas × pendentes × bloqueadas).
 - Verificação: Vitest 100/100, progressão 5/5, Playwright 21/21, build e
   rotas de produção verificadas. ntfy na porta 8185 não estava disponível:
   entrega real não exercitada; Web Push indisponível. A Fase 5 aguarda validação.
+- Correção da progressão (reprovada na validação): séries abaixo do alvo agora só
+  sugerem +1 série; aumento exige todas as séries executadas no topo (≥2 séries);
+  deload só com série abaixo do piso, na mesma carga, por N sessões seguidas.
+  1RM exibido com a conta da melhor série da última sessão. Push: 6/6 em MANTER,
+  nenhum deload. Vitest 102/102 (progressao 7/7), Playwright 21/21.

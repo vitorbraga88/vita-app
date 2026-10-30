@@ -61,7 +61,14 @@ export function ExercicioSessaoCard({
             {sugestao.cargaKg === null ? "Informe a carga inicial" : `Sugestão: ${sugestao.cargaKg.toLocaleString("pt-BR")} kg`}
           </p>
           <p>{sugestao.motivo}</p>
-          <p>Confiança {sugestao.confianca}{sugestao.umRm !== null ? ` · 1RM estimado: ${sugestao.umRm.toLocaleString("pt-BR")} kg (Epley)` : ""}</p>
+          <p>Confiança {sugestao.confianca}</p>
+          {sugestao.baseUmRm && sugestao.umRm !== null && (
+            <p className="font-num">
+              1RM estimado (Epley, série {sugestao.baseUmRm.serie} da última sessão):{" "}
+              {sugestao.baseUmRm.cargaKg.toLocaleString("pt-BR")} kg × (1 + {sugestao.baseUmRm.reps}/30) ={" "}
+              {sugestao.umRm.toLocaleString("pt-BR")} kg
+            </p>
+          )}
           <div className="mt-[var(--s-2)] flex gap-[var(--s-2)]">
             {sugestao.cargaKg !== null && <Button type="button" onClick={onAceitarSugestao}>Aceitar</Button>}
             <Button type="button" variant="ghost" onClick={() => seriesRef.current?.querySelector<HTMLInputElement>('input[aria-label^=\"Carga\"]')?.focus()}>Ajustar</Button>

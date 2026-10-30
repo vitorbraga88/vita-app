@@ -18,9 +18,27 @@ Opção B aprovada: água compara histórico à meta atual e suplementos estimam
 
 ## Progressão
 
-O motor puro está em `src/lib/progressao.ts`, com cinco casos em `src/lib/progressao.test.ts`: `5 passed`. O exemplo de Epley 100 kg × 5 reps resulta em 116,67 kg.
+**Revisão após reprovação.** A primeira versão contava séries abaixo do alvo como falha. Como nenhuma das 36 sessões tem 4 séries em todos os exercícios (consulta retornou 0), o motor mandava deload em tudo; no Supino sugeria 62,5 kg. Regras atuais, com critério de topo estrito escolhido pelo proprietário:
 
-Consulta somente de leitura para **Supino reto**: 12 sessões concluídas; maior e última carga 70,5 kg; última sessão 11/9/11 repetições, meta atual 4 × 8–12. O motor recomenda **62,5 kg**, deload após 12 sessões sem completar o alvo, arredondado ao incremento de 2,5 kg; confiança baixa e 1RM estimado 96,35 kg. O valor não é inventado nem implica uma quarta série inexistente. A sessão oferece Aceitar/Ajustar: `screenshots/fase4b-sessao.png`. Sem histórico ou referência, solicita carga inicial.
+- **Aumentar:** ao menos 2 séries válidas na carga da última sessão, todas no topo da faixa.
+- **Volume:** séries executadas abaixo do alvo apenas sugerem +1 série; nunca causam deload.
+- **Deload:** somente após `treino.deload_apos_falhas` sessões seguidas, na mesma carga, com série abaixo do piso da faixa.
+- **1RM:** Epley sobre a melhor série da última sessão; a tela mostra série, carga, repetições e conta.
+
+Push em produção (somente leitura), motor atual:
+
+| Exercício | Última carga | Últimas reps | Séries | Sugestão | 1RM |
+|---|---|---|---|---|---|
+| Supino reto | 70,5 kg | 11/9/11 | 3/4 | MANTER 70,5 kg, +1 série | 70,5 × (1 + 11/30) = 96,35 |
+| Supino inclinado | 28 kg | 12/10/8/10 | 4/4 | MANTER 28 kg | 28 × (1 + 12/30) = 39,2 |
+| Desenvolvimento militar | 47 kg | 10/11/8/8 | 4/4 | MANTER 47 kg | 47 × (1 + 11/30) = 64,23 |
+| Elevação lateral | 11,5 kg | 9/8/12 | 3/4 | MANTER 11,5 kg, +1 série | 11,5 × (1 + 12/30) = 16,1 |
+| Tríceps corda | 29,5 kg | 9/9/8/10 | 4/4 | MANTER 29,5 kg | 29,5 × (1 + 10/30) = 39,33 |
+| Tríceps testa | 23,5 kg | 8/8/11/10 | 4/4 | MANTER 23,5 kg | 23,5 × (1 + 11/30) = 32,12 |
+
+O Supino não recebe aumento: a última sessão foi 11/9/11, não 3 × 11, e o topo da faixa é 12. Com 3 × 12 a 70,5 kg, o motor sugere 73,0 kg (teste unitário). O 1RM de 64,23 kg do militar vem da série 2 da mesma sessão (11 reps); antes a tela não identificava a série, agora identifica.
+
+`src/lib/progressao.test.ts`: **7 testes**. Os dois casos novos — 3 × 12 com alvo 4 × 8–12 aumenta e menos séries não causam deload — falharam no motor anterior (`manter` e `deload`) e passam no atual.
 
 ## TDEE
 

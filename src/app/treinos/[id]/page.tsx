@@ -44,11 +44,14 @@ export default async function SessaoTreinoPage({ params }: { params: Promise<{ i
 
   const exercicios: ExercicioSessaoData[] = treino.exercicios.map((te) => {
     const ultima = getUltimaSerie(usuario.id, te.exercicio_id);
-    const topoReps = Number(te.reps_alvo.match(/\d+/g)?.at(-1) ?? 0);
+    const faixa = te.reps_alvo.match(/\d+/g)?.map(Number) ?? [];
+    const pisoReps = faixa[0] ?? 0;
+    const topoReps = faixa.at(-1) ?? 0;
     const inferior = ["pernas", "gluteos", "panturrilha"].includes(te.exercicio.grupo_muscular);
     const sugestao = config["treino.sugestao_progressao"] && te.exercicio.tipo === "forca"
       ? sugerirProgressao(getHistoricoProgressao(usuario.id, te.exercicio_id), {
           seriesAlvo: te.series_alvo,
+          pisoReps,
           topoReps,
           incrementoKg: config[inferior ? "treino.incremento_inferior_kg" : "treino.incremento_superior_kg"],
           limiteFalhas: config["treino.deload_apos_falhas"],

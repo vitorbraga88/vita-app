@@ -13,13 +13,15 @@ const destinos: Record<TipoAviso, { tipo: TipoNotificacao; topic: string }> = {
 };
 const prioridades = { baixa: 2, normal: 3, alta: 4 } as const;
 
-/** Claim the in-app slot and its channel history atomically before any network request. */
-export async function entregarAviso(aviso: NovoAviso, config: ConfigCompleta, agora: Date): Promise<void> {
+/** Claim the in-app slot and its channel history atomically before any network request.
+ * `externo: false` records only the in-app reminder (e.g. workout handled by the watch alarm). */
+export async function entregarAviso(aviso: NovoAviso, config: ConfigCompleta, agora: Date, externo = true): Promise<void> {
   const db = getDb();
   const destino = destinos[aviso.tipo];
   const canal = config["notificacoes.canal"];
   const ids = db.transaction(() => {
     if (!registrarAviso(aviso, agora)) return null;
+    if (!externo) return { ntfy: null };
     const insert = db.prepare(`INSERT INTO notificacao_envio
       (usuario_id, tipo, canal, teste, status, data_local, enviado_em)
       VALUES (?, ?, ?, 0, ?, ?, ?)`);

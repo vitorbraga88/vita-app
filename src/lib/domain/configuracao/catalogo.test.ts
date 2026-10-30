@@ -41,7 +41,6 @@ describe("catálogo de configurações", () => {
     expect(() => normalizarValor("treino.incremento_superior_kg", 2.3)).toThrow();
     expect(() => normalizarValor("hidratacao.ativo", "true")).toThrow();
     expect(() => normalizarValor("hidratacao.dias", [1, 1, 8])).toThrow();
-    expect(() => normalizarValor("amazfit.tipos", ["treino", "spam"])).toThrow();
     expect(() => normalizarValor("pesagem.hora", "10:00:00Z")).toThrow();
   });
 

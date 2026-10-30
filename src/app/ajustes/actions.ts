@@ -8,6 +8,7 @@ import { getAllConfig, importarConfiguracoes, setConfig } from "@/lib/db/reposit
 import { definirMeta, getMeta } from "@/lib/db/repositories/meta";
 import { limparEnviosDeTeste, registrarEnvioTeste, type NotificacaoEnvio } from "@/lib/db/repositories/notificacaoEnvio";
 import { atualizarCampoUsuario, getUsuarioAtual } from "@/lib/db/repositories/usuario";
+import { parearRelogio } from "@/lib/db/repositories/relogio";
 import { ehChaveConfig, ErroConfiguracao, normalizarValor, type ChaveConfig, type ConfigCompleta } from "@/lib/domain/configuracao/catalogo";
 import { dataLocalRecife } from "@/lib/domain/configuracao/horario";
 import { TIPOS_NOTIFICACAO, type TipoNotificacao } from "@/lib/domain/configuracao/notificacao";
@@ -139,6 +140,13 @@ export async function testarNotificacaoAction(tipo: TipoNotificacao): Promise<Re
   const envio = registrarEnvioTeste(usuario.id, tipo, getAllConfig(usuario.id)["notificacoes.canal"]);
   revalidatePath("/ajustes");
   return { ok: true, valor: envio };
+}
+
+/** Issues a new watch token, shown once; any previously paired watch stops working. */
+export async function parearRelogioAction(): Promise<Resultado<string>> {
+  const token = parearRelogio(getUsuarioAtual().id);
+  revalidatePath("/ajustes");
+  return { ok: true, valor: token };
 }
 
 export async function importarConfiguracoesAction(conteudo: string): Promise<Resultado<number>> {

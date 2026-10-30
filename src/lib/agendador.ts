@@ -2,6 +2,7 @@ import { getAllConfig } from "@/lib/db/repositories/configuracao";
 import { aguaConsumida, doseTomada, pesouDesde, suplementosAgendados, usuariosAgendados } from "@/lib/db/repositories/agendador";
 import { entregarAviso } from "@/lib/entrega-notificacao";
 import { getResumoDoDia } from "@/lib/db/repositories/dashboard";
+import { relogioPareado } from "@/lib/db/repositories/relogio";
 import { getMetaAguaAtual } from "@/lib/agua/metaAtual";
 import { agoraRecifeISO, dataLocalRecife, offsetRecife } from "@/lib/domain/configuracao/horario";
 import { dentroDaJanela, emSilencio, ultimoHorarioAgua } from "@/lib/domain/agendamento";
@@ -62,10 +63,12 @@ export async function executarAgendador(agora = new Date()): Promise<void> {
         if (due(agora.getTime(), planejado + atraso)) await entregarAviso({ usuarioId, tipo: "pesagem", chave: `${data}:pesagem:${sufixo}`, titulo: "Hora da pesagem", mensagem: sufixo === "principal" ? "Registre seu peso de hoje." : "Sua pesagem ainda não foi registrada.", link: "/evolucao#registrar-peso" }, c, agora);
       }
     }
+    // A paired watch fires its own native workout alarm; publishing to ntfy would duplicate it on the wrist.
+    const treinoExterno = !(c["amazfit.ativo"] && relogioPareado(usuarioId));
     if (c["treino.ativo"]) for (const data of [hoje, ontem, amanha]) {
       const planejado = instant(data, c["treino.lembrete_hora"], offset) - c["treino.lembrete_antecedencia_min"] * 60000;
       if (due(agora.getTime(), planejado)) {
-        await entregarAviso({ usuarioId, tipo: "treino", chave: `${data}:treino`, titulo: "Hora do treino", mensagem: "Seu treino está chegando.", link: "/treinos" }, c, agora);
+        await entregarAviso({ usuarioId, tipo: "treino", chave: `${data}:treino`, titulo: "Hora do treino", mensagem: "Seu treino está chegando.", link: "/treinos" }, c, agora, treinoExterno);
       }
     }
     if (c["notificacoes.resumo_ativo"] && c["notificacoes.resumo_hora"]) for (const data of [hoje, ontem]) {

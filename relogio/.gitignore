@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.zeus/
+*.zab
+*.zpk
+npm-debug.log
+.DS_Store

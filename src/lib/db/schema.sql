@@ -190,6 +190,24 @@ CREATE TABLE IF NOT EXISTS notif_log (
   UNIQUE(usuario_id, tipo, chave_dia)
 );
 
+-- Phase 5: Amazfit T-Rex 3 mini-app. One paired watch per user; only the token hash is stored.
+-- cliente_id values are generated on the watch and make offline batch replays idempotent.
+CREATE TABLE IF NOT EXISTS relogio_dispositivo (
+  id INTEGER PRIMARY KEY,
+  usuario_id INTEGER NOT NULL UNIQUE REFERENCES usuario(id) ON DELETE CASCADE,
+  token_hash TEXT NOT NULL UNIQUE,
+  criado_em TEXT NOT NULL,
+  ultimo_contato_em TEXT
+);
+CREATE TABLE IF NOT EXISTS relogio_sessao (
+  cliente_id TEXT PRIMARY KEY,
+  sessao_id INTEGER NOT NULL REFERENCES sessao(id) ON DELETE CASCADE
+);
+CREATE TABLE IF NOT EXISTS relogio_serie (
+  cliente_id TEXT PRIMARY KEY,
+  sessao_serie_id INTEGER NOT NULL REFERENCES sessao_serie(id) ON DELETE CASCADE
+);
+
 CREATE INDEX IF NOT EXISTS idx_sessao_usuario ON sessao(usuario_id, iniciado_em);
 CREATE INDEX IF NOT EXISTS idx_sessao_serie_sessao ON sessao_serie(sessao_id);
 CREATE INDEX IF NOT EXISTS idx_sessao_serie_exercicio ON sessao_serie(exercicio_id, criado_em);

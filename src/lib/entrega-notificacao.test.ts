@@ -5,6 +5,7 @@ vi.mock("server-only", () => ({}));
 import { getDb } from "@/lib/db/client";
 import { setConfig } from "@/lib/db/repositories/configuracao";
 import { executarAgendador } from "./agendador";
+import { autenticarRelogio, parearRelogio } from "@/lib/db/repositories/relogio";
 
 const arquivo = path.join(process.cwd(), "data", "vita.test-entrega-notificacao.db");
 process.env.VITA_DB_PATH = arquivo;
@@ -129,5 +130,21 @@ describe("entrega de lembretes", () => {
     expect(getDb().prepare("SELECT status FROM notificacao_envio WHERE data_local = ?").get("2026-11-05")).toEqual({
       status: "falha: resposta ntfy inválida",
     });
+  });
+
+  it("com o relógio pareado, o lembrete de treino fica no sino e não vai ao ntfy", async () => {
+    setConfig(id, "hidratacao.ativo", false);
+    setConfig(id, "treino.ativo", true);
+    setConfig(id, "treino.lembrete_hora", "18:00");
+    setConfig(id, "treino.lembrete_antecedencia_min", 30);
+    setConfig(id, "notificacoes.silencio_ativo", false);
+    setConfig(id, "notificacoes.canal", "ntfy");
+    setConfig(id, "amazfit.ativo", true);
+    autenticarRelogio(parearRelogio(id));
+    const chamadas = fetchMock.mock.calls.length;
+    await executarAgendador(new Date("2026-11-06T17:31:00-03:00"));
+    expect(fetchMock.mock.calls.length).toBe(chamadas);
+    expect(getDb().prepare("SELECT count(*) AS n FROM notif_log WHERE chave_dia = '2026-11-06:treino'").get()).toEqual({ n: 1 });
+    expect(getDb().prepare("SELECT count(*) AS n FROM notificacao_envio WHERE data_local = '2026-11-06'").get()).toEqual({ n: 0 });
   });
 });

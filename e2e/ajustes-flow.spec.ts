@@ -2,6 +2,7 @@ import Database from "better-sqlite3";
 import { expect, test, type Page } from "@playwright/test";
 import { calcularMacros, calcularTdee, idadeEm } from "../src/lib/domain/configuracao/metasAuto";
 import { dataLocalRecife } from "../src/lib/domain/configuracao/horario";
+import { esperarHidratacao } from "./hidratacao";
 
 function consultar<T>(sql: string): T {
   const db = new Database("data/vita.e2e.db", { readonly: true });
@@ -35,6 +36,7 @@ async function irParaAjustes(page: Page) {
 async function abrir(page: Page, secao: string) {
   const detalhes = page.locator(`details#${secao}`);
   if (!(await detalhes.evaluate((el) => (el as HTMLDetailsElement).open))) await detalhes.locator("summary").click();
+  await esperarHidratacao(detalhes.locator("button, input, select").first());
   return detalhes;
 }
 

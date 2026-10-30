@@ -3,9 +3,8 @@ import Link from "next/link";
 import { Dumbbell } from "lucide-react";
 import { getUsuarioAtual } from "@/lib/db/repositories/usuario";
 import { getTreinoComExercicios } from "@/lib/db/repositories/treino";
-import { getHistoricoProgressao, getSessaoEmAndamento, getUltimaSerie } from "@/lib/db/repositories/sessao";
-import { getAllConfig } from "@/lib/db/repositories/configuracao";
-import { sugerirProgressao } from "@/lib/progressao";
+import { getSessaoEmAndamento } from "@/lib/db/repositories/sessao";
+import { planejarExercicios } from "@/lib/sessaoPlano";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { SessaoGuiadaClient, type ExercicioSessaoData } from "./SessaoGuiadaClient";
@@ -40,35 +39,18 @@ export default async function SessaoTreinoPage({ params }: { params: Promise<{ i
   // Read-only: resumes an in-progress session if one exists. A new session is created only
   // when the first series is recorded (registrarSerieAction), never by visiting this page.
   const sessao = getSessaoEmAndamento(usuario.id, treinoId);
-  const config = getAllConfig(usuario.id);
 
-  const exercicios: ExercicioSessaoData[] = treino.exercicios.map((te) => {
-    const ultima = getUltimaSerie(usuario.id, te.exercicio_id);
-    const faixa = te.reps_alvo.match(/\d+/g)?.map(Number) ?? [];
-    const pisoReps = faixa[0] ?? 0;
-    const topoReps = faixa.at(-1) ?? 0;
-    const inferior = ["pernas", "gluteos", "panturrilha"].includes(te.exercicio.grupo_muscular);
-    const sugestao = config["treino.sugestao_progressao"] && te.exercicio.tipo === "forca"
-      ? sugerirProgressao(getHistoricoProgressao(usuario.id, te.exercicio_id), {
-          seriesAlvo: te.series_alvo,
-          pisoReps,
-          topoReps,
-          incrementoKg: config[inferior ? "treino.incremento_inferior_kg" : "treino.incremento_superior_kg"],
-          limiteFalhas: config["treino.deload_apos_falhas"],
-        })
-      : null;
-    return {
-      treinoExercicioId: te.id,
-      exercicioId: te.exercicio_id,
-      exercicio: te.exercicio,
-      nome: te.exercicio.nome,
-      seriesAlvo: te.series_alvo,
-      repsAlvo: te.reps_alvo,
-      ultimaReps: ultima?.reps ?? 0,
-      ultimaCarga: ultima?.carga_kg ?? 0,
-      sugestao,
-    };
-  });
+  const exercicios: ExercicioSessaoData[] = planejarExercicios(usuario.id, treino).map(({ item, ultimaReps, ultimaCargaKg, sugestao }) => ({
+    treinoExercicioId: item.id,
+    exercicioId: item.exercicio_id,
+    exercicio: item.exercicio,
+    nome: item.exercicio.nome,
+    seriesAlvo: item.series_alvo,
+    repsAlvo: item.reps_alvo,
+    ultimaReps,
+    ultimaCarga: ultimaCargaKg,
+    sugestao,
+  }));
 
   return (
     <SessaoGuiadaClient

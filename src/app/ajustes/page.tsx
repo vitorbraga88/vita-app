@@ -1,3 +1,4 @@
+import { headers } from "next/headers";
 import { SecaoAmazfit } from "@/components/ajustes/SecaoAmazfit";
 import { SecaoAparencia } from "@/components/ajustes/SecaoAparencia";
 import { SecaoDados } from "@/components/ajustes/SecaoDados";
@@ -12,8 +13,10 @@ import { getAllConfig } from "@/lib/db/repositories/configuracao";
 import { getUltimoPeso } from "@/lib/db/repositories/evolucao";
 import { getMeta } from "@/lib/db/repositories/meta";
 import { listarEnvios } from "@/lib/db/repositories/notificacaoEnvio";
+import { getRelogio } from "@/lib/db/repositories/relogio";
 import { getUsuarioAtual } from "@/lib/db/repositories/usuario";
 import { getMetaAguaAtual } from "@/lib/agua/metaAtual";
+import { enderecosServidor } from "@/lib/relogio/enderecos";
 import type { MetaEditavel } from "./actions";
 
 export const dynamic = "force-dynamic";
@@ -26,6 +29,7 @@ export default async function AjustesPage() {
   const peso = getUltimoPeso(usuario.id);
   const metas = Object.fromEntries(METAS.map((t) => [t, getMeta(usuario.id, t)?.valor_alvo ?? null])) as Record<MetaEditavel, number | null>;
   const metaAgua = config["hidratacao.meta_modo"] === "auto" ? await getMetaAguaAtual(usuario.id) : null;
+  const porta = new URL(`http://${(await headers()).get("host") ?? "localhost"}`).port;
 
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-col gap-[var(--s-6)]">
@@ -46,7 +50,7 @@ export default async function AjustesPage() {
         <SecaoTreino config={config} />
         <SecaoNutricao config={config} metas={metas} />
         <SecaoNotificacoes config={config} envios={listarEnvios(usuario.id)} />
-        <SecaoAmazfit config={config} />
+        <SecaoAmazfit config={config} relogio={getRelogio(usuario.id) ?? null} enderecos={enderecosServidor(porta)} />
         <SecaoDados />
       </div>
     </div>

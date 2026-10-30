@@ -88,12 +88,14 @@ limitação de plataforma/tempo, cada um na sua categoria.
   (alternativa explicitamente aceita no escopo da tarefa).
 - **Edição de nome/divisão de um treino já existente não foi implementada** — só criar,
   compor exercícios e excluir (não estava no escopo pedido explicitamente).
-- **Lembretes, suplementos, pesagem e Amazfit ainda não disparam nada** — a Fase 3 entrega
-  só configuração e persistência. "Testar agora" grava um envio **simulado** no histórico;
-  entrega real por ntfy/Web Push é Fase 4, relógio é Fase 5.
-- **Configurações de treino (som do cronômetro, vibração, progressão) são persistidas mas
-  ainda não alteram o cronômetro nem a sessão guiada** — consumo dessas chaves fica para a
-  fase que implementar as regras.
+- **Lembretes:** desde a Fase 4 os avisos aparecem no sino e são publicados no ntfy (porta
+  8185), mas **a entrega real nunca foi exercitada**: o container do ntfy não está no ar.
+  "Testar agora" continua só simulado. **Relógio (Fase 5):** API, pareamento e mini-app
+  prontos e testados contra o servidor real; **não executado no T-Rex 3** (exige
+  `zeus login`/`zeus preview` com a conta do dono). Ver `RELATORIO-FASE5.md`.
+- **Som do cronômetro e vibração são persistidos, mas ainda não alteram o cronômetro.**
+  As chaves de progressão (sugestão, incrementos, deload) já são usadas pela sessão guiada
+  e pelo relógio desde a Fase 4B.
 - **Figma MCP não habilitado** — falta `FIGMA_API_KEY`, que não existe neste ambiente.
 
 ## 🚫 Bloqueado por limitação de ambiente (não por falta de esforço)

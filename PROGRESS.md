@@ -92,3 +92,13 @@ de entrega (funcionalidades concluídas × pendentes × bloqueadas).
   deload só com série abaixo do piso, na mesma carga, por N sessões seguidas.
   1RM exibido com a conta da melhor série da última sessão. Push: 6/6 em MANTER,
   nenhum deload. Vitest 102/102 (progressao 7/7), Playwright 21/21.
+
+- Fase 5 — Amazfit T-Rex 3 (opções A e B aprovadas): migração aditiva com backup
+  `data/vita.db.bak-2026-10-30T19-37-20-369Z-pre-fase5` (795/36/28/1/132 e configurações
+  intactos); API `/api/relogio/{pacote,series}` com token, lote offline idempotente;
+  pareamento em `/ajustes`; treino sai do ntfy quando o relógio está pareado; mini-app
+  Zepp OS em `relogio/` (`zeus build` sem login). Prova de contrato com o código do
+  mini-app contra o servidor real achou e corrigiu um defeito (sessão nunca saía da fila).
+- Verificação: Vitest 115/115 (28 arquivos) + mini-app 58/58 (7 arquivos), Playwright
+  22/22, axe 0 violações em 1440/390 px. Não exercitado: relógio real e ntfy real.
+  Detalhes em `RELATORIO-FASE5.md`.

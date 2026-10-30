@@ -104,20 +104,43 @@ gravações seguintes somem. Por isso:
 
 ## 7. Notificações ntfy
 
-O agendador publica em `http://localhost:8185/` com JSON e o campo `topic`.
-Para disponibilizar o servidor localmente, o operador pode executar:
+O agendador publica em `http://localhost:8185/` com JSON e o campo `topic`. O app ntfy do
+celular também precisa alcançar esse servidor, então ele escuta no localhost (VITA), na rede
+local e no Tailscale — e em nenhuma outra interface:
 
 ```bash
-docker run -d --name vita-ntfy --restart unless-stopped -p 127.0.0.1:8185:80 binwiederhier/ntfy serve
+docker run -d --name vita-ntfy --restart unless-stopped \
+  -p 127.0.0.1:8185:80 -p 192.168.101.4:8185:80 -p 100.74.176.72:8185:80 \
+  binwiederhier/ntfy serve
 ```
+
+(Correção da Fase 5: a versão anterior publicava só em `127.0.0.1`, e o celular nunca
+receberia nada.) Os tópicos não têm senha: qualquer aparelho na rede local ou no seu
+Tailscale que souber o nome consegue ler. Não exponha a porta 8185 à internet.
 
 **Atenção:** a porta 8085 já estava ocupada por outro aplicativo na inspeção de
 30/10/2026. Não publique nela nem interrompa o serviço existente. Antes de
 ativar os lembretes, confirme que 8185 está livre e pertence ao ntfy.
 
-Assine os tópicos `vita-agua`, `vita-sup`, `vita-pesagem`, `vita-treino` e
-`vita-resumo` no cliente ntfy. A publicação é registrada como enviada somente
+No app ntfy do celular, use o servidor `http://192.168.101.4:8185` (em casa) ou
+`http://100.74.176.72:8185` (Tailscale) e assine os tópicos `vita-agua`, `vita-sup`,
+`vita-pesagem`, `vita-treino` e `vita-resumo`. A publicação é registrada como enviada somente
 após resposta HTTP 2xx do servidor; isso não comprova leitura no aparelho.
 Falhas aparecem no histórico em Ajustes. Web Push não está implementado:
 selecionar `ambos` envia ao ntfy e registra Web Push como indisponível.
 O botão “Testar agora” continua simulado, sem publicação.
+
+## 8. Amazfit T-Rex 3
+
+- **Lembretes no pulso:** no app Zepp, em Notificações de apps, ative o ntfy. O Zepp espelha
+  por app, não por tópico: tudo o que o ntfy mostrar no celular aparece no relógio.
+- **Treino:** com a integração ativa e o relógio pareado (já sincronizou ao menos uma vez), o
+  lembrete de treino deixa de ir ao ntfy e vira alarme nativo do relógio; o sino do VITA
+  continua registrando.
+- **Mini-app:** instalação e configuração em `relogio/README.md`. O relógio fala com
+  `GET /api/relogio/pacote` e `POST /api/relogio/series` usando o token gerado em
+  `/ajustes › Amazfit T-Rex 3`. Gerar um novo token desconecta o relógio anterior.
+- **Migração:** `node scripts/migrar-fase5.mjs` (backup → tabelas `relogio_*` → confere
+  contagens, configurações e `integrity_check`). Idempotente.
+- **Reinício:** o VITA não sobe sozinho após reboot do host (observado em 30/10/2026,
+  ~15:36). Depois de um reboot, rode `scripts/reiniciar-producao.sh`.

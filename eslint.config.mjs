@@ -12,6 +12,11 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Production build used only by the E2E suite (VITA_DIST_DIR, see playwright.config.ts).
+    ".next-e2e/**",
+    // Zepp OS mini-app build output and dependencies (relogio/.gitignore).
+    "relogio/dist/**",
+    "relogio/node_modules/**",
   ]),
 ]);
 

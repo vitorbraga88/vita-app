@@ -42,6 +42,7 @@ ambiente (ver `RELATORIO-SKILLS.md`, seção de auditoria).
 | `node scripts/check-contrast.mjs` | razão de contraste WCAG de cada par texto/fundo dos tokens |
 | `node scripts/migrar-configuracao.mjs` | migração aditiva (backup + `schema.sql`) das tabelas de ajustes em `data/vita.db` |
 | `node scripts/migrar-fase4a.mjs` | backup consistente e migração aditiva para água, suplementos e avisos |
+| `node scripts/migrar-fase5.mjs` | backup consistente e migração aditiva das tabelas do relógio (`relogio_*`) |
 | `scripts/reiniciar-producao.sh` | troca o servidor da porta 3900 pelo build atual e espera HTTP 200 |
 
 ## Estrutura
@@ -107,6 +108,15 @@ exibe médias dos registros disponíveis nos últimos sete dias de calendário d
 `/hoje` concentra o check-in diário e é a abertura do PWA. A sessão guiada apresenta
 sugestões baseadas nas sessões concluídas; o usuário pode aceitar ou ajustar a carga.
 `/nutricao` mostra TMB, gasto, objetivo e macros, preservando metas manuais.
+
+### Amazfit T-Rex 3
+
+Em `/ajustes › Amazfit T-Rex 3` você gera o token do relógio e vê os endereços
+do servidor (rede local e Tailscale). O mini-app em `relogio/` baixa o próximo treino
+com a carga sugerida, registra séries mesmo sem conexão e envia tudo quando o VITA
+estiver acessível, sem duplicar. Com o relógio pareado, o lembrete de treino vira
+alarme do próprio relógio. Os demais lembretes chegam ao pulso pelo espelhamento do
+app ntfy feito pelo app Zepp. Detalhes em `DEPLOY.md` §8 e `relogio/README.md`.
 
 ## Documentos da entrega
 

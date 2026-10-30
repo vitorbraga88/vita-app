@@ -98,6 +98,9 @@ Autenticação: `Authorization: Bearer <token>`. Token ausente/inválido → `40
 
 → `200 { "aceitas": [ids], "duplicadas": [ids], "rejeitadas": [{ "id", "motivo" }], "finalizadas": [ids] }`
 
+- `aceitas`/`duplicadas` confirmam **sessões e séries** (sessão nova → `aceitas`; id já conhecido
+  → `duplicadas`). `finalizadas` é informativa: sessões que estão concluídas no servidor.
+  (Esclarecido após a prova de contrato: sem isso, a sessão nunca saía da fila do relógio.)
 - ids: 8–64 caracteres `[A-Za-z0-9_-]`; no máximo 50 sessões e 300 séries por lote (`400`).
 - Sessão nova: `INSERT` em `sessao` com `iniciado_em` local de Recife vindo do relógio
   (não reaproveita sessão em andamento do navegador). `finalizadaEm` conclui a sessão

@@ -1,7 +1,6 @@
 // Single catalog of every /ajustes setting: key, type, allowed values and default.
 // Repository, Server Actions, import and UI all validate through `normalizarValor`.
 import { paraHorarioRecife } from "./horario";
-import { TIPOS_NOTIFICACAO, type TipoNotificacao } from "./notificacao";
 
 export const PERIODOS_REFEICAO = ["cafe_da_manha", "almoco", "lanche", "jantar", "ceia"] as const;
 export type PeriodoRefeicao = (typeof PERIODOS_REFEICAO)[number];
@@ -82,8 +81,6 @@ export interface ConfigCompleta {
   "notificacoes.silencio_inicio": string;
   "notificacoes.silencio_fim": string;
   "amazfit.ativo": boolean;
-  "amazfit.espelhar": boolean;
-  "amazfit.tipos": TipoNotificacao[];
   "amazfit.sincronizar_treino": boolean;
 }
 
@@ -238,8 +235,6 @@ const CATALOGO: { [K in ChaveConfig]: Descritor<ConfigCompleta[K]> } = {
   "notificacoes.silencio_inicio": horario("22:30"),
   "notificacoes.silencio_fim": horario("07:00"),
   "amazfit.ativo": booleano(false),
-  "amazfit.espelhar": booleano(true),
-  "amazfit.tipos": listaUnica(TIPOS_NOTIFICACAO, ["pesagem", "treino"]),
   "amazfit.sincronizar_treino": booleano(true),
 };
 

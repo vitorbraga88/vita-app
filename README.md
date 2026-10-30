@@ -32,10 +32,11 @@ ambiente (ver `RELATORIO-SKILLS.md`, seção de auditoria).
 | `npm run dev` | servidor de desenvolvimento, porta 3900 |
 | `npm run build` | build de produção |
 | `npm run start` | serve o build, porta 3900 |
-| `npm run seed` | recria `data/vita.dev.db` e reaplica o catálogo local de mídia |
+| `npm run seed` | recria `data/vita.dev.db` e reaplica o catálogo local curado |
 | `npm run test` | testes unitários (Vitest) — regras de negócio em `src/lib/domain/` |
 | `npm run test:e2e` | testes end-to-end (Playwright) |
-| `node scripts/aplicar-midia.mjs` | migration aditiva e idempotente do catálogo de mídia |
+| `npm run importar:catalogo` | valida fontes; com `VITA_CATALOGO_APLICAR=1`, faz backup e aplica o catálogo à produção |
+| `node scripts/aplicar-midia.mjs` | baixa e atualiza o catálogo isolado usado por seeds |
 | `node scripts/verificar-midia.mjs` | verifica dimensões e reprodução local dos assets |
 | `npm run lint` | ESLint |
 | `node scripts/check-contrast.mjs` | razão de contraste WCAG de cada par texto/fundo dos tokens |
@@ -57,10 +58,12 @@ aplicação em produção não são reescritos por testes ou seeds.
 
 ### Mídia de exercícios
 
-`data/mapa-midia.json` é o mapa curado entre os 33 exercícios da VITA e o
-catálogo [openGym](https://github.com/DuarteSantos8/openGym). O seed baixa uma
-vez e serve localmente 32 thumbnails WebP e 32 clipes MP4; a Cadeira abdutora
-permanece propositalmente sem arquivo para exercitar o fallback desenhado.
+`data/mapa-midia.json` é o manifesto curado de 132 exercícios da VITA para o
+catálogo [openGym](https://github.com/DuarteSantos8/openGym). A importação
+valida i18n/metadata, baixa 132 thumbnails WebP e 132 clipes MP4 e mantém tudo
+local em `public/midia/`. Para alterar a produção, use
+`VITA_CATALOGO_APLICAR=1 npm run importar:catalogo`; o comando cria um backup
+datado, preserva séries, sessões, pesagens e usuário, e é idempotente.
 Cada thumbnail da biblioteca e do editor abre o sheet com vídeo em loop, metadados
 e instruções; na sessão guiada, a miniatura abre esse mesmo sheet sem tirar o
 foco do registro de séries.

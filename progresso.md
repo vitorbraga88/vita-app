@@ -17,9 +17,9 @@ limitação de plataforma/tempo, cada um na sua categoria.
   acessibilidade (axe-core, WCAG2A/AA): `/`, `/treinos`, `/treinos/[id]`,
   `/treinos/historico`, `/exercicios`, `/evolucao`, `/nutricao`, `/perfil`.
 - CRUD completo de exercícios e treinos (criar, compor exercícios do treino, editar,
-  excluir com tratamento de erro de FK). Catálogo de exercícios com thumbnail
-  clicável, sheet de demonstração com vídeo local e fallback explícito para
-  exercício sem mídia; biblioteca, editor e sessão guiada abrem o mesmo sheet.
+  excluir com tratamento de erro de FK). Catálogo curado com 132 exercícios OpenGym
+  únicos, thumbnail e clip local; a biblioteca, o editor e a sessão guiada abrem
+  o mesmo sheet. O fallback continua disponível para registros manuais sem mídia.
 - Sessão guiada funcional: carga/reps pré-preenchidos do último registro, cronômetro de
   descanso real (±15s, pausa/retomar, correção por `Date.now()` ao voltar o foco — limitação
   de som em segundo plano documentada na própria UI), detecção de PR automática.
@@ -51,10 +51,10 @@ limitação de plataforma/tempo, cada um na sua categoria.
   (confirmado programaticamente), foco visível confirmado via navegação por Tab real.
 - Dados coerentes: 3 verificações independentes com consulta SQL direta batendo exatamente
   com o número exibido na tela (kcal/proteína/carbo/gordura do dia, treinos da semana).
-- Testes: Vitest 29/29 (8 arquivos — regras de domínio, isolamento do seed e
-  migration de mídia); Playwright E2E 7/7 fluxos reais (criar exercício→sessão→
-  histórico; peso→gráfico; refeição→macros; biblioteca/editor/sessão com mídia)
-  — todos passaram após reseed. A execução restaura o banco de demonstração ao final.
+- Testes: Vitest 32/32 (10 arquivos — domínio, isolamento do seed e importação
+  idempotente do catálogo); Playwright E2E 7/7 fluxos reais (criar
+  exercício→sessão→histórico; peso→gráfico; refeição→macros;
+  biblioteca/editor/sessão com mídia) — todos passaram após reseed.
 - Build de produção: `npm run build` passa, TypeScript limpo. **Bug real encontrado e
   corrigido**: 6 das 8 rotas saíam `○ Static` (prerendeadas uma vez no build, congelando os
   dados) — adicionado `export const dynamic = "force-dynamic"` em todas.

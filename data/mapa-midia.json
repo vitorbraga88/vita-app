@@ -1,35 +1,1191 @@
 {
-  "Supino reto": { "og_id": "0025", "match": "supino com barra", "fonte": "opengym", "instrucao_origem": "opengym-i18n-pt-BR", "nivel": "intermediario", "mecanica": "composto" },
-  "Supino inclinado": { "og_id": "0314", "match": "Supino inclinado com halteres", "fonte": "opengym", "instrucao_origem": "opengym-i18n-pt-BR", "nivel": "intermediario", "mecanica": "composto" },
-  "Crucifixo no cabo": { "og_id": "0227", "match": "crucifixo em pé no cabo", "fonte": "opengym", "instrucao_origem": "opengym-i18n-pt-BR", "nivel": "iniciante", "mecanica": "isolado" },
-  "Flexão de braço": { "og_id": "0662", "match": "flexão de braços", "fonte": "opengym", "instrucao_origem": "opengym-i18n-pt-BR", "nivel": "iniciante", "mecanica": "composto" },
-  "Puxada alta": { "og_id": "2291", "match": "puxada alta pegada aberta no cabo", "fonte": "opengym", "instrucao_origem": "curado-pt-BR", "nivel": "iniciante", "mecanica": "composto" },
-  "Remada curvada": { "og_id": "0027", "match": "remada curvada com barra", "fonte": "opengym", "instrucao_origem": "opengym-i18n-pt-BR", "nivel": "intermediario", "mecanica": "composto" },
-  "Barra fixa": { "og_id": "0652", "match": "barra fixa", "fonte": "opengym", "instrucao_origem": "opengym-i18n-pt-BR", "nivel": "intermediario", "mecanica": "composto" },
-  "Remada unilateral": { "og_id": "0292", "match": "Remada curvada unilateral com halter", "fonte": "opengym", "instrucao_origem": "opengym-i18n-pt-BR", "nivel": "iniciante", "mecanica": "composto" },
-  "Levantamento terra": { "og_id": "0032", "match": "levantamento terra com barra", "fonte": "opengym", "instrucao_origem": "opengym-i18n-pt-BR", "nivel": "avancado", "mecanica": "composto" },
-  "Agachamento livre": { "og_id": "0043", "match": "agachamento completo com barra", "fonte": "opengym", "instrucao_origem": "opengym-i18n-pt-BR", "nivel": "intermediario", "mecanica": "composto" },
-  "Leg press": { "og_id": "2224", "match": "leg press 45 graus no sled", "fonte": "opengym", "instrucao_origem": "curado-pt-BR", "nivel": "iniciante", "mecanica": "composto" },
-  "Cadeira extensora": { "og_id": "0585", "match": "cadeira extensora (máquina)", "fonte": "opengym", "instrucao_origem": "opengym-i18n-pt-BR", "nivel": "iniciante", "mecanica": "isolado" },
-  "Mesa flexora": { "og_id": "0586", "match": "mesa flexora deitada (máquina)", "fonte": "opengym", "instrucao_origem": "opengym-i18n-pt-BR", "nivel": "iniciante", "mecanica": "isolado" },
-  "Avanço com halteres": { "og_id": "4295", "match": "avanço com halteres", "fonte": "opengym", "instrucao_origem": "curado-pt-BR", "nivel": "intermediario", "mecanica": "composto", "duracao_clip": 5.5 },
-  "Stiff": { "og_id": "1543", "match": "stiff com barra", "fonte": "opengym", "instrucao_origem": "curado-pt-BR", "nivel": "intermediario", "mecanica": "composto" },
-  "Desenvolvimento militar": { "og_id": "1162", "match": "desenvolvimento militar em pé com barra", "fonte": "opengym", "instrucao_origem": "curado-pt-BR", "nivel": "intermediario", "mecanica": "composto" },
-  "Elevação lateral": { "og_id": "0334", "match": "Elevação lateral com halteres", "fonte": "opengym", "instrucao_origem": "opengym-i18n-pt-BR", "nivel": "iniciante", "mecanica": "isolado" },
-  "Elevação frontal": { "og_id": "0310", "match": "Elevação frontal com halteres", "fonte": "opengym", "instrucao_origem": "opengym-i18n-pt-BR", "nivel": "iniciante", "mecanica": "isolado" },
-  "Remada alta": { "og_id": "0120", "match": "remada alta com barra", "fonte": "opengym", "instrucao_origem": "opengym-i18n-pt-BR", "nivel": "intermediario", "mecanica": "composto" },
-  "Rosca direta": { "og_id": "0031", "match": "rosca direta com barra", "fonte": "opengym", "instrucao_origem": "opengym-i18n-pt-BR", "nivel": "iniciante", "mecanica": "isolado" },
-  "Rosca alternada": { "og_id": "0285", "match": "rosca alternada com halteres", "fonte": "opengym", "instrucao_origem": "opengym-i18n-pt-BR", "nivel": "iniciante", "mecanica": "isolado" },
-  "Rosca martelo": { "og_id": "0313", "match": "Rosca martelo com halteres", "fonte": "opengym", "instrucao_origem": "opengym-i18n-pt-BR", "nivel": "iniciante", "mecanica": "isolado" },
-  "Tríceps corda": { "og_id": "0200", "match": "tríceps pulley no cabo (com corda)", "fonte": "opengym", "instrucao_origem": "opengym-i18n-pt-BR", "nivel": "iniciante", "mecanica": "isolado" },
-  "Tríceps testa": { "og_id": "0060", "match": "tríceps testa deitado com barra", "fonte": "opengym", "instrucao_origem": "opengym-i18n-pt-BR", "nivel": "intermediario", "mecanica": "isolado" },
-  "Mergulho em paralelas": { "og_id": "1767", "match": "mergulho para tríceps em paralelas altas com peso", "fonte": "opengym", "instrucao_origem": "opengym-i18n-pt-BR", "nivel": "intermediario", "mecanica": "composto" },
-  "Prancha": { "og_id": "0463", "match": "prancha frontal", "fonte": "opengym", "instrucao_origem": "curado-pt-BR", "nivel": "iniciante", "mecanica": "isolado" },
-  "Abdominal supra": { "og_id": "6005", "match": "abdominal deitado (pernas retas)", "fonte": "opengym", "instrucao_origem": "curado-pt-BR", "nivel": "iniciante", "mecanica": "isolado" },
-  "Elevação de pernas": { "og_id": "1163", "match": "elevação de pernas deitado", "fonte": "opengym", "instrucao_origem": "curado-pt-BR", "nivel": "iniciante", "mecanica": "isolado" },
-  "Elevação pélvica": { "og_id": "1060", "match": "elevação pélvica com barra", "fonte": "opengym", "instrucao_origem": "curado-pt-BR", "nivel": "intermediario", "mecanica": "composto" },
-  "Cadeira abdutora": { "og_id": null, "match": null, "fonte": "manual", "instrucao_origem": "curado-pt-BR", "nivel": "iniciante", "mecanica": "isolado" },
-  "Panturrilha em pé": { "og_id": "1397", "match": "panturrilha em pé", "fonte": "opengym", "instrucao_origem": "opengym-i18n-pt-BR", "nivel": "iniciante", "mecanica": "isolado" },
-  "Esteira": { "og_id": "2197", "match": "corrida na esteira", "fonte": "opengym", "instrucao_origem": "curado-pt-BR", "nivel": "iniciante", "mecanica": "isolado" },
-  "Bicicleta ergométrica": { "og_id": "0798", "match": "bicicleta ergométrica caminhada", "fonte": "opengym", "instrucao_origem": "opengym-i18n-pt-BR", "nivel": "iniciante", "mecanica": "isolado" }
+  "Supino reto": {
+    "og_id": "0025",
+    "match": "supino com barra",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "composto",
+    "categoria_curadoria": "peito"
+  },
+  "Supino inclinado": {
+    "og_id": "0314",
+    "match": "Supino inclinado com halteres",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "composto",
+    "categoria_curadoria": "peito"
+  },
+  "Crucifixo no cabo": {
+    "og_id": "0227",
+    "match": "crucifixo em pé no cabo",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "isolado",
+    "categoria_curadoria": "peito"
+  },
+  "Flexão de braço": {
+    "og_id": "0662",
+    "match": "flexão de braços",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "composto",
+    "categoria_curadoria": "peito"
+  },
+  "Puxada alta": {
+    "og_id": "2291",
+    "match": "puxada alta pegada aberta no cabo",
+    "fonte": "opengym",
+    "instrucao_origem": "curado-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "composto",
+    "categoria_curadoria": "costas"
+  },
+  "Remada curvada": {
+    "og_id": "0027",
+    "match": "remada curvada com barra",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "composto",
+    "categoria_curadoria": "costas"
+  },
+  "Barra fixa": {
+    "og_id": "0652",
+    "match": "barra fixa",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "composto",
+    "categoria_curadoria": "costas"
+  },
+  "Remada unilateral": {
+    "og_id": "0292",
+    "match": "Remada curvada unilateral com halter",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "composto",
+    "categoria_curadoria": "costas"
+  },
+  "Levantamento terra": {
+    "og_id": "0032",
+    "match": "levantamento terra com barra",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "avancado",
+    "mecanica": "composto",
+    "categoria_curadoria": "posterior_coxa"
+  },
+  "Agachamento livre": {
+    "og_id": "0043",
+    "match": "agachamento completo com barra",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "composto",
+    "categoria_curadoria": "quadriceps"
+  },
+  "Leg press": {
+    "og_id": "2224",
+    "match": "leg press 45 graus no sled",
+    "fonte": "opengym",
+    "instrucao_origem": "curado-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "composto",
+    "categoria_curadoria": "quadriceps"
+  },
+  "Cadeira extensora": {
+    "og_id": "0585",
+    "match": "cadeira extensora (máquina)",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "isolado",
+    "categoria_curadoria": "quadriceps"
+  },
+  "Mesa flexora": {
+    "og_id": "0586",
+    "match": "mesa flexora deitada (máquina)",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "isolado",
+    "categoria_curadoria": "posterior_coxa"
+  },
+  "Avanço com halteres": {
+    "og_id": "4295",
+    "match": "avanço com halteres",
+    "fonte": "opengym",
+    "instrucao_origem": "curado-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "composto",
+    "duracao_clip": 5.5,
+    "categoria_curadoria": "quadriceps"
+  },
+  "Stiff": {
+    "og_id": "1543",
+    "match": "stiff com barra",
+    "fonte": "opengym",
+    "instrucao_origem": "curado-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "composto",
+    "categoria_curadoria": "posterior_coxa"
+  },
+  "Desenvolvimento militar": {
+    "og_id": "1162",
+    "match": "desenvolvimento militar em pé com barra",
+    "fonte": "opengym",
+    "instrucao_origem": "curado-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "composto",
+    "categoria_curadoria": "ombro"
+  },
+  "Elevação lateral": {
+    "og_id": "0334",
+    "match": "Elevação lateral com halteres",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "isolado",
+    "categoria_curadoria": "ombro"
+  },
+  "Elevação frontal": {
+    "og_id": "0310",
+    "match": "Elevação frontal com halteres",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "isolado",
+    "categoria_curadoria": "ombro"
+  },
+  "Remada alta": {
+    "og_id": "0120",
+    "match": "remada alta com barra",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "composto",
+    "categoria_curadoria": "ombro"
+  },
+  "Rosca direta": {
+    "og_id": "0031",
+    "match": "rosca direta com barra",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "isolado",
+    "categoria_curadoria": "biceps"
+  },
+  "Rosca alternada": {
+    "og_id": "0285",
+    "match": "rosca alternada com halteres",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "isolado",
+    "categoria_curadoria": "biceps"
+  },
+  "Rosca martelo": {
+    "og_id": "0313",
+    "match": "Rosca martelo com halteres",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "isolado",
+    "categoria_curadoria": "biceps"
+  },
+  "Tríceps corda": {
+    "og_id": "0200",
+    "match": "tríceps pulley no cabo (com corda)",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "isolado",
+    "categoria_curadoria": "triceps"
+  },
+  "Tríceps testa": {
+    "og_id": "0060",
+    "match": "tríceps testa deitado com barra",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "isolado",
+    "categoria_curadoria": "triceps"
+  },
+  "Mergulho em paralelas": {
+    "og_id": "1767",
+    "match": "mergulho para tríceps em paralelas altas com peso",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "composto",
+    "categoria_curadoria": "triceps"
+  },
+  "Prancha": {
+    "og_id": "0463",
+    "match": "prancha frontal",
+    "fonte": "opengym",
+    "instrucao_origem": "curado-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "isolado",
+    "categoria_curadoria": "abdomen"
+  },
+  "Abdominal supra": {
+    "og_id": "6005",
+    "match": "abdominal deitado (pernas retas)",
+    "fonte": "opengym",
+    "instrucao_origem": "curado-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "isolado",
+    "categoria_curadoria": "abdomen"
+  },
+  "Elevação de pernas": {
+    "og_id": "1163",
+    "match": "elevação de pernas deitado",
+    "fonte": "opengym",
+    "instrucao_origem": "curado-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "isolado",
+    "categoria_curadoria": "abdomen"
+  },
+  "Elevação pélvica": {
+    "og_id": "1060",
+    "match": "elevação pélvica com barra",
+    "fonte": "opengym",
+    "instrucao_origem": "curado-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "composto",
+    "categoria_curadoria": "gluteos"
+  },
+  "Cadeira abdutora": {
+    "og_id": "0597",
+    "match": "abdução de quadril sentado na máquina",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "isolado",
+    "categoria_curadoria": "gluteos"
+  },
+  "Panturrilha em pé": {
+    "og_id": "1397",
+    "match": "panturrilha em pé",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "isolado",
+    "categoria_curadoria": "panturrilha"
+  },
+  "Esteira": {
+    "og_id": "2197",
+    "match": "corrida na esteira",
+    "fonte": "opengym",
+    "instrucao_origem": "curado-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "isolado",
+    "categoria_curadoria": "cardio"
+  },
+  "Bicicleta ergométrica": {
+    "og_id": "0798",
+    "match": "bicicleta ergométrica caminhada",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "isolado",
+    "categoria_curadoria": "cardio"
+  },
+  "supino declinado com barra": {
+    "og_id": "0033",
+    "match": "supino declinado com barra",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "composto",
+    "categoria_curadoria": "peito"
+  },
+  "supino inclinado com barra": {
+    "og_id": "0047",
+    "match": "supino inclinado com barra",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "composto",
+    "categoria_curadoria": "peito"
+  },
+  "supino no cabo": {
+    "og_id": "0151",
+    "match": "supino no cabo",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "composto",
+    "categoria_curadoria": "peito"
+  },
+  "crucifixo declinado no cabo": {
+    "og_id": "0158",
+    "match": "crucifixo declinado no cabo",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "avancado",
+    "mecanica": "isolado",
+    "categoria_curadoria": "peito"
+  },
+  "crucifixo inclinado no cabo": {
+    "og_id": "0171",
+    "match": "crucifixo inclinado no cabo",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "isolado",
+    "categoria_curadoria": "peito"
+  },
+  "supino reto com halteres": {
+    "og_id": "0289",
+    "match": "supino reto com halteres",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "composto",
+    "categoria_curadoria": "peito"
+  },
+  "Crucifixo com halteres": {
+    "og_id": "0308",
+    "match": "Crucifixo com halteres",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "isolado",
+    "categoria_curadoria": "peito"
+  },
+  "Crucifixo inclinado com halteres": {
+    "og_id": "0319",
+    "match": "Crucifixo inclinado com halteres",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "avancado",
+    "mecanica": "isolado",
+    "categoria_curadoria": "peito"
+  },
+  "remada inclinada com barra": {
+    "og_id": "0049",
+    "match": "remada inclinada com barra",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "composto",
+    "categoria_curadoria": "costas"
+  },
+  "puxada lateral com barra no cabo": {
+    "og_id": "0150",
+    "match": "puxada lateral com barra no cabo",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "composto",
+    "categoria_curadoria": "costas"
+  },
+  "remada sentada baixa no cabo": {
+    "og_id": "0180",
+    "match": "remada sentada baixa no cabo",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "composto",
+    "categoria_curadoria": "costas"
+  },
+  "puxada no cabo (barra pro lat)": {
+    "og_id": "0197",
+    "match": "puxada no cabo (barra pro lat)",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "avancado",
+    "mecanica": "composto",
+    "categoria_curadoria": "costas"
+  },
+  "puxada com braços retos no cabo (com corda)": {
+    "og_id": "0237",
+    "match": "puxada com braços retos no cabo (com corda)",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "isolado",
+    "categoria_curadoria": "costas"
+  },
+  "remada curvada com halteres": {
+    "og_id": "0293",
+    "match": "remada curvada com halteres",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "composto",
+    "categoria_curadoria": "costas"
+  },
+  "Remada inclinada com halteres": {
+    "og_id": "0327",
+    "match": "Remada inclinada com halteres",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "composto",
+    "categoria_curadoria": "costas"
+  },
+  "remada cavalinho pegada supinada na máquina": {
+    "og_id": "1349",
+    "match": "remada cavalinho pegada supinada na máquina",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "avancado",
+    "mecanica": "composto",
+    "categoria_curadoria": "costas"
+  },
+  "desenvolvimento sentado com barra": {
+    "og_id": "0091",
+    "match": "desenvolvimento sentado com barra",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "composto",
+    "categoria_curadoria": "ombro"
+  },
+  "elevação lateral no cabo": {
+    "og_id": "0178",
+    "match": "elevação lateral no cabo",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "isolado",
+    "categoria_curadoria": "ombro"
+  },
+  "elevação lateral posterior sentado no cabo": {
+    "og_id": "0215",
+    "match": "elevação lateral posterior sentado no cabo",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "isolado",
+    "categoria_curadoria": "ombro"
+  },
+  "desenvolvimento lateral alternado com halteres": {
+    "og_id": "0286",
+    "match": "desenvolvimento lateral alternado com halteres",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "avancado",
+    "mecanica": "composto",
+    "categoria_curadoria": "ombro"
+  },
+  "desenvolvimento sentado no banco com halteres": {
+    "og_id": "0290",
+    "match": "desenvolvimento sentado no banco com halteres",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "composto",
+    "categoria_curadoria": "ombro"
+  },
+  "Elevação lateral full can com halteres": {
+    "og_id": "0311",
+    "match": "Elevação lateral full can com halteres",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "isolado",
+    "categoria_curadoria": "ombro"
+  },
+  "Elevação lateral posterior inclinada com halteres": {
+    "og_id": "0326",
+    "match": "Elevação lateral posterior inclinada com halteres",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "isolado",
+    "categoria_curadoria": "ombro"
+  },
+  "Elevação lateral posterior com halteres": {
+    "og_id": "0380",
+    "match": "Elevação lateral posterior com halteres",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "avancado",
+    "mecanica": "isolado",
+    "categoria_curadoria": "ombro"
+  },
+  "rosca bíceps alternada com barra": {
+    "og_id": "0023",
+    "match": "rosca bíceps alternada com barra",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "isolado",
+    "categoria_curadoria": "biceps"
+  },
+  "rosca drag com barra": {
+    "og_id": "0038",
+    "match": "rosca drag com barra",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "isolado",
+    "categoria_curadoria": "biceps"
+  },
+  "rosca scott deitado com barra": {
+    "og_id": "0059",
+    "match": "rosca scott deitado com barra",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "isolado",
+    "categoria_curadoria": "biceps"
+  },
+  "rosca inversa com barra": {
+    "og_id": "0080",
+    "match": "rosca inversa com barra",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "avancado",
+    "mecanica": "isolado",
+    "categoria_curadoria": "biceps"
+  },
+  "rosca martelo no cabo (com corda)": {
+    "og_id": "0165",
+    "match": "rosca martelo no cabo (com corda)",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "isolado",
+    "categoria_curadoria": "biceps"
+  },
+  "Rosca bíceps com halteres": {
+    "og_id": "0294",
+    "match": "Rosca bíceps com halteres",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "isolado",
+    "categoria_curadoria": "biceps"
+  },
+  "Rosca concentrada com halter": {
+    "og_id": "0297",
+    "match": "Rosca concentrada com halter",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "isolado",
+    "categoria_curadoria": "biceps"
+  },
+  "Rosca bíceps inclinada com halteres": {
+    "og_id": "0315",
+    "match": "Rosca bíceps inclinada com halteres",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "avancado",
+    "mecanica": "isolado",
+    "categoria_curadoria": "biceps"
+  },
+  "rosca zottman com halter": {
+    "og_id": "0439",
+    "match": "rosca zottman com halter",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "isolado",
+    "categoria_curadoria": "biceps"
+  },
+  "tríceps testa declinado pegada fechada com barra": {
+    "og_id": "0035",
+    "match": "tríceps testa declinado pegada fechada com barra",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "isolado",
+    "categoria_curadoria": "triceps"
+  },
+  "extensão de tríceps deitado pegada fechada com barra": {
+    "og_id": "0056",
+    "match": "extensão de tríceps deitado pegada fechada com barra",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "isolado",
+    "categoria_curadoria": "triceps"
+  },
+  "extensão de tríceps sentado acima da cabeça com barra": {
+    "og_id": "0092",
+    "match": "extensão de tríceps sentado acima da cabeça com barra",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "isolado",
+    "categoria_curadoria": "triceps"
+  },
+  "extensão de tríceps alternada no cabo": {
+    "og_id": "0149",
+    "match": "extensão de tríceps alternada no cabo",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "avancado",
+    "mecanica": "isolado",
+    "categoria_curadoria": "triceps"
+  },
+  "extensão de tríceps inclinada no cabo": {
+    "og_id": "0173",
+    "match": "extensão de tríceps inclinada no cabo",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "isolado",
+    "categoria_curadoria": "triceps"
+  },
+  "extensão de tríceps acima da cabeça no cabo (com corda)": {
+    "og_id": "0194",
+    "match": "extensão de tríceps acima da cabeça no cabo (com corda)",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "isolado",
+    "categoria_curadoria": "triceps"
+  },
+  "tríceps pulley no cabo": {
+    "og_id": "0201",
+    "match": "tríceps pulley no cabo",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "isolado",
+    "categoria_curadoria": "triceps"
+  },
+  "Kickback de tríceps com halteres": {
+    "og_id": "0333",
+    "match": "Kickback de tríceps com halteres",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "avancado",
+    "mecanica": "isolado",
+    "categoria_curadoria": "triceps"
+  },
+  "extensão de tríceps sentado com barra EZ": {
+    "og_id": "0453",
+    "match": "extensão de tríceps sentado com barra EZ",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "isolado",
+    "categoria_curadoria": "triceps"
+  },
+  "agachamento frontal com barra": {
+    "og_id": "0042",
+    "match": "agachamento frontal com barra",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "composto",
+    "categoria_curadoria": "quadriceps"
+  },
+  "afundo com barra": {
+    "og_id": "0054",
+    "match": "afundo com barra",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "composto",
+    "categoria_curadoria": "quadriceps"
+  },
+  "subida no step com barra": {
+    "og_id": "0114",
+    "match": "subida no step com barra",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "composto",
+    "categoria_curadoria": "quadriceps"
+  },
+  "agachamento no banco com halteres": {
+    "og_id": "0291",
+    "match": "agachamento no banco com halteres",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "avancado",
+    "mecanica": "composto",
+    "categoria_curadoria": "quadriceps"
+  },
+  "Afundo com halteres": {
+    "og_id": "0336",
+    "match": "Afundo com halteres",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "composto",
+    "categoria_curadoria": "quadriceps"
+  },
+  "agachamento búlgaro com halter": {
+    "og_id": "0410",
+    "match": "agachamento búlgaro com halter",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "composto",
+    "categoria_curadoria": "quadriceps"
+  },
+  "agachamento goblet com kettlebell": {
+    "og_id": "0534",
+    "match": "agachamento goblet com kettlebell",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "composto",
+    "categoria_curadoria": "quadriceps"
+  },
+  "leg press 45 graus no sled": {
+    "og_id": "0739",
+    "match": "leg press 45 graus no sled",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "avancado",
+    "mecanica": "composto",
+    "categoria_curadoria": "quadriceps"
+  },
+  "levantamento terra romeno com barra": {
+    "og_id": "0085",
+    "match": "levantamento terra romeno com barra",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "composto",
+    "categoria_curadoria": "posterior_coxa"
+  },
+  "levantamento terra pernas estendidas com barra": {
+    "og_id": "0116",
+    "match": "levantamento terra pernas estendidas com barra",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "composto",
+    "categoria_curadoria": "posterior_coxa"
+  },
+  "levantamento terra no cabo": {
+    "og_id": "0157",
+    "match": "levantamento terra no cabo",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "composto",
+    "categoria_curadoria": "posterior_coxa"
+  },
+  "Levantamento terra com halteres": {
+    "og_id": "0300",
+    "match": "Levantamento terra com halteres",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "avancado",
+    "mecanica": "composto",
+    "categoria_curadoria": "posterior_coxa"
+  },
+  "Flexão de perna deitado com halter": {
+    "og_id": "0339",
+    "match": "Flexão de perna deitado com halter",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "isolado",
+    "categoria_curadoria": "posterior_coxa"
+  },
+  "levantamento terra pernas rígidas com halter": {
+    "og_id": "0432",
+    "match": "levantamento terra pernas rígidas com halter",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "composto",
+    "categoria_curadoria": "posterior_coxa"
+  },
+  "mesa flexora invertida (apoio no banco)": {
+    "og_id": "0496",
+    "match": "mesa flexora invertida (apoio no banco)",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "isolado",
+    "categoria_curadoria": "posterior_coxa"
+  },
+  "levantamento terra na máquina": {
+    "og_id": "0578",
+    "match": "levantamento terra na máquina",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "avancado",
+    "mecanica": "composto",
+    "categoria_curadoria": "posterior_coxa"
+  },
+  "bom dia com joelhos flexionados na máquina Smith": {
+    "og_id": "0749",
+    "match": "bom dia com joelhos flexionados na máquina Smith",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "composto",
+    "categoria_curadoria": "posterior_coxa"
+  },
+  "ponte de glúteos com barra": {
+    "og_id": "1409",
+    "match": "ponte de glúteos com barra",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "composto",
+    "categoria_curadoria": "gluteos"
+  },
+  "extensão de quadril na máquina v. 2": {
+    "og_id": "2286",
+    "match": "extensão de quadril na máquina v. 2",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "composto",
+    "categoria_curadoria": "gluteos"
+  },
+  "ponte de glúteo baixa no chão": {
+    "og_id": "3013",
+    "match": "ponte de glúteo baixa no chão",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "composto",
+    "categoria_curadoria": "gluteos"
+  },
+  "ponte de glúteo com pernas no banco (masculino)": {
+    "og_id": "3523",
+    "match": "ponte de glúteo com pernas no banco (masculino)",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "avancado",
+    "mecanica": "composto",
+    "categoria_curadoria": "gluteos"
+  },
+  "ponte de glúteo com marcha": {
+    "og_id": "3561",
+    "match": "ponte de glúteo com marcha",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "composto",
+    "categoria_curadoria": "gluteos"
+  },
+  "ponte de glúteos com pernas no banco com barra (masculino)": {
+    "og_id": "3562",
+    "match": "ponte de glúteos com pernas no banco com barra (masculino)",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "composto",
+    "categoria_curadoria": "gluteos"
+  },
+  "extensão de quadril no banco": {
+    "og_id": "0130",
+    "match": "extensão de quadril no banco",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "composto",
+    "categoria_curadoria": "gluteos"
+  },
+  "extensão de quadril em pé no cabo": {
+    "og_id": "0228",
+    "match": "extensão de quadril em pé no cabo",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "avancado",
+    "mecanica": "isolado",
+    "categoria_curadoria": "gluteos"
+  },
+  "abdução de quadril sentado com faixa elástica": {
+    "og_id": "3006",
+    "match": "abdução de quadril sentado com faixa elástica",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "isolado",
+    "categoria_curadoria": "gluteos"
+  },
+  "abdução de quadril lateral": {
+    "og_id": "0710",
+    "match": "abdução de quadril lateral",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "isolado",
+    "categoria_curadoria": "gluteos"
+  },
+  "elevação de panturrilha sentado com barra": {
+    "og_id": "0088",
+    "match": "elevação de panturrilha sentado com barra",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "isolado",
+    "categoria_curadoria": "panturrilha"
+  },
+  "elevação de panturrilha em pé com barra": {
+    "og_id": "0108",
+    "match": "elevação de panturrilha em pé com barra",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "isolado",
+    "categoria_curadoria": "panturrilha"
+  },
+  "elevação de panturrilha curvado": {
+    "og_id": "0284",
+    "match": "elevação de panturrilha curvado",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "isolado",
+    "categoria_curadoria": "panturrilha"
+  },
+  "elevação de panturrilha sentado com halter, uma perna": {
+    "og_id": "0400",
+    "match": "elevação de panturrilha sentado com halter, uma perna",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "avancado",
+    "mecanica": "isolado",
+    "categoria_curadoria": "panturrilha"
+  },
+  "elevação de panturrilha em pé com halter": {
+    "og_id": "0417",
+    "match": "elevação de panturrilha em pé com halter",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "isolado",
+    "categoria_curadoria": "panturrilha"
+  },
+  "panturrilha sentada na máquina": {
+    "og_id": "0594",
+    "match": "panturrilha sentada na máquina",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "isolado",
+    "categoria_curadoria": "panturrilha"
+  },
+  "panturrilha em pé na máquina": {
+    "og_id": "0605",
+    "match": "panturrilha em pé na máquina",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "isolado",
+    "categoria_curadoria": "panturrilha"
+  },
+  "elevação de panturrilha unilateral sobre halter": {
+    "og_id": "0727",
+    "match": "elevação de panturrilha unilateral sobre halter",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "avancado",
+    "mecanica": "isolado",
+    "categoria_curadoria": "panturrilha"
+  },
+  "press de panturrilha 45 graus no sled": {
+    "og_id": "0738",
+    "match": "press de panturrilha 45 graus no sled",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "isolado",
+    "categoria_curadoria": "panturrilha"
+  },
+  "elevação de panturrilha invertida na máquina Smith": {
+    "og_id": "0763",
+    "match": "elevação de panturrilha invertida na máquina Smith",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "isolado",
+    "categoria_curadoria": "panturrilha"
+  },
+  "elevação de panturrilha burro com peso": {
+    "og_id": "0833",
+    "match": "elevação de panturrilha burro com peso",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "isolado",
+    "categoria_curadoria": "panturrilha"
+  },
+  "abdominal 3/4": {
+    "og_id": "0001",
+    "match": "abdominal 3/4",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "isolado",
+    "categoria_curadoria": "abdomen"
+  },
+  "abdominal ajoelhado no cabo": {
+    "og_id": "0175",
+    "match": "abdominal ajoelhado no cabo",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "isolado",
+    "categoria_curadoria": "abdomen"
+  },
+  "abdominal sentado no cabo": {
+    "og_id": "0212",
+    "match": "abdominal sentado no cabo",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "isolado",
+    "categoria_curadoria": "abdomen"
+  },
+  "abdominal reverso encolhido no cabo": {
+    "og_id": "0242",
+    "match": "abdominal reverso encolhido no cabo",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "avancado",
+    "mecanica": "isolado",
+    "categoria_curadoria": "abdomen"
+  },
+  "abdominal casulo": {
+    "og_id": "0260",
+    "match": "abdominal casulo",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "isolado",
+    "categoria_curadoria": "abdomen"
+  },
+  "abdominal cruzado": {
+    "og_id": "0262",
+    "match": "abdominal cruzado",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "isolado",
+    "categoria_curadoria": "abdomen"
+  },
+  "prancha frontal com rotação": {
+    "og_id": "0464",
+    "match": "prancha frontal com rotação",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "isolado",
+    "categoria_curadoria": "abdomen"
+  },
+  "elevação de pernas na barra fixa": {
+    "og_id": "0472",
+    "match": "elevação de pernas na barra fixa",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "avancado",
+    "mecanica": "isolado",
+    "categoria_curadoria": "abdomen"
+  },
+  "abdominal canivete": {
+    "og_id": "0507",
+    "match": "abdominal canivete",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "isolado",
+    "categoria_curadoria": "abdomen"
+  },
+  "bicicleta ergométrica corrida v. 3": {
+    "og_id": "2138",
+    "match": "bicicleta ergométrica corrida v. 3",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "isolado",
+    "categoria_curadoria": "cardio"
+  },
+  "caminhada no elíptico": {
+    "og_id": "2141",
+    "match": "caminhada no elíptico",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "isolado",
+    "categoria_curadoria": "cardio"
+  },
+  "caminhada no stepmill": {
+    "og_id": "2311",
+    "match": "caminhada no stepmill",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "isolado",
+    "categoria_curadoria": "cardio"
+  },
+  "cross trainer (elíptico)": {
+    "og_id": "2331",
+    "match": "cross trainer (elíptico)",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "avancado",
+    "mecanica": "isolado",
+    "categoria_curadoria": "cardio"
+  },
+  "polichinelo com salto (masculino)": {
+    "og_id": "3224",
+    "match": "polichinelo com salto (masculino)",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "isolado",
+    "categoria_curadoria": "cardio"
+  },
+  "corrida na roda": {
+    "og_id": "3637",
+    "match": "corrida na roda",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "isolado",
+    "categoria_curadoria": "cardio"
+  },
+  "corrida com passada curta": {
+    "og_id": "3656",
+    "match": "corrida com passada curta",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "isolado",
+    "categoria_curadoria": "cardio"
+  },
+  "caminhada em esteira inclinada": {
+    "og_id": "3666",
+    "match": "caminhada em esteira inclinada",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "avancado",
+    "mecanica": "isolado",
+    "categoria_curadoria": "cardio"
+  },
+  "burpee com polichinelo": {
+    "og_id": "0501",
+    "match": "burpee com polichinelo",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "iniciante",
+    "mecanica": "isolado",
+    "categoria_curadoria": "cardio"
+  },
+  "corrida (equipamento)": {
+    "og_id": "0684",
+    "match": "corrida (equipamento)",
+    "fonte": "opengym",
+    "instrucao_origem": "opengym-i18n-pt-BR",
+    "nivel": "intermediario",
+    "mecanica": "isolado",
+    "categoria_curadoria": "cardio"
+  }
 }

@@ -1,5 +1,5 @@
 import Database from "better-sqlite3";
-import { cpSync, existsSync } from "node:fs";
+import { existsSync } from "node:fs";
 import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -10,6 +10,17 @@ const DB_PATH = path.resolve(ROOT, process.env.VITA_DB_PATH ?? "data/vita.dev.db
 const MAP_PATH = path.join(ROOT, "data", "mapa-midia.json");
 if (DB_PATH === PRODUCTION_DB_PATH) throw new Error("Media seed must not target the production database.");
 const OPEN_GYM = "https://raw.githubusercontent.com/DuarteSantos8/openGym/main/catalogue";
+
+const GRUPO_POR_CATEGORIA = {
+  peito: "peito", costas: "costas", ombro: "ombro", biceps: "biceps", triceps: "triceps",
+  quadriceps: "pernas", posterior_coxa: "pernas", gluteos: "gluteos",
+  panturrilha: "panturrilha", abdomen: "abdomen", cardio: "cardio",
+};
+const EQUIPAMENTO_POR_OPEN_GYM = {
+  barbell: "barra", "ez barbell": "barra", dumbbell: "halteres", cable: "cabo",
+  "body weight": "peso_corporal", kettlebell: "kettlebell", "stationary bike": "bicicleta",
+  "leverage machine": "maquina", "sled machine": "maquina", "smith machine": "maquina",
+};
 
 const COLUNAS_MIDIA = {
   midia_still: "TEXT",
@@ -136,6 +147,68 @@ export function aplicarMetadadosMidia(db, registros) {
   })(registros);
 }
 
+/** Prevents duplicated OpenGym exercises while allowing manual records without a source id. */
+export function garantirIndiceFonte(db) {
+  db.exec(`
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_exercicio_fonte_id
+    ON exercicio(fonte, fonte_id)
+    WHERE fonte IS NOT NULL AND fonte_id IS NOT NULL
+  `);
+}
+
+/** Inserts missing OpenGym exercises and enriches only empty fields in existing records. */
+export function aplicarCatalogoCurado(db, registros) {
+  const camposEnriqueciveis = "id, midia_still, midia_clip, instrucoes, musculo_alvo, musculos_sec, nivel, mecanica, fonte, fonte_id";
+  const encontrarPorFonte = db.prepare(
+    `SELECT ${camposEnriqueciveis} FROM exercicio WHERE fonte = @fonte AND fonte_id = @fonte_id`
+  );
+  const encontrarPorNome = db.prepare(`SELECT ${camposEnriqueciveis} FROM exercicio WHERE nome = @nome`);
+  const inserir = db.prepare(`
+    INSERT INTO exercicio (
+      nome, grupo_muscular, equipamento, tipo, midia_still, midia_clip,
+      instrucoes, musculo_alvo, musculos_sec, nivel, mecanica, fonte, fonte_id, sistema
+    ) VALUES (
+      @nome, @grupo_muscular, @equipamento, @tipo, @midia_still, @midia_clip,
+      @instrucoes, @musculo_alvo, @musculos_sec, @nivel, @mecanica, @fonte, @fonte_id, 1
+    )
+  `);
+  const enriquecer = db.prepare(`
+    UPDATE exercicio SET
+      midia_still = COALESCE(midia_still, @midia_still),
+      midia_clip = COALESCE(midia_clip, @midia_clip),
+      instrucoes = COALESCE(instrucoes, @instrucoes),
+      musculo_alvo = COALESCE(musculo_alvo, @musculo_alvo),
+      musculos_sec = COALESCE(musculos_sec, @musculos_sec),
+      nivel = COALESCE(nivel, @nivel),
+      mecanica = COALESCE(mecanica, @mecanica),
+      fonte = CASE WHEN fonte IS NULL OR fonte = 'manual' THEN @fonte ELSE fonte END,
+      fonte_id = CASE WHEN fonte_id IS NULL THEN @fonte_id ELSE fonte_id END,
+      sistema = CASE WHEN fonte IS NULL OR fonte = 'manual' THEN 1 ELSE sistema END
+    WHERE id = @id
+  `);
+
+  return db.transaction((itens) => {
+    let inseridos = 0;
+    let enriquecidos = 0;
+    for (const item of itens) {
+      const existente = encontrarPorFonte.get(item) ?? encontrarPorNome.get(item);
+      if (existente) {
+        const precisaEnriquecer = existente.fonte === null || existente.fonte === "manual"
+          || ["midia_still", "midia_clip", "instrucoes", "musculo_alvo", "musculos_sec", "nivel", "mecanica", "fonte_id"]
+            .some((campo) => existente[campo] === null);
+        if (precisaEnriquecer) {
+          enriquecer.run({ ...item, id: existente.id });
+          enriquecidos += 1;
+        }
+      } else {
+        inserir.run(item);
+        inseridos += 1;
+      }
+    }
+    return { inseridos, enriquecidos };
+  })(registros);
+}
+
 async function obterJson(url) {
   const resposta = await fetch(url);
   if (!resposta.ok) throw new Error(`${url}: HTTP ${resposta.status}`);
@@ -153,25 +226,11 @@ async function baixarSeAusente(url, destino) {
   return true;
 }
 
-async function montarRegistros(mapa) {
+export async function montarRegistros(mapa) {
   const i18n = await obterJson(`${OPEN_GYM}/i18n/pt-BR.json`);
   const registros = [];
   for (const [nome, item] of Object.entries(mapa)) {
-    if (!item.og_id) {
-      registros.push({
-        nome,
-        midia_still: null,
-        midia_clip: null,
-        instrucoes: JSON.stringify(INSTRUCOES_CURADAS[nome]),
-        musculo_alvo: "glutes",
-        musculos_sec: JSON.stringify(["hip abductors"]),
-        nivel: item.nivel,
-        mecanica: item.mecanica,
-        fonte: item.fonte,
-        fonte_id: null,
-      });
-      continue;
-    }
+    if (!item.og_id || !item.categoria_curadoria) throw new Error(`Entrada curada incompleta: ${nome}.`);
     const traducao = i18n[item.og_id];
     if (!traducao || traducao.name !== item.match) throw new Error(`O mapa de ${nome} não confere com o i18n ${item.og_id}.`);
     const metadata = await obterJson(`${OPEN_GYM}/exercises/${item.og_id}.json`);
@@ -181,6 +240,9 @@ async function montarRegistros(mapa) {
     await baixarSeAusente(`${OPEN_GYM}/media/clip/${item.og_id}.mp4`, path.join(ROOT, "public", "midia", "clip", `${item.og_id}.mp4`));
     registros.push({
       nome,
+      grupo_muscular: GRUPO_POR_CATEGORIA[item.categoria_curadoria],
+      equipamento: EQUIPAMENTO_POR_OPEN_GYM[metadata.equipment] ?? "outro",
+      tipo: metadata.category === "cardio" ? "cardio" : metadata.category === "isometric" ? "tempo" : "forca",
       midia_still: `/midia/still/${item.og_id}.webp`,
       midia_clip: `/midia/clip/${item.og_id}.mp4`,
       instrucoes: JSON.stringify(instrucoes),
@@ -188,7 +250,7 @@ async function montarRegistros(mapa) {
       musculos_sec: JSON.stringify(metadata.secondaryMuscles ?? []),
       nivel: item.nivel,
       mecanica: item.mecanica,
-      fonte: item.fonte,
+      fonte: "opengym",
       fonte_id: item.og_id,
     });
   }
@@ -201,10 +263,11 @@ async function main() {
   const db = new Database(DB_PATH);
   db.pragma("foreign_keys = ON");
   garantirColunasMidia(db);
-  aplicarMetadadosMidia(db, registros);
+  garantirIndiceFonte(db);
+  const resultado = aplicarCatalogoCurado(db, registros);
   const preenchidos = db.prepare("SELECT COUNT(*) AS total FROM exercicio WHERE midia_still IS NOT NULL").get().total;
   db.close();
-  console.log(JSON.stringify({ exerciciosMapeados: registros.length, comMidia: preenchidos }, null, 2));
+  console.log(JSON.stringify({ exerciciosMapeados: registros.length, comMidia: preenchidos, ...resultado }, null, 2));
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

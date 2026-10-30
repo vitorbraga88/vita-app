@@ -41,22 +41,16 @@ de entrega (funcionalidades concluídas × pendentes × bloqueadas).
   1.9s, Performance 82).
 - Status final detalhado, com pendências reais sem maquiagem, em `progresso.md`.
 
-- Fase 1 de mídia concluída: catálogo curado de 33 exercícios em
-  `data/mapa-midia.json`; 32 thumbnails WebP e 32 clipes MP4 do openGym servidos
-  localmente em `public/midia/`; a Cadeira abdutora fica sem mídia
-  intencionalmente para validar o fallback.
-- Migration aditiva e idempotente em `scripts/aplicar-midia.mjs`, aplicada por
-  `npm run seed` depois de cada recriação do SQLite. Assim o seed não volta a
-  apagar a mídia — regressão descoberta e corrigida durante a verificação.
+- Fase 1 de mídia ampliada para catálogo curado de 132 exercícios em
+  `data/mapa-midia.json`: todos têm identidade OpenGym única, still WebP, clip
+  MP4 e metadados/instruções pt-BR. O mapa continua sendo a fonte auditável.
+- A importação explícita `VITA_CATALOGO_APLICAR=1 npm run importar:catalogo`
+  cria backup datado, faz migração aditiva e idempotente em `data/vita.db` e
+  preserva `795` séries, `36` sessões, `28` pesagens e `1` usuário.
+- Produção conferida: 132 exercícios, 132 stills e 132 clips; `integrity_check`
+  retornou `ok`. A segunda execução inseriu e enriqueceu zero registros.
 - Biblioteca, editor de treino e sessão guiada exibem thumbnails/clip; o sheet
-  da biblioteca mostra vídeo em loop, passos em pt-BR e tags de catálogo.
-- Verificação da fase: Vitest 26/26, Playwright 6/6 após reseed, build de
-  produção aprovado; os 8 caminhos retornaram HTTP 200 pelo `next start`.
-
-- A miniatura na sessão guiada agora é um controle acessível que abre o mesmo
-  sheet de demonstração da biblioteca; o usuário não perde o contexto das
-  séries. Evidência: `desktop-treino-sessao-midia.png`, vídeo local 180×180
-  decodificado e console sem mensagens.
-- Fallback de `Cadeira abdutora` conferido na aplicação de produção e registrado
-  em `desktop-exercicios-fallback-cadeira-abdutora.png`; os sete fluxos E2E e os
-  29 testes unitários passaram após a alteração.
+  mostra metadados e passos em pt-BR. A captura
+  `desktop-exercicios-catalogo-132.png` confirma o exercício novo em produção.
+- Verificação pós-importação: Vitest 32/32, Playwright 7/7 e build de produção
+  aprovados. Os assets novos retornam `200 image/webp` e `200 video/mp4`.

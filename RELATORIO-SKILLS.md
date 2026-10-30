@@ -179,13 +179,14 @@ Nenhum item da lista de proibição (`@modelcontextprotocol/server-playwright`,
 nenhum `npm install -g` foi executado em nenhum passo acima (todas as instalações
 são `devDependency`/`dependency` locais do projeto ou `npx` efêmero).
 
-## 8. Aditivo — mídia local dos exercícios (Fase 1)
+## 8. Aditivo — catálogo local de exercícios (Fase 2)
 
 | Item | Estado | Evidência exercida |
 |---|---|---|
-| Catálogo curado | 33 exercícios mapeados; 32 com mídia e 1 fallback intencional | `npm run seed` → `{"exerciciosMapeados":33,"comMidia":32}` |
-| Servir sem dependência externa em runtime | 32 WebP + 32 MP4 em `public/midia/`; dados e instruções no SQLite | Playwright abriu vídeo local da biblioteca e da sessão guiada |
-| Seed isolado e reprodutível | `npm run seed` recria `data/vita.dev.db`; `seed:e2e` usa `data/vita.e2e.db`; ambos recusam `data/vita.db` | `seedTarget.test.ts` e checksum da produção inalterado após as suítes |
-| Cobertura de interface | biblioteca, editor de treino, sessão guiada e fallback | fallback e sheet interativo capturados em produção, console `[]`; E2E → **7 passed** |
-| Regressão completa | domínio, migrations e sete fluxos de usuário | `npm test` → **29 passed**; `npm run test:e2e` → **7 passed** |
-| Produção | build, `next start` e todas as oito rotas | `npm run build` aprovado; oito respostas HTTP 200 na porta 3900 |
+| Manifesto curado | 132 exercícios, 132 IDs OpenGym únicos e 12 em cada família | `catalogoCurado.test.ts` → 2 testes aprovados |
+| Importação de produção | aditiva, backup datado e idempotente | segunda execução de `VITA_CATALOGO_APLICAR=1 npm run importar:catalogo` → `inseridos: 0`, `enriquecidos: 0` |
+| Integridade dos dados protegidos | preservados | `series: 795`, `sessoes: 36`, `pesagens: 28`, `usuarios: 1`, `integridade: "ok"` |
+| Mídia local | 132 stills WebP e 132 clips MP4 | importação → `com_midia: 132`, `com_clip: 132`; `/midia/still/3006.webp` → `200 image/webp`, `/midia/clip/3006.mp4` → `200 video/mp4` |
+| Cobertura da interface | biblioteca, editor e sessão guiada usam mídia local | Playwright → **7 passed**; captura `desktop-exercicios-catalogo-132.png` |
+| Regressão completa | domínio, migrations e fluxos reais | `npm test` → **32 passed**; `npm run build` aprovado |
+| Limitação de plataforma | `ffprobe` indisponível | comando retornou `error: command not found`; dimensões 180×180 foram observadas no Chromium |

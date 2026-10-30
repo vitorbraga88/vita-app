@@ -1,4 +1,5 @@
 import { getDb } from "@/lib/db/client";
+import { isoLocalDiasAtras, paraISOLocal } from "@/lib/domain/dataLocal";
 
 export interface ResumoDoDia {
   treinosConcluidos: number;
@@ -19,19 +20,20 @@ export function getResumoDoDia(usuarioId: number, data: string): ResumoDoDia {
 /** Completed-session count per day for the last N days (oldest first), for the weekly bar chart. */
 export function getTreinosPorDia(usuarioId: number, dias: number): Array<{ data: string; total: number }> {
   const db = getDb();
+  const limiteInferior = isoLocalDiasAtras(dias - 1);
   const linhas = db
     .prepare(
       `SELECT date(iniciado_em) as data, COUNT(*) as total FROM sessao
-       WHERE usuario_id = ? AND status = 'concluido' AND date(iniciado_em) >= date('now', ?)
+       WHERE usuario_id = ? AND status = 'concluido' AND date(iniciado_em) >= ?
        GROUP BY date(iniciado_em)`
     )
-    .all(usuarioId, `-${dias - 1} days`) as Array<{ data: string; total: number }>;
+    .all(usuarioId, limiteInferior) as Array<{ data: string; total: number }>;
   const porData = new Map(linhas.map((l) => [l.data, l.total]));
   const resultado: Array<{ data: string; total: number }> = [];
   for (let i = dias - 1; i >= 0; i--) {
     const d = new Date();
     d.setDate(d.getDate() - i);
-    const iso = d.toISOString().slice(0, 10);
+    const iso = paraISOLocal(d);
     resultado.push({ data: iso, total: porData.get(iso) ?? 0 });
   }
   return resultado;

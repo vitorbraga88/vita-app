@@ -4,6 +4,7 @@
 // history, and a week of meals. Run with `npm run seed`.
 import { getDb } from "@/lib/db/client";
 import { ALIMENTOS_SEED, EXERCICIOS_SEED } from "@/lib/db/seedData";
+import { isoLocalDiasAtras } from "@/lib/domain/dataLocal";
 
 const TABELAS_EM_ORDEM_DE_LIMPEZA = [
   "refeicao_item", "refeicao", "medida", "peso_registro", "sessao_serie",
@@ -22,11 +23,6 @@ function criarRng(seed: number) {
   };
 }
 
-function isoDeDiasAtras(dias: number): string {
-  const d = new Date();
-  d.setDate(d.getDate() - dias);
-  return d.toISOString().slice(0, 10);
-}
 
 async function seed() {
   const db = getDb();
@@ -34,6 +30,9 @@ async function seed() {
 
   const tx = db.transaction(() => {
     for (const tabela of TABELAS_EM_ORDEM_DE_LIMPEZA) db.prepare(`DELETE FROM ${tabela}`).run();
+    db.prepare(
+      `DELETE FROM sqlite_sequence WHERE name IN (${TABELAS_EM_ORDEM_DE_LIMPEZA.map(() => "?").join(",")})`
+    ).run(...TABELAS_EM_ORDEM_DE_LIMPEZA);
 
     const usuarioId = Number(
       db
@@ -100,7 +99,7 @@ async function seed() {
       const progresso = Math.min(1, numeroSessaoDoTreino / 11);
       const fatorCarga = 0.85 + progresso * 0.33 + (rng() - 0.5) * 0.04;
 
-      const isoData = isoDeDiasAtras(diasAtras);
+      const isoData = isoLocalDiasAtras(diasAtras);
       const horaInicio = `${isoData} ${18 + Math.floor(rng() * 2)}:${String(Math.floor(rng() * 59)).padStart(2, "0")}:00`;
       const duracaoMin = 45 + Math.floor(rng() * 25);
       const kcalEstimado = 280 + Math.floor(rng() * 180);
@@ -132,13 +131,13 @@ async function seed() {
     for (let diasAtras = 83; diasAtras >= 0; diasAtras -= 3) {
       const progresso = (83 - diasAtras) / 83;
       const peso = Math.round((pesoInicial + progresso * 2.2 + (rng() - 0.5) * 0.6) * 10) / 10;
-      insertPeso.run(usuarioId, isoDeDiasAtras(diasAtras), peso);
+      insertPeso.run(usuarioId, isoLocalDiasAtras(diasAtras), peso);
     }
     for (let diasAtras = 77; diasAtras >= 0; diasAtras -= 14) {
       const progresso = (77 - diasAtras) / 77;
       insertMedida.run(
         usuarioId,
-        isoDeDiasAtras(diasAtras),
+        isoLocalDiasAtras(diasAtras),
         Math.round((82 - progresso * 1.5) * 10) / 10,
         Math.round((34 + progresso * 1.2) * 10) / 10,
         Math.round((56 + progresso * 1.5) * 10) / 10,
@@ -164,7 +163,7 @@ async function seed() {
       { periodo: "jantar", itens: [["Salmão grelhado", 160], ["Batata-doce cozida", 150], ["Abacate", 50]] },
     ];
     for (let diasAtras = 6; diasAtras >= 0; diasAtras--) {
-      const isoData = isoDeDiasAtras(diasAtras);
+      const isoData = isoLocalDiasAtras(diasAtras);
       for (const { periodo, itens } of PERIODOS) {
         const refeicaoId = Number(insertRefeicao.run(usuarioId, isoData, periodo).lastInsertRowid);
         for (const [nome, quantidade] of itens) {

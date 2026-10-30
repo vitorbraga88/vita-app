@@ -1,5 +1,6 @@
 import { getDb } from "@/lib/db/client";
 import type { Exercicio, Sessao, SessaoSerie, Treino } from "@/lib/db/types";
+import { agoraLocalSQL } from "@/lib/domain/dataLocal";
 
 export function getSessaoEmAndamento(usuarioId: number, treinoId: number): Sessao | undefined {
   return getDb()
@@ -15,8 +16,8 @@ export function iniciarSessao(usuarioId: number, treinoId: number): Sessao {
   const existente = getSessaoEmAndamento(usuarioId, treinoId);
   if (existente) return existente;
   const info = db
-    .prepare(`INSERT INTO sessao (usuario_id, treino_id, status) VALUES (?, ?, 'em_andamento')`)
-    .run(usuarioId, treinoId);
+    .prepare(`INSERT INTO sessao (usuario_id, treino_id, status, iniciado_em) VALUES (?, ?, 'em_andamento', ?)`)
+    .run(usuarioId, treinoId, agoraLocalSQL());
   return db.prepare("SELECT * FROM sessao WHERE id = ?").get(info.lastInsertRowid) as Sessao;
 }
 
@@ -96,8 +97,8 @@ export function registrarSerie(input: RegistrarSerieInput): SessaoSerie {
 export function finalizarSessao(id: number, duracaoMin: number, kcalEstimado: number): Sessao {
   const db = getDb();
   db.prepare(
-    `UPDATE sessao SET status='concluido', finalizado_em=datetime('now'), duracao_min=?, kcal_estimado=? WHERE id=?`
-  ).run(duracaoMin, kcalEstimado, id);
+    `UPDATE sessao SET status='concluido', finalizado_em=?, duracao_min=?, kcal_estimado=? WHERE id=?`
+  ).run(agoraLocalSQL(), duracaoMin, kcalEstimado, id);
   return getSessao(id)!;
 }
 

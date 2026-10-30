@@ -1,12 +1,11 @@
 import { getDb } from "@/lib/db/client";
 import type { Medida, PesoRegistro } from "@/lib/db/types";
+import { isoLocalDiasAtras } from "@/lib/domain/dataLocal";
 
 export function listarPesoRegistros(usuarioId: number, dias: number): PesoRegistro[] {
   return getDb()
-    .prepare(
-      `SELECT * FROM peso_registro WHERE usuario_id = ? AND data >= date('now', ?) ORDER BY data`
-    )
-    .all(usuarioId, `-${dias} days`) as PesoRegistro[];
+    .prepare(`SELECT * FROM peso_registro WHERE usuario_id = ? AND data >= ? ORDER BY data`)
+    .all(usuarioId, isoLocalDiasAtras(dias)) as PesoRegistro[];
 }
 
 export function registrarPeso(usuarioId: number, data: string, pesoKg: number): PesoRegistro {

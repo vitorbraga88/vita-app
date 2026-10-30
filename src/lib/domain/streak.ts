@@ -1,3 +1,5 @@
+import { hojeISOLocal } from "@/lib/domain/dataLocal";
+
 /**
  * Counts consecutive days (ending today or yesterday) with at least one
  * completed workout. Using "yesterday" as a valid anchor means the streak
@@ -6,7 +8,7 @@
  * @param datasTreino ISO dates (YYYY-MM-DD) with a completed session, any order, duplicates allowed.
  * @param hoje ISO date (YYYY-MM-DD) to use as "today" — defaults to the real current date.
  */
-export function calcularStreak(datasTreino: string[], hoje: string = new Date().toISOString().slice(0, 10)): number {
+export function calcularStreak(datasTreino: string[], hoje: string = hojeISOLocal()): number {
   const dias = new Set(datasTreino);
   if (dias.size === 0) return 0;
 

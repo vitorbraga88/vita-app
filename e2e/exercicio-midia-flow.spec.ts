@@ -1,0 +1,37 @@
+import { expect, test } from "@playwright/test";
+
+test("abre a demonstração local da biblioteca e mostra o fallback sem mídia", async ({ page }) => {
+  await page.goto("/exercicios");
+
+  await page.getByRole("button", { name: "Ver demonstração de Supino reto" }).click();
+  await expect(page.getByRole("heading", { name: "Supino reto" })).toBeVisible();
+  const video = page.getByLabel("Demonstração em vídeo de Supino reto");
+  await expect(video).toHaveAttribute("preload", "metadata");
+  await expect.poll(() => video.evaluate((element) => (element as HTMLVideoElement).videoWidth)).toBe(180);
+  await expect.poll(() => video.evaluate((element) => (element as HTMLVideoElement).videoHeight)).toBe(180);
+  await expect(page.getByRole("heading", { name: "Como executar" })).toBeVisible();
+  await expect(page.getByText("Deite-se em um banco com os pés apoiados no chão e as costas pressionadas contra o banco.")).toBeVisible();
+
+  await page.getByRole("button", { name: "Fechar" }).click();
+  await page.getByLabel("Buscar exercício por nome").fill("Cadeira abdutora");
+  await expect(page.getByLabel("Demonstração indisponível para Cadeira abdutora")).toBeVisible();
+});
+
+test("exibe clipes locais na sessão guiada", async ({ page }) => {
+  await page.goto("/treinos/1");
+
+  const clip = page.getByLabel("Demonstração em vídeo de Supino reto");
+  await expect(clip).toBeVisible();
+  await expect(clip).toHaveAttribute("preload", "metadata");
+  await expect.poll(() => clip.evaluate((element) => (element as HTMLVideoElement).videoWidth)).toBe(180);
+});
+
+test("mostra thumbnails no editor de composição do treino", async ({ page }) => {
+  await page.goto("/treinos");
+
+  await page.getByRole("button", { name: "Editar exercícios" }).first().click();
+  await expect(page.getByRole("heading", { name: /Exercícios — Push/ })).toBeVisible();
+  const thumbnail = page.getByAltText("Demonstração de Supino reto");
+  await expect(thumbnail).toBeVisible();
+  await expect(thumbnail).toHaveAttribute("loading", "lazy");
+});

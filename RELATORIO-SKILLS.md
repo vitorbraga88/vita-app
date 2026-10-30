@@ -178,3 +178,14 @@ Nenhum item da lista de proibição (`@modelcontextprotocol/server-playwright`,
 `npm install -g`, Chromium novo, Oh My Posh, config global) foi tocado. Confirmado:
 nenhum `npm install -g` foi executado em nenhum passo acima (todas as instalações
 são `devDependency`/`dependency` locais do projeto ou `npx` efêmero).
+
+## 8. Aditivo — mídia local dos exercícios (Fase 1)
+
+| Item | Estado | Evidência exercida |
+|---|---|---|
+| Catálogo curado | 33 exercícios mapeados; 32 com mídia e 1 fallback intencional | `npm run seed` → `{"exerciciosMapeados":33,"comMidia":32}` |
+| Servir sem dependência externa em runtime | 32 WebP + 32 MP4 em `public/midia/`; dados e instruções no SQLite | Playwright abriu vídeo local da biblioteca e da sessão guiada |
+| Seed reprodutível | `npm run seed` também roda a migration idempotente de mídia | regressão descoberta: reseed apagava mídia; corrigida e testada no E2E |
+| Cobertura de interface | biblioteca, editor de treino, sessão guiada e fallback | `npx playwright test e2e/exercicio-midia-flow.spec.ts` → **3 passed** em produção |
+| Regressão completa | domínio, migrations e seis fluxos de usuário | `npm test` → **26 passed**; `npm run test:e2e` → **6 passed** |
+| Produção | build, `next start` e todas as oito rotas | `npm run build` aprovado; oito respostas HTTP 200 na porta 3900 |

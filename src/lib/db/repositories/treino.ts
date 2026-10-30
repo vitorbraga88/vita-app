@@ -23,7 +23,10 @@ export function getTreinoComExercicios(id: number): TreinoComExercicios | undefi
     .prepare(
       `SELECT te.*, e.id as e_id, e.nome as e_nome, e.grupo_muscular as e_grupo_muscular,
               e.equipamento as e_equipamento, e.tipo as e_tipo, e.descricao as e_descricao,
-              e.criado_em as e_criado_em
+              e.midia_still as e_midia_still, e.midia_clip as e_midia_clip, e.instrucoes as e_instrucoes,
+              e.musculo_alvo as e_musculo_alvo, e.musculos_sec as e_musculos_sec, e.nivel as e_nivel,
+              e.mecanica as e_mecanica, e.fonte as e_fonte, e.fonte_id as e_fonte_id,
+              e.sistema as e_sistema, e.criado_em as e_criado_em
        FROM treino_exercicio te
        JOIN exercicio e ON e.id = te.exercicio_id
        WHERE te.treino_id = ?
@@ -45,6 +48,16 @@ export function getTreinoComExercicios(id: number): TreinoComExercicios | undefi
       equipamento: l.e_equipamento as Exercicio["equipamento"],
       tipo: l.e_tipo as Exercicio["tipo"],
       descricao: l.e_descricao as string | null,
+      midia_still: l.e_midia_still as string | null,
+      midia_clip: l.e_midia_clip as string | null,
+      instrucoes: l.e_instrucoes as string | null,
+      musculo_alvo: l.e_musculo_alvo as string | null,
+      musculos_sec: l.e_musculos_sec as string | null,
+      nivel: l.e_nivel as Exercicio["nivel"],
+      mecanica: l.e_mecanica as Exercicio["mecanica"],
+      fonte: l.e_fonte as string | null,
+      fonte_id: l.e_fonte_id as string | null,
+      sistema: l.e_sistema as Exercicio["sistema"],
       criado_em: l.e_criado_em as string,
     },
   }));

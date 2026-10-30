@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { ExercicioThumbnail } from "@/components/exercicios/ExercicioMidia";
 import { salvarExerciciosDoTreinoAction } from "@/app/treinos/actions";
 import type { TreinoComExercicios } from "@/lib/db/repositories/treino";
 import type { Exercicio } from "@/lib/db/types";
@@ -21,6 +22,8 @@ import type { Exercicio } from "@/lib/db/types";
 interface ItemComposicao {
   exercicio_id: number;
   nome: string;
+  midia_still: string | null;
+  midia_clip: string | null;
   series_alvo: number;
   reps_alvo: string;
 }
@@ -37,6 +40,8 @@ function itensDoTreino(treino: TreinoComExercicios | null): ItemComposicao[] {
   return treino.exercicios.map((te) => ({
     exercicio_id: te.exercicio_id,
     nome: te.exercicio.nome,
+    midia_still: te.exercicio.midia_still,
+    midia_clip: te.exercicio.midia_clip,
     series_alvo: te.series_alvo,
     reps_alvo: te.reps_alvo,
   }));
@@ -62,7 +67,14 @@ export function EditarExerciciosSheet({ open, onOpenChange, treino, exerciciosDi
   );
 
   function adicionar(exercicio: Exercicio) {
-    setItens((prev) => [...prev, { exercicio_id: exercicio.id, nome: exercicio.nome, series_alvo: 3, reps_alvo: "8-12" }]);
+    setItens((prev) => [...prev, {
+      exercicio_id: exercicio.id,
+      nome: exercicio.nome,
+      midia_still: exercicio.midia_still,
+      midia_clip: exercicio.midia_clip,
+      series_alvo: 3,
+      reps_alvo: "8-12",
+    }]);
   }
 
   function remover(exercicioId: number) {
@@ -134,6 +146,7 @@ export function EditarExerciciosSheet({ open, onOpenChange, treino, exerciciosDi
                     <ArrowDown className="size-3.5" />
                   </button>
                 </div>
+                <ExercicioThumbnail exercicio={item} tamanho="editor" />
                 <p className="flex-1 text-[var(--t-fn)] font-medium text-fg-0">{item.nome}</p>
                 <Input
                   type="number"

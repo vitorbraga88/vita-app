@@ -25,6 +25,9 @@ export type Equipamento =
   | "kettlebell" | "esteira" | "bicicleta" | "outro";
 export type TipoExercicio = "forca" | "cardio" | "tempo";
 
+export type NivelExercicio = "iniciante" | "intermediario" | "avancado";
+export type MecanicaExercicio = "composto" | "isolado";
+
 export interface Exercicio {
   id: number;
   nome: string;
@@ -32,6 +35,16 @@ export interface Exercicio {
   equipamento: Equipamento;
   tipo: TipoExercicio;
   descricao: string | null;
+  midia_still: string | null;
+  midia_clip: string | null;
+  instrucoes: string | null;
+  musculo_alvo: string | null;
+  musculos_sec: string | null;
+  nivel: NivelExercicio | null;
+  mecanica: MecanicaExercicio | null;
+  fonte: string | null;
+  fonte_id: string | null;
+  sistema: 0 | 1;
   criado_em: string;
 }
 

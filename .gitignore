@@ -18,6 +18,10 @@ data/*.db
 data/*.db-journal
 data/*.db-wal
 data/*.db-shm
+data/*.db.bak-*
+
+# generated architecture graph
+graphify-out/
 
 # testing
 coverage/

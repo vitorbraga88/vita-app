@@ -1,6 +1,6 @@
 // Human-readable pt-BR labels for domain enums, shared across /treinos and
 // /exercicios so Selects and badges stay consistent.
-import type { Divisao, Equipamento, GrupoMuscular, TipoExercicio } from "@/lib/db/types";
+import type { Divisao, Equipamento, GrupoMuscular, MecanicaExercicio, NivelExercicio, TipoExercicio } from "@/lib/db/types";
 
 export const LABEL_GRUPO_MUSCULAR: Record<GrupoMuscular, string> = {
   peito: "Peito",
@@ -32,6 +32,17 @@ export const LABEL_TIPO_EXERCICIO: Record<TipoExercicio, string> = {
   forca: "Força",
   cardio: "Cardio",
   tempo: "Tempo",
+};
+
+export const LABEL_NIVEL_EXERCICIO: Record<NivelExercicio, string> = {
+  iniciante: "Iniciante",
+  intermediario: "Intermediário",
+  avancado: "Avançado",
+};
+
+export const LABEL_MECANICA_EXERCICIO: Record<MecanicaExercicio, string> = {
+  composto: "Composto",
+  isolado: "Isolado",
 };
 
 export const LABEL_DIVISAO: Record<Divisao, string> = {

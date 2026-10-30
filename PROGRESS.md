@@ -40,3 +40,15 @@ de entrega (funcionalidades concluídas × pendentes × bloqueadas).
   de rotas estáticas encontrado e corrigido), Lighthouse real (Dashboard LCP
   1.9s, Performance 82).
 - Status final detalhado, com pendências reais sem maquiagem, em `progresso.md`.
+
+- Fase 1 de mídia concluída: catálogo curado de 33 exercícios em
+  `data/mapa-midia.json`; 32 thumbnails WebP e 32 clipes MP4 do openGym servidos
+  localmente em `public/midia/`; a Cadeira abdutora fica sem mídia
+  intencionalmente para validar o fallback.
+- Migration aditiva e idempotente em `scripts/aplicar-midia.mjs`, aplicada por
+  `npm run seed` depois de cada recriação do SQLite. Assim o seed não volta a
+  apagar a mídia — regressão descoberta e corrigida durante a verificação.
+- Biblioteca, editor de treino e sessão guiada exibem thumbnails/clip; o sheet
+  da biblioteca mostra vídeo em loop, passos em pt-BR e tags de catálogo.
+- Verificação da fase: Vitest 26/26, Playwright 6/6 após reseed, build de
+  produção aprovado; os 8 caminhos retornaram HTTP 200 pelo `next start`.

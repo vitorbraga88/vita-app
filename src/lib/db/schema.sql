@@ -24,6 +24,16 @@ CREATE TABLE IF NOT EXISTS exercicio (
   equipamento     TEXT NOT NULL DEFAULT 'barra' CHECK (equipamento IN ('barra','halteres','maquina','cabo','peso_corporal','kettlebell','esteira','bicicleta','outro')),
   tipo            TEXT NOT NULL DEFAULT 'forca' CHECK (tipo IN ('forca','cardio','tempo')),
   descricao       TEXT,
+  midia_still     TEXT,
+  midia_clip      TEXT,
+  instrucoes      TEXT,
+  musculo_alvo    TEXT,
+  musculos_sec    TEXT,
+  nivel           TEXT,
+  mecanica        TEXT,
+  fonte           TEXT,
+  fonte_id        TEXT,
+  sistema         INTEGER NOT NULL DEFAULT 0 CHECK (sistema IN (0,1)),
   criado_em       TEXT NOT NULL DEFAULT (datetime('now'))
 );
 

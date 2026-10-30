@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { EmptyState } from "@/components/ui/empty-state";
 import { ExercicioFormSheet } from "@/components/exercicios/ExercicioFormSheet";
 import { ExercicioItem } from "@/components/exercicios/ExercicioItem";
+import { ExercicioDetalheSheet } from "@/components/exercicios/ExercicioMidia";
 import { excluirExercicioAction } from "@/app/exercicios/actions";
 import { LABEL_GRUPO_MUSCULAR } from "@/lib/domain/labels";
 import type { Exercicio, GrupoMuscular } from "@/lib/db/types";
@@ -24,6 +25,7 @@ export function ExerciciosClient({ exercicios }: ExerciciosClientProps) {
   const [grupoFiltro, setGrupoFiltro] = useState<GrupoMuscular | "todos">("todos");
   const [sheetAberta, setSheetAberta] = useState(false);
   const [editandoId, setEditandoId] = useState<number | null>(null);
+  const [detalhe, setDetalhe] = useState<Exercicio | null>(null);
 
   const filtrados = useMemo(() => {
     const termo = busca.trim().toLowerCase();
@@ -106,6 +108,7 @@ export function ExerciciosClient({ exercicios }: ExerciciosClientProps) {
               exercicio={exercicio}
               onEditar={() => setEditandoId(exercicio.id)}
               onExcluir={() => handleExcluir(exercicio)}
+              onMostrarDetalhes={() => setDetalhe(exercicio)}
             />
           ))}
         </div>
@@ -118,6 +121,13 @@ export function ExerciciosClient({ exercicios }: ExerciciosClientProps) {
           if (!open) setEditandoId(null);
         }}
         exercicio={editando}
+      />
+      <ExercicioDetalheSheet
+        exercicio={detalhe}
+        open={detalhe !== null}
+        onOpenChange={(open) => {
+          if (!open) setDetalhe(null);
+        }}
       />
     </div>
   );

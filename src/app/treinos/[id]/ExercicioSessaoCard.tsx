@@ -4,6 +4,7 @@ import { Plus } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { SetRow } from "@/components/workout/SetRow";
+import { ExercicioThumbnail } from "@/components/exercicios/ExercicioMidia";
 
 export interface SetState {
   numero: number;
@@ -15,6 +16,8 @@ export interface SetState {
 
 interface ExercicioSessaoCardProps {
   nome: string;
+  midiaStill: string | null;
+  midiaClip: string | null;
   repsAlvo: string;
   sets: SetState[];
   onRepsChange: (setIndex: number, reps: number) => void;
@@ -25,6 +28,8 @@ interface ExercicioSessaoCardProps {
 
 export function ExercicioSessaoCard({
   nome,
+  midiaStill,
+  midiaClip,
   repsAlvo,
   sets,
   onRepsChange,
@@ -34,9 +39,26 @@ export function ExercicioSessaoCard({
 }: ExercicioSessaoCardProps) {
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>{nome}</CardTitle>
-        <CardDescription>Alvo: {sets.length} séries de {repsAlvo} reps</CardDescription>
+      <CardHeader className="flex-row items-start gap-[var(--s-4)]">
+        {midiaClip ? (
+          <video
+            src={midiaClip}
+            poster={midiaStill ?? undefined}
+            aria-label={`Demonstração em vídeo de ${nome}`}
+            muted
+            loop
+            autoPlay
+            playsInline
+            preload="metadata"
+            className="size-24 shrink-0 rounded-[var(--r-md)] border border-border bg-bg-2 object-cover sm:size-60"
+          />
+        ) : (
+          <ExercicioThumbnail exercicio={{ nome, midia_still: midiaStill, midia_clip: null }} tamanho="sessao" />
+        )}
+        <div className="min-w-0">
+          <CardTitle>{nome}</CardTitle>
+          <CardDescription>Alvo: {sets.length} séries de {repsAlvo} reps</CardDescription>
+        </div>
       </CardHeader>
       <CardContent className="flex flex-col gap-[var(--s-2)]">
         {sets.map((set, index) => (

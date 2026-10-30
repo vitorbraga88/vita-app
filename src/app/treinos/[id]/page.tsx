@@ -44,6 +44,8 @@ export default async function SessaoTreinoPage({ params }: { params: Promise<{ i
       treinoExercicioId: te.id,
       exercicioId: te.exercicio_id,
       nome: te.exercicio.nome,
+      midiaStill: te.exercicio.midia_still,
+      midiaClip: te.exercicio.midia_clip,
       seriesAlvo: te.series_alvo,
       repsAlvo: te.reps_alvo,
       ultimaReps: ultima?.reps ?? 0,

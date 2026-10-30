@@ -13,6 +13,8 @@ export interface ExercicioSessaoData {
   treinoExercicioId: number;
   exercicioId: number;
   nome: string;
+  midiaStill: string | null;
+  midiaClip: string | null;
   seriesAlvo: number;
   repsAlvo: string;
   ultimaReps: number;
@@ -142,6 +144,8 @@ export function SessaoGuiadaClient({ sessaoId, treinoId, treinoNome, exercicios 
           <ExercicioSessaoCard
             key={ex.treinoExercicioId}
             nome={ex.nome}
+            midiaStill={ex.midiaStill}
+            midiaClip={ex.midiaClip}
             repsAlvo={ex.repsAlvo}
             sets={ex.sets}
             onRepsChange={(setIndex, reps) => atualizarSet(exIndex, setIndex, { reps })}

@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start -p 3900",
     "lint": "eslint",
-    "seed": "tsx src/lib/db/seed.ts",
+    "seed": "tsx src/lib/db/seed.ts && node scripts/aplicar-midia.mjs",
     "test": "vitest run",
     "test:e2e": "playwright test"
   },

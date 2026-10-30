@@ -2,9 +2,13 @@
   "name": "gym-app",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "22.12.x"
+  },
   "scripts": {
     "dev": "next dev -p 3900",
     "build": "next build",
+    "prestart": "node scripts/verificar-runtime.mjs",
     "start": "next start -p 3900",
     "lint": "eslint",
     "seed": "tsx src/lib/db/seed.ts && node scripts/aplicar-midia.mjs",

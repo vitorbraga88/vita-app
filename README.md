@@ -31,7 +31,7 @@ ambiente (ver `RELATORIO-SKILLS.md`, seção de auditoria).
 |---|---|
 | `npm run dev` | servidor de desenvolvimento, porta 3900 |
 | `npm run build` | build de produção |
-| `npm run start` | serve o build, porta 3900 |
+| `npm run start` | serve o build, porta 3900 (antes valida o módulo nativo do SQLite — ver `DEPLOY.md`) |
 | `npm run seed` | recria `data/vita.dev.db` e reaplica o catálogo local curado |
 | `npm run test` | testes unitários (Vitest) — regras de negócio em `src/lib/domain/` |
 | `npm run test:e2e` | testes end-to-end (Playwright) |
@@ -73,6 +73,7 @@ termos de licença; mantenha este uso pessoal e privado, sem redistribuí-los.
 
 ## Documentos da entrega
 
+- `DEPLOY.md` — Node único, rebuild do módulo nativo, start persistente e verificação por `curl`
 - `RELATORIO-SKILLS.md` — auditoria do ambiente e instalação das ferramentas (Etapa 1)
 - `DESIGN.md` — identidade visual, tokens, anatomia de componentes
 - `plan.md` — arquitetura e decisões técnicas

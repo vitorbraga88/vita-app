@@ -2,28 +2,24 @@
 
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { finalizarSessao, getSessao, registrarSerie } from "@/lib/db/repositories/sessao";
+import { finalizarSessao, getSessao, registrarSerieDoTreino } from "@/lib/db/repositories/sessao";
 import { getUsuarioAtual } from "@/lib/db/repositories/usuario";
 import type { SessaoSerie } from "@/lib/db/types";
 
 export interface RegistrarSerieActionInput {
-  sessaoId: number;
+  sessaoId: number | null;
+  treinoId: number;
   exercicioId: number;
   numeroSerie: number;
   reps: number;
   cargaKg: number;
 }
 
-export async function registrarSerieAction(input: RegistrarSerieActionInput): Promise<SessaoSerie> {
+export async function registrarSerieAction(
+  input: RegistrarSerieActionInput
+): Promise<{ sessaoId: number; serie: SessaoSerie }> {
   const usuario = getUsuarioAtual();
-  return registrarSerie({
-    sessaoId: input.sessaoId,
-    usuarioId: usuario.id,
-    exercicioId: input.exercicioId,
-    numeroSerie: input.numeroSerie,
-    reps: input.reps,
-    cargaKg: input.cargaKg,
-  });
+  return registrarSerieDoTreino({ ...input, usuarioId: usuario.id });
 }
 
 // Rough energy estimate: ~6 kcal/min for a moderate-intensity resistance training

@@ -36,13 +36,15 @@ function criarSetsIniciais(ex: ExercicioSessaoData): SetState[] {
 }
 
 interface SessaoGuiadaClientProps {
-  sessaoId: number;
+  /** In-progress session to resume, or null when nothing has been recorded yet. */
+  sessaoId: number | null;
   treinoId: number;
   treinoNome: string;
   exercicios: ExercicioSessaoData[];
 }
 
-export function SessaoGuiadaClient({ sessaoId, treinoId, treinoNome, exercicios }: SessaoGuiadaClientProps) {
+export function SessaoGuiadaClient({ sessaoId: sessaoInicial, treinoId, treinoNome, exercicios }: SessaoGuiadaClientProps) {
+  const [sessaoId, setSessaoId] = useState<number | null>(sessaoInicial);
   const [estado, setEstado] = useState<ExercicioComSets[]>(() =>
     exercicios.map((ex) => ({ ...ex, sets: criarSetsIniciais(ex) }))
   );
@@ -85,13 +87,15 @@ export function SessaoGuiadaClient({ sessaoId, treinoId, treinoNome, exercicios 
     setPendentes((atual) => new Set(atual).add(chave));
 
     try {
-      const serieRegistrada = await registrarSerieAction({
+      const { sessaoId: sessaoRegistrada, serie: serieRegistrada } = await registrarSerieAction({
         sessaoId,
+        treinoId,
         exercicioId: exercicio.exercicioId,
         numeroSerie: set.numero,
         reps: set.reps,
         cargaKg: set.cargaKg,
       });
+      setSessaoId(sessaoRegistrada);
       atualizarSet(exIndex, setIndex, { concluida: true, pr: serieRegistrada.pr === 1 });
       if (serieRegistrada.pr === 1) {
         toast.success(`Novo recorde em ${exercicio.nome}!`);
@@ -108,6 +112,7 @@ export function SessaoGuiadaClient({ sessaoId, treinoId, treinoNome, exercicios 
   }
 
   function handleFinalizar() {
+    if (sessaoId === null) return;
     iniciarFinalizacao(async () => {
       try {
         await finalizarTreinoAction(sessaoId, treinoId);
@@ -154,7 +159,13 @@ export function SessaoGuiadaClient({ sessaoId, treinoId, treinoNome, exercicios 
         ))}
       </div>
 
-      <Button onClick={handleFinalizar} loading={finalizando} className="sm:self-end">
+      <Button
+        onClick={handleFinalizar}
+        loading={finalizando}
+        disabled={sessaoId === null}
+        title={sessaoId === null ? "Registre ao menos uma série para finalizar." : undefined}
+        className="sm:self-end"
+      >
         Finalizar treino
       </Button>
     </div>

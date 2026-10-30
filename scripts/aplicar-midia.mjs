@@ -123,7 +123,7 @@ export function garantirColunasMidia(db) {
   }
 }
 
-/** Applies only values that were not already curated in the local exercise record. */
+/** Applies only values that were not already curated; never changes who owns the exercise. */
 export function aplicarMetadadosMidia(db, registros) {
   const atualizar = db.prepare(`
     UPDATE exercicio SET
@@ -135,15 +135,11 @@ export function aplicarMetadadosMidia(db, registros) {
       nivel = COALESCE(nivel, @nivel),
       mecanica = COALESCE(mecanica, @mecanica),
       fonte = COALESCE(fonte, @fonte),
-      fonte_id = COALESCE(fonte_id, @fonte_id),
-      sistema = CASE
-        WHEN fonte IS NULL OR (fonte = @fonte AND fonte_id IS @fonte_id) THEN @sistema
-        ELSE sistema
-      END
+      fonte_id = COALESCE(fonte_id, @fonte_id)
     WHERE nome = @nome
   `);
   db.transaction((itens) => {
-    for (const item of itens) atualizar.run({ sistema: item.fonte === "opengym" ? 1 : 0, ...item });
+    for (const item of itens) atualizar.run(item);
   })(registros);
 }
 
@@ -156,7 +152,8 @@ export function garantirIndiceFonte(db) {
   `);
 }
 
-/** Inserts missing OpenGym exercises and enriches only empty fields in existing records. */
+/** Inserts missing OpenGym exercises (sistema=1) and enriches only empty fields in existing
+ * records. Enrichment attaches media to an exercise; it never transfers ownership to the catalog. */
 export function aplicarCatalogoCurado(db, registros) {
   const camposEnriqueciveis = "id, midia_still, midia_clip, instrucoes, musculo_alvo, musculos_sec, nivel, mecanica, fonte, fonte_id";
   const encontrarPorFonte = db.prepare(
@@ -182,8 +179,7 @@ export function aplicarCatalogoCurado(db, registros) {
       nivel = COALESCE(nivel, @nivel),
       mecanica = COALESCE(mecanica, @mecanica),
       fonte = CASE WHEN fonte IS NULL OR fonte = 'manual' THEN @fonte ELSE fonte END,
-      fonte_id = CASE WHEN fonte_id IS NULL THEN @fonte_id ELSE fonte_id END,
-      sistema = CASE WHEN fonte IS NULL OR fonte = 'manual' THEN 1 ELSE sistema END
+      fonte_id = CASE WHEN fonte_id IS NULL THEN @fonte_id ELSE fonte_id END
     WHERE id = @id
   `);
 

@@ -36,7 +36,7 @@ describe("media migration", () => {
     ]));
   });
 
-  it("fills empty media fields and preserves a manually curated record on a second run", () => {
+  it("fills empty media fields, preserves a curated record and keeps it owned by the user", () => {
     const db = criarBancoTemporario();
     garantirColunasMidia(db);
     const registro = {
@@ -61,7 +61,7 @@ describe("media migration", () => {
       midia_still: "/midia/still/manual.webp",
       midia_clip: "/midia/clip/0025.mp4",
       fonte_id: "0025",
-      sistema: 1,
+      sistema: 0,
     });
   });
 });

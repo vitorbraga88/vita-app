@@ -60,4 +60,17 @@ describe("importação do catálogo curado", () => {
     });
     expect(db.prepare("SELECT COUNT(*) AS total FROM sessao_serie").get()).toEqual({ total: 1 });
   });
+
+  it("enriquece um exercício do dono sem transformá-lo em exercício do catálogo", () => {
+    const db = criarBanco();
+    garantirIndiceFonte(db);
+
+    expect(aplicarCatalogoCurado(db, [{ ...registro, nome: "Registro manual" }])).toEqual({ inseridos: 0, enriquecidos: 1 });
+
+    expect(db.prepare("SELECT sistema, fonte_id, midia_clip FROM exercicio WHERE id = 1").get()).toEqual({
+      sistema: 0,
+      fonte_id: "0033",
+      midia_clip: "/midia/clip/0033.mp4",
+    });
+  });
 });

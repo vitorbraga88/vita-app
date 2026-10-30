@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Dumbbell } from "lucide-react";
 import { getUsuarioAtual } from "@/lib/db/repositories/usuario";
 import { getTreinoComExercicios } from "@/lib/db/repositories/treino";
-import { getUltimaSerie, iniciarSessao } from "@/lib/db/repositories/sessao";
+import { getSessaoEmAndamento, getUltimaSerie } from "@/lib/db/repositories/sessao";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { SessaoGuiadaClient, type ExercicioSessaoData } from "./SessaoGuiadaClient";
@@ -35,8 +35,9 @@ export default async function SessaoTreinoPage({ params }: { params: Promise<{ i
     );
   }
 
-  // Idempotent: resumes an in-progress session for this workout if one already exists.
-  const sessao = iniciarSessao(usuario.id, treinoId);
+  // Read-only: resumes an in-progress session if one exists. A new session is created only
+  // when the first series is recorded (registrarSerieAction), never by visiting this page.
+  const sessao = getSessaoEmAndamento(usuario.id, treinoId);
 
   const exercicios: ExercicioSessaoData[] = treino.exercicios.map((te) => {
     const ultima = getUltimaSerie(usuario.id, te.exercicio_id);
@@ -52,5 +53,12 @@ export default async function SessaoTreinoPage({ params }: { params: Promise<{ i
     };
   });
 
-  return <SessaoGuiadaClient sessaoId={sessao.id} treinoId={treino.id} treinoNome={treino.nome} exercicios={exercicios} />;
+  return (
+    <SessaoGuiadaClient
+      sessaoId={sessao?.id ?? null}
+      treinoId={treino.id}
+      treinoNome={treino.nome}
+      exercicios={exercicios}
+    />
+  );
 }

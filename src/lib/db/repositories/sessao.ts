@@ -94,6 +94,21 @@ export function registrarSerie(input: RegistrarSerieInput): SessaoSerie {
   return db.prepare("SELECT * FROM sessao_serie WHERE id = ?").get(info.lastInsertRowid) as SessaoSerie;
 }
 
+export interface RegistrarSerieDoTreinoInput extends Omit<RegistrarSerieInput, "sessaoId"> {
+  treinoId: number;
+  /** Session already used by this screen; null until the first series is recorded. */
+  sessaoId: number | null;
+}
+
+/** Records a series, creating (or resuming) the workout session in the same transaction.
+ * Sessions exist only once the user has actually trained — opening the page never writes. */
+export function registrarSerieDoTreino(input: RegistrarSerieDoTreinoInput): { sessaoId: number; serie: SessaoSerie } {
+  return getDb().transaction(() => {
+    const sessaoId = input.sessaoId ?? iniciarSessao(input.usuarioId, input.treinoId).id;
+    return { sessaoId, serie: registrarSerie({ ...input, sessaoId }) };
+  })();
+}
+
 export function finalizarSessao(id: number, duracaoMin: number, kcalEstimado: number): Sessao {
   const db = getDb();
   db.prepare(

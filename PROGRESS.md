@@ -54,3 +54,10 @@ de entrega (funcionalidades concluídas × pendentes × bloqueadas).
   `desktop-exercicios-catalogo-132.png` confirma o exercício novo em produção.
 - Verificação pós-importação: Vitest 32/32, Playwright 7/7 e build de produção
   aprovados. Os assets novos retornam `200 image/webp` e `200 video/mp4`.
+
+- Correções pós-auditoria da Fase 2 (detalhe e provas em `RELATORIO-SKILLS.md` §9):
+  Node único (`/usr/local/bin/node` v22.12.0, ABI 127) documentado em `DEPLOY.md` com
+  `prestart` que recusa subir com `better-sqlite3` de outro ABI; os 33 exercícios do
+  dono voltaram a `sistema=0` (33/99/132) e o enriquecimento de mídia não muda mais o
+  dono; `/treinos/[id]` deixou de criar sessão no GET (sessão 38 vazia removida com
+  backup, referência 795/36/28/1/132 restaurada).

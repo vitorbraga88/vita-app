@@ -5,14 +5,13 @@ import { definirMeta, getMeta } from "@/lib/db/repositories/meta";
 import { getUsuarioAtual } from "@/lib/db/repositories/usuario";
 import type { ConfigCompleta } from "@/lib/domain/configuracao/catalogo";
 import { dataLocalRecife } from "@/lib/domain/configuracao/horario";
-import { calcularAguaMl, calcularMacros, calcularTdee, idadeEm } from "@/lib/domain/configuracao/metasAuto";
+import { calcularPlano, idadeEm } from "@/lib/domain/configuracao/metasAuto";
 import type { TipoMeta } from "@/lib/db/types";
 
 export type ResultadoMetas = { ok: true; aplicadas: TipoMeta[] } | { ok: false; mensagem: string };
 
-/** Writes every target whose mode is "auto" into `meta` (the single source of truth for
- * Dashboard and /nutricao). Manual targets are untouched. Missing profile data → ok:false
- * and nothing is written, so callers can refuse switching a mode to "auto". */
+/** Validates automatic targets and writes nutrition targets into `meta`.
+ * Water is calculated at read time; the stored manual target must not be overwritten. */
 export function aplicarMetasAutomaticas(config: ConfigCompleta = getAllConfig(getUsuarioAtual().id)): ResultadoMetas {
   const usuario = getUsuarioAtual();
   const aguaAuto = config["hidratacao.meta_modo"] === "auto";
@@ -31,24 +30,32 @@ export function aplicarMetasAutomaticas(config: ConfigCompleta = getAllConfig(ge
   }
 
   const metas: Array<[TipoMeta, number]> = [];
-  if (aguaAuto) metas.push(["agua_ml_dia", calcularAguaMl(peso)]);
 
   let kcal = getMeta(usuario.id, "kcal_dia")?.valor_alvo;
-  if (kcalAuto) {
-    kcal = calcularTdee({
+  if (kcalAuto || macrosAuto) {
+    if (!kcalAuto && kcal === undefined) return { ok: false, mensagem: "Defina a meta de kcal antes de calcular os macros." };
+    const plano = calcularPlano({
       pesoKg: peso,
-      alturaCm: usuario.altura_cm!,
-      idade: idadeEm(usuario.data_nascimento!, dataLocalRecife()),
+      alturaCm: usuario.altura_cm ?? 0,
+      idade: usuario.data_nascimento ? idadeEm(usuario.data_nascimento, dataLocalRecife()) : 0,
       sexo: usuario.sexo ?? "outro",
       diasTreino: config["perfil.dias_treino_semana"],
       objetivo: config["perfil.objetivo"],
+    }, {
+      tmb: config["nutricao.override_tmb"],
+      fator: config["nutricao.override_fator"],
+      kcal: kcalAuto ? config["nutricao.override_kcal"] : kcal,
+      proteina: config["nutricao.override_proteina"],
+      gordura: config["nutricao.override_gordura"],
+      carbo: config["nutricao.override_carbo"],
     });
-    metas.push(["kcal_dia", kcal]);
-  }
-  if (macrosAuto) {
-    if (kcal === undefined) return { ok: false, mensagem: "Defina a meta de kcal antes de calcular os macros." };
-    const m = calcularMacros(kcal, peso);
-    metas.push(["proteina_g_dia", m.proteinaG], ["carbo_g_dia", m.carboG], ["gordura_g_dia", m.gorduraG]);
+    if (kcalAuto) {
+      kcal = plano.kcal;
+      metas.push(["kcal_dia", kcal]);
+    }
+    if (macrosAuto) {
+      metas.push(["proteina_g_dia", plano.proteinaG], ["carbo_g_dia", plano.carboG], ["gordura_g_dia", plano.gorduraG]);
+    }
   }
 
   for (const [tipo, valor] of metas) definirMeta(usuario.id, tipo, valor);

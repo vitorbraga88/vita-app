@@ -9,6 +9,7 @@ import { RestTimer } from "@/components/workout/RestTimer";
 import { ExercicioSessaoCard, type SetState } from "./ExercicioSessaoCard";
 import { finalizarTreinoAction, registrarSerieAction } from "./actions";
 import type { Exercicio } from "@/lib/db/types";
+import type { SugestaoProgressao } from "@/lib/progressao";
 
 export interface ExercicioSessaoData {
   treinoExercicioId: number;
@@ -19,6 +20,7 @@ export interface ExercicioSessaoData {
   repsAlvo: string;
   ultimaReps: number;
   ultimaCarga: number;
+  sugestao: SugestaoProgressao | null;
 }
 
 interface ExercicioComSets extends ExercicioSessaoData {
@@ -58,6 +60,14 @@ export function SessaoGuiadaClient({ sessaoId: sessaoInicial, treinoId, treinoNo
         i !== exIndex ? ex : { ...ex, sets: ex.sets.map((s, j) => (j !== setIndex ? s : { ...s, ...patch })) }
       )
     );
+  }
+
+  function aceitarSugestao(exIndex: number) {
+    setEstado((atual) => atual.map((ex, i) => {
+      if (i !== exIndex || ex.sugestao?.cargaKg == null) return ex;
+      const cargaKg = ex.sugestao.cargaKg;
+      return { ...ex, sets: ex.sets.map((set) => set.concluida ? set : { ...set, cargaKg }) };
+    }));
   }
 
   function adicionarSerie(exIndex: number) {
@@ -151,6 +161,8 @@ export function SessaoGuiadaClient({ sessaoId: sessaoInicial, treinoId, treinoNo
             exercicio={ex.exercicio}
             repsAlvo={ex.repsAlvo}
             sets={ex.sets}
+            sugestao={ex.sugestao}
+            onAceitarSugestao={() => aceitarSugestao(exIndex)}
             onRepsChange={(setIndex, reps) => atualizarSet(exIndex, setIndex, { reps })}
             onCargaChange={(setIndex, carga) => atualizarSet(exIndex, setIndex, { cargaKg: carga })}
             onConcluirToggle={(setIndex) => concluirSerie(exIndex, setIndex)}

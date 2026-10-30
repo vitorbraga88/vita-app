@@ -79,3 +79,11 @@ de entrega (funcionalidades concluídas × pendentes × bloqueadas).
   Parte 2. Detalhes e evidências em `RELATORIO-FASE4A.md`.
 - Verificação: Vitest 79/79, Playwright 18/18, build de produção; axe sem violações
   nas três rotas em 1440/390 px. Prova de idempotência e console no relatório.
+
+- Fase 4B: corrigidos o default da meta automática de água e os rótulos de
+  recálculo histórico; implementados progressão, plano alimentar, `/hoje` e
+  envio ntfy. Produção preservada: 795/36/28/1/132, quatro configurações
+  anteriores e `integrity_check=ok`. Backup e evidências em `RELATORIO-FASE4B.md`.
+- Verificação: Vitest 100/100, progressão 5/5, Playwright 21/21, build e
+  rotas de produção verificadas. ntfy na porta 8185 não estava disponível:
+  entrega real não exercitada; Web Push indisponível. A Fase 5 aguarda validação.

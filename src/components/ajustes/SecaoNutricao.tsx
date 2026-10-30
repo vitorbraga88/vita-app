@@ -61,7 +61,7 @@ export function SecaoNutricao({ config, metas }: { config: ConfigCompleta; metas
         <Dependentes ativo={kcalModo === "manual"} rotulo="Meta manual de calorias">
           <CampoMeta tipo="kcal_dia" rotulo="Calorias por dia" unidade="kcal" inicial={metas.kcal_dia} min={800} max={6000} passo={10} />
         </Dependentes>
-        <CampoSelect rotulo="Macros P/C/G" descricao="Automático: proteína 2,0 g/kg, gordura 0,9 g/kg, carbo no restante." valor={macrosModo} opcoes={MODOS} onMudar={setMacrosModo} />
+        <CampoSelect rotulo="Macros P/C/G" descricao="Automático: proteína 2,0 g/kg, gordura 25% das calorias, carbo no restante. Personalize os valores em Nutrição." valor={macrosModo} opcoes={MODOS} onMudar={setMacrosModo} />
         <Dependentes ativo={macrosModo === "manual"} rotulo="Macros manuais">
           <CampoMeta tipo="proteina_g_dia" rotulo="Proteína" unidade="g" inicial={metas.proteina_g_dia} min={20} max={400} passo={1} />
           <CampoMeta tipo="carbo_g_dia" rotulo="Carboidrato" unidade="g" inicial={metas.carbo_g_dia} min={0} max={900} passo={1} />

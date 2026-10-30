@@ -53,6 +53,16 @@ export interface ConfigCompleta {
   "nutricao.ativo": boolean;
   "nutricao.kcal_modo": "auto" | "manual";
   "nutricao.macros_modo": "auto" | "manual";
+  "nutricao.override_tmb": number | null;
+  "nutricao.override_fator": number | null;
+  "nutricao.override_kcal": number | null;
+  "nutricao.override_proteina": number | null;
+  "nutricao.override_gordura": number | null;
+  "nutricao.override_carbo": number | null;
+  "nutricao.manual_kcal": number | null;
+  "nutricao.manual_proteina": number | null;
+  "nutricao.manual_gordura": number | null;
+  "nutricao.manual_carbo": number | null;
   "nutricao.lembrete.cafe_da_manha": string | null;
   "nutricao.lembrete.almoco": string | null;
   "nutricao.lembrete.lanche": string | null;
@@ -65,6 +75,9 @@ export interface ConfigCompleta {
   "notificacoes.prioridade.pesagem": Prioridade;
   "notificacoes.prioridade.treino": Prioridade;
   "notificacoes.prioridade.nutricao": Prioridade;
+  "notificacoes.prioridade.resumo": Prioridade;
+  "notificacoes.resumo_ativo": boolean;
+  "notificacoes.resumo_hora": string | null;
   "notificacoes.silencio_ativo": boolean;
   "notificacoes.silencio_inicio": string;
   "notificacoes.silencio_fim": string;
@@ -108,6 +121,11 @@ function numero(min: number, max: number, passo: number, padrao: number): Descri
       return v;
     },
   };
+}
+
+function numeroOpcional(min: number, max: number, passo: number): Descritor<number | null> {
+  const regra = numero(min, max, passo, min);
+  return { padrao: () => null, normalizar: (v) => v === null ? null : regra.normalizar(v) };
 }
 
 function hora(v: unknown): string {
@@ -162,7 +180,7 @@ const CATALOGO: { [K in ChaveConfig]: Descritor<ConfigCompleta[K]> } = {
   "aparencia.reduzir_movimento": booleano(false),
   "aparencia.tamanho_fonte": opcao(["normal", "grande"], "normal"),
   "hidratacao.ativo": booleano(false),
-  "hidratacao.meta_modo": opcao(["auto", "manual"], "manual"),
+  "hidratacao.meta_modo": opcao(["auto", "manual"], "auto"),
   "hidratacao.copo_ml": opcao([200, 250, 300, 500], 250),
   "hidratacao.janela_inicio": horario("07:00"),
   "hidratacao.janela_fim": horario("22:00"),
@@ -191,6 +209,16 @@ const CATALOGO: { [K in ChaveConfig]: Descritor<ConfigCompleta[K]> } = {
   "nutricao.ativo": booleano(false),
   "nutricao.kcal_modo": opcao(["auto", "manual"], "manual"),
   "nutricao.macros_modo": opcao(["auto", "manual"], "manual"),
+  "nutricao.override_tmb": numeroOpcional(1, 6000, 0.1),
+  "nutricao.override_fator": numeroOpcional(0.1, 3, 0.001),
+  "nutricao.override_kcal": numeroOpcional(1, 10000, 1),
+  "nutricao.override_proteina": numeroOpcional(0, 1000, 1),
+  "nutricao.override_gordura": numeroOpcional(0, 1000, 1),
+  "nutricao.override_carbo": numeroOpcional(0, 2000, 1),
+  "nutricao.manual_kcal": numeroOpcional(0, 10000, 1),
+  "nutricao.manual_proteina": numeroOpcional(0, 1000, 1),
+  "nutricao.manual_gordura": numeroOpcional(0, 1000, 1),
+  "nutricao.manual_carbo": numeroOpcional(0, 2000, 1),
   "nutricao.lembrete.cafe_da_manha": horarioOpcional,
   "nutricao.lembrete.almoco": horarioOpcional,
   "nutricao.lembrete.lanche": horarioOpcional,
@@ -203,6 +231,9 @@ const CATALOGO: { [K in ChaveConfig]: Descritor<ConfigCompleta[K]> } = {
   "notificacoes.prioridade.pesagem": prioridade(),
   "notificacoes.prioridade.treino": prioridade(),
   "notificacoes.prioridade.nutricao": prioridade(),
+  "notificacoes.prioridade.resumo": prioridade(),
+  "notificacoes.resumo_ativo": booleano(false),
+  "notificacoes.resumo_hora": horarioOpcional,
   "notificacoes.silencio_ativo": booleano(true),
   "notificacoes.silencio_inicio": horario("22:30"),
   "notificacoes.silencio_fim": horario("07:00"),

@@ -10,8 +10,13 @@ const arquivo = path.join(process.cwd(), "data", "vita.test-agendador.db");
 process.env.VITA_DB_PATH = arquivo;
 for (const s of ["", "-wal", "-shm"]) rmSync(arquivo + s, { force: true });
 let id = 0;
-beforeAll(() => { id = Number(getDb().prepare("INSERT INTO usuario (nome,email) VALUES ('Teste','agendador@vita.app')").run().lastInsertRowid); });
-afterAll(() => { getDb().close(); for (const s of ["", "-wal", "-shm"]) rmSync(arquivo + s, { force: true }); });
+beforeAll(() => {
+  vi.stubGlobal("fetch", vi.fn().mockImplementation(async (_url, options) => ({
+    ok: true, status: 200, json: async () => ({ event: "message", topic: JSON.parse(options.body).topic }),
+  })));
+  id = Number(getDb().prepare("INSERT INTO usuario (nome,email) VALUES ('Teste','agendador@vita.app')").run().lastInsertRowid);
+});
+afterAll(() => { vi.unstubAllGlobals(); getDb().close(); for (const s of ["", "-wal", "-shm"]) rmSync(arquivo + s, { force: true }); });
 
 describe("agendador em Recife", () => {
   it("envia uma vez por chave, recupera atrasado e faz segunda chamada única", async () => {

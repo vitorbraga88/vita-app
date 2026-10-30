@@ -41,7 +41,7 @@ export default async function AguaPage({ searchParams }: PageProps<"/agua">) {
     </Card>
     <Card>
       <CardHeader className="gap-3"><div className="flex flex-wrap items-center justify-between gap-3"><CardTitle>Histórico</CardTitle><nav aria-label="Período do histórico" className="flex gap-2">{[7, 30].map((dias) => <Link key={dias} href={`/agua?periodo=${dias}`} aria-current={periodo === dias ? "page" : undefined} className={`rounded-[var(--r-md)] border px-3 py-2 text-sm ${periodo === dias ? "border-accent text-accent-text" : "border-border text-fg-1"}`}>{dias} dias</Link>)}</nav></div>
-        <p className="text-sm text-fg-1">{resumo.adesao === null ? "Adesão indisponível sem meta." : `Adesão: ${resumo.adesao}% (${resumo.diasAtingidos} de ${periodo} dias). Comparada à meta atual.`}</p>
+        <p className="text-sm text-fg-1">{resumo.adesao === null ? "Adesão indisponível sem meta." : `Adesão: ${resumo.adesao}% (${resumo.diasAtingidos} de ${periodo} dias). Calculada com a meta atual (${meta.ok ? meta.ml.toLocaleString("pt-BR") : "—"} ml); se a meta mudar, o histórico será recalculado.`}</p>
       </CardHeader>
       <CardContent>{totais.length === 0 ? <p className="text-fg-2">Nenhum registro neste período.</p> : <ul className="divide-y divide-border">{[...resumo.dias].reverse().map((dia) => <li key={dia.data} className="flex justify-between gap-4 py-2 text-sm"><time dateTime={dia.data} className="text-fg-1">{dia.data.split("-").reverse().join("/")}{dia.data === hoje ? " · hoje" : ""}</time><span className="font-num text-fg-0">{dia.ml} ml</span></li>)}</ul>}</CardContent>
     </Card>

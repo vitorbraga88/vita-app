@@ -4,7 +4,10 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { cn } from "cn";
-import { NAV_ITEMS } from "@/components/layout/navItems";
+import { NAV_ITEMS, type NavItem } from "@/components/layout/navItems";
+import { CalendarDays } from "lucide-react";
+
+const MOBILE_ITEMS: NavItem[] = [{ href: "/hoje", label: "Hoje", icon: CalendarDays }, ...NAV_ITEMS];
 
 function isAtivo(pathname: string, href: string): boolean {
   if (href === "/") return pathname === "/";
@@ -25,7 +28,7 @@ export function TabBar() {
       className="glass fixed inset-x-0 bottom-0 z-40 flex overflow-x-auto border-t border-border md:hidden"
       style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
     >
-      {NAV_ITEMS.map((item) => {
+      {MOBILE_ITEMS.map((item) => {
         const ativo = isAtivo(pathname, item.href);
         const Icon = item.icon;
         return (

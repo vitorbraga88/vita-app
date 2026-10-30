@@ -59,6 +59,26 @@ export function getUltimaSerie(usuarioId: number, exercicioId: number): SessaoSe
     .get(usuarioId, exercicioId) as SessaoSerie | undefined;
 }
 
+/** Completed exercise sessions, newest first; never includes the active session. */
+export function getHistoricoProgressao(usuarioId: number, exercicioId: number): Array<Array<{ reps: number; cargaKg: number }>> {
+  const rows = getDb().prepare(
+    `SELECT s.id AS sessao_id, ss.reps, ss.carga_kg
+     FROM sessao_serie ss JOIN sessao s ON s.id = ss.sessao_id
+     WHERE s.usuario_id = ? AND ss.exercicio_id = ? AND s.status = 'concluido'
+     ORDER BY COALESCE(s.finalizado_em, s.iniciado_em) DESC, s.id DESC, ss.numero_serie, ss.id`
+  ).all(usuarioId, exercicioId) as Array<{ sessao_id: number; reps: number; carga_kg: number }>;
+  const sessions: Array<Array<{ reps: number; cargaKg: number }>> = [];
+  let previousId: number | undefined;
+  for (const row of rows) {
+    if (row.sessao_id !== previousId) {
+      sessions.push([]);
+      previousId = row.sessao_id;
+    }
+    sessions[sessions.length - 1].push({ reps: row.reps, cargaKg: row.carga_kg });
+  }
+  return sessions;
+}
+
 /** Highest load ever recorded for this exercise+user, used for PR detection. */
 function getRecordeAtual(usuarioId: number, exercicioId: number): number {
   const row = getDb()

@@ -6,13 +6,13 @@ export type ObjetivoCalculo = "hipertrofia" | "emagrecimento" | "manutencao" | "
 
 const AJUSTE_SEXO: Record<SexoCalculo, number> = { masculino: 5, feminino: -161, outro: -78 };
 const FATOR_OBJETIVO: Record<ObjetivoCalculo, number> = {
-  emagrecimento: 0.85,
+  emagrecimento: 0.8,
   manutencao: 1,
   hipertrofia: 1.1,
   forca: 1.05,
 };
 
-function fatorAtividade(diasTreino: number): number {
+export function fatorAtividade(diasTreino: number): number {
   if (diasTreino <= 1) return 1.2;
   if (diasTreino <= 3) return 1.375;
   if (diasTreino <= 5) return 1.55;
@@ -40,16 +40,46 @@ export interface EntradaTdee {
   objetivo: ObjetivoCalculo;
 }
 
-/** Mifflin-St Jeor BMR × activity (training days) × goal, rounded to 10 kcal. */
-export function calcularTdee(e: EntradaTdee): number {
-  const bmr = 10 * e.pesoKg + 6.25 * e.alturaCm - 5 * e.idade + AJUSTE_SEXO[e.sexo];
-  return Math.round((bmr * fatorAtividade(e.diasTreino) * FATOR_OBJETIVO[e.objetivo]) / 10) * 10;
+export interface OverridesPlano {
+  tmb?: number | null;
+  fator?: number | null;
+  kcal?: number | null;
+  proteina?: number | null;
+  gordura?: number | null;
+  carbo?: number | null;
 }
 
-/** Protein 2.0 g/kg, fat 0.9 g/kg, carbs take the remaining kcal (never negative). */
+export interface PlanoCalculado {
+  tmb: number;
+  fator: number;
+  fatorObjetivo: number;
+  gasto: number;
+  kcal: number;
+  proteinaG: number;
+  gorduraG: number;
+  carboG: number;
+}
+
+/** Valores exibidos arredondados somente na etapa de metas, não nos intermediários. */
+export function calcularPlano(e: EntradaTdee, overrides: OverridesPlano) {
+  const tmb = overrides.tmb ?? (10 * e.pesoKg + 6.25 * e.alturaCm - 5 * e.idade + AJUSTE_SEXO[e.sexo]);
+  const fator = overrides.fator ?? fatorAtividade(e.diasTreino);
+  const fatorObjetivo = FATOR_OBJETIVO[e.objetivo];
+  const gasto = tmb * fator;
+  const kcal = overrides.kcal ?? Math.round((gasto * fatorObjetivo) / 10) * 10;
+  const proteinaG = overrides.proteina ?? Math.round(e.pesoKg * 2);
+  const gorduraG = overrides.gordura ?? Math.round(kcal * 0.25 / 9);
+  const carboG = overrides.carbo ?? Math.max(0, Math.round((kcal - 4 * proteinaG - 9 * gorduraG) / 4));
+  return { tmb, fator, fatorObjetivo, gasto, kcal, proteinaG, gorduraG, carboG };
+}
+
+export function calcularTdee(e: EntradaTdee): number {
+  return calcularPlano(e, {}).kcal;
+}
+
 export function calcularMacros(kcal: number, pesoKg: number): { proteinaG: number; gorduraG: number; carboG: number } {
   const proteinaG = Math.round(pesoKg * 2);
-  const gorduraG = Math.round(pesoKg * 0.9);
+  const gorduraG = Math.round(kcal * 0.25 / 9);
   const carboG = Math.max(0, Math.round((kcal - 4 * proteinaG - 9 * gorduraG) / 4));
   return { proteinaG, gorduraG, carboG };
 }

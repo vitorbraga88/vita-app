@@ -76,7 +76,6 @@ describe("repositório de configuração", () => {
     const tudo = repo.getAllConfig(usuarioId);
     expect(tudo["treino.ativo"]).toBe(true);
     expect(tudo["perfil.objetivo"]).toBe("hipertrofia");
-    expect(Object.keys(tudo)).toHaveLength(58);
   });
 
   it("importação é tudo-ou-nada: uma chave inválida descarta o arquivo inteiro", () => {

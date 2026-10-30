@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { getUsuarioAtual } from "@/lib/db/repositories/usuario";
 import { registrarPeso, registrarMedida, type RegistrarMedidaInput } from "@/lib/db/repositories/evolucao";
 import { definirMeta } from "@/lib/db/repositories/meta";
+import { aplicarMetasAutomaticas } from "@/lib/ajustes/metasAutomaticas";
 
 export async function registrarPesoAction(data: string, pesoKg: number): Promise<void> {
   if (!Number.isFinite(pesoKg) || pesoKg <= 0) {
@@ -11,7 +12,8 @@ export async function registrarPesoAction(data: string, pesoKg: number): Promise
   }
   const usuario = getUsuarioAtual();
   registrarPeso(usuario.id, data, pesoKg);
-  revalidatePath("/evolucao");
+  aplicarMetasAutomaticas();
+  revalidatePath("/", "layout");
 }
 
 export async function registrarMedidaAction(data: string, input: RegistrarMedidaInput): Promise<void> {

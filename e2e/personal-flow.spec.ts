@@ -8,6 +8,14 @@ test("registra e desfaz água sem alterar o restante do dia", async ({ page }) =
   await desfazer.click();
   await expect(desfazer).toBeDisabled();
 });
+test("meta automática de água e aviso de histórico são exibidos", async ({ page }) => {
+  await page.goto("/agua", { waitUntil: "networkidle" });
+  await expect(page.getByText(/meta diária automática/)).toBeVisible();
+  await expect(page.getByText(/se a meta mudar, o histórico será recalculado/)).toBeVisible();
+  await page.goto("/suplementos", { waitUntil: "networkidle" });
+  await expect(page.getByText(/Se os horários ou suplementos ativos mudarem/)).toBeVisible();
+});
+
 
 test("registra dose e desconta estoque na interface", async ({ page }) => {
   await page.goto("/suplementos", { waitUntil: "networkidle" });

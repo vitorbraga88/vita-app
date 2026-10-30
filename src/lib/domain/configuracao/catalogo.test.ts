@@ -23,6 +23,10 @@ describe("catálogo de configurações", () => {
     expect(padrao["nutricao.kcal_modo"]).toBe("manual");
   });
 
+  it("usa meta automática de água quando não há escolha explícita", () => {
+    expect(configPadrao()["hidratacao.meta_modo"]).toBe("auto");
+  });
+
   it("normaliza horário de input para Recife e aceita lembrete desligado (null)", () => {
     expect(normalizarValor("pesagem.hora", "06:45")).toBe("06:45:00-03:00");
     expect(normalizarValor("nutricao.lembrete.almoco", null)).toBeNull();

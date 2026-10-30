@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Plus } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { SetRow } from "@/components/workout/SetRow";
 import { ExercicioDetalheSheet, ExercicioThumbnail } from "@/components/exercicios/ExercicioMidia";
 import type { Exercicio } from "@/lib/db/types";
+import type { SugestaoProgressao } from "@/lib/progressao";
 
 export interface SetState {
   numero: number;
@@ -20,6 +21,8 @@ interface ExercicioSessaoCardProps {
   exercicio: Exercicio;
   repsAlvo: string;
   sets: SetState[];
+  sugestao: SugestaoProgressao | null;
+  onAceitarSugestao: () => void;
   onRepsChange: (setIndex: number, reps: number) => void;
   onCargaChange: (setIndex: number, carga: number) => void;
   onConcluirToggle: (setIndex: number) => void;
@@ -30,12 +33,15 @@ export function ExercicioSessaoCard({
   exercicio,
   repsAlvo,
   sets,
+  sugestao,
+  onAceitarSugestao,
   onRepsChange,
   onCargaChange,
   onConcluirToggle,
   onAdicionarSerie,
 }: ExercicioSessaoCardProps) {
   const [detalheAberto, setDetalheAberto] = useState(false);
+  const seriesRef = useRef<HTMLDivElement>(null);
   return (
     <Card>
       <CardHeader className="flex-row items-start gap-[var(--s-4)]">
@@ -49,7 +55,20 @@ export function ExercicioSessaoCard({
           <CardDescription>Alvo: {sets.length} séries de {repsAlvo} reps</CardDescription>
         </div>
       </CardHeader>
-      <CardContent className="flex flex-col gap-[var(--s-2)]">
+      {sugestao && (
+        <div className="mx-[var(--s-4)] rounded-[var(--r-md)] border border-border bg-bg-1 p-[var(--s-3)] text-sm">
+          <p className="font-semibold">
+            {sugestao.cargaKg === null ? "Informe a carga inicial" : `Sugestão: ${sugestao.cargaKg.toLocaleString("pt-BR")} kg`}
+          </p>
+          <p>{sugestao.motivo}</p>
+          <p>Confiança {sugestao.confianca}{sugestao.umRm !== null ? ` · 1RM estimado: ${sugestao.umRm.toLocaleString("pt-BR")} kg (Epley)` : ""}</p>
+          <div className="mt-[var(--s-2)] flex gap-[var(--s-2)]">
+            {sugestao.cargaKg !== null && <Button type="button" onClick={onAceitarSugestao}>Aceitar</Button>}
+            <Button type="button" variant="ghost" onClick={() => seriesRef.current?.querySelector<HTMLInputElement>('input[aria-label^=\"Carga\"]')?.focus()}>Ajustar</Button>
+          </div>
+        </div>
+      )}
+      <CardContent ref={seriesRef} className="flex flex-col gap-[var(--s-2)]">
         {sets.map((set, index) => (
           <SetRow
             key={set.numero}

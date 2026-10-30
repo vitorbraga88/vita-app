@@ -1,6 +1,7 @@
 import { getAllConfig } from "@/lib/db/repositories/configuracao";
 import { aguaConsumida, doseTomada, pesouDesde, suplementosAgendados, usuariosAgendados } from "@/lib/db/repositories/agendador";
-import { registrarAviso } from "@/lib/db/repositories/notificacoes";
+import { entregarAviso } from "@/lib/entrega-notificacao";
+import { getResumoDoDia } from "@/lib/db/repositories/dashboard";
 import { getMetaAguaAtual } from "@/lib/agua/metaAtual";
 import { agoraRecifeISO, dataLocalRecife, offsetRecife } from "@/lib/domain/configuracao/horario";
 import { dentroDaJanela, emSilencio, ultimoHorarioAgua } from "@/lib/domain/agendamento";
@@ -33,7 +34,7 @@ export async function executarAgendador(agora = new Date()): Promise<void> {
       if (ultimo) {
         const meta = c["hidratacao.pausar_meta_atingida"] ? await getMetaAguaAtual(usuarioId) : null;
         if (!meta || (meta.ok && aguaConsumida(usuarioId, hoje) < meta.ml)) {
-          registrarAviso({ usuarioId, tipo: "agua", chave: `${ultimo.data}:agua:${clock(ultimo.slot)}`, titulo: "Hora de beber água", mensagem: "Registre sua hidratação de hoje.", link: "/agua" }, agora);
+          await entregarAviso({ usuarioId, tipo: "agua", chave: `${ultimo.data}:agua:${clock(ultimo.slot)}`, titulo: "Hora de beber água", mensagem: "Registre sua hidratação de hoje.", link: "/agua" }, c, agora);
         }
       }
     }
@@ -45,7 +46,7 @@ export async function executarAgendador(agora = new Date()): Promise<void> {
           if (typeof horario !== "string" || !/^([01]\d|2[0-3]):[0-5]\d$/.test(horario)) continue;
           const planejado = instant(data, horario, offset) - c["suplementacao.antecedencia_min"] * 60000;
           if (due(agora.getTime(), planejado) && !doseTomada(item.id, data, horario)) {
-            registrarAviso({ usuarioId, tipo: "suplemento", chave: `${data}:suplemento:${item.id}:${horario}`, titulo: "Suplemento", mensagem: `${item.nome}: dose às ${horario}.`, link: "/suplementos" }, agora);
+            await entregarAviso({ usuarioId, tipo: "suplemento", chave: `${data}:suplemento:${item.id}:${horario}`, titulo: "Suplemento", mensagem: `${item.nome}: dose às ${horario}.`, link: "/suplementos" }, c, agora);
           }
         }
       }
@@ -58,7 +59,19 @@ export async function executarAgendador(agora = new Date()): Promise<void> {
       if (pesouDesde(usuarioId, data, hoje)) continue;
       const planejado = instant(data, c["pesagem.hora"], offset);
       for (const [sufixo, atraso] of [["principal", 0], ["atraso", c["pesagem.lembrete_atraso_h"] * 3600000]] as const) {
-        if (due(agora.getTime(), planejado + atraso)) registrarAviso({ usuarioId, tipo: "pesagem", chave: `${data}:pesagem:${sufixo}`, titulo: "Hora da pesagem", mensagem: sufixo === "principal" ? "Registre seu peso de hoje." : "Sua pesagem ainda não foi registrada.", link: "/evolucao#registrar-peso" }, agora);
+        if (due(agora.getTime(), planejado + atraso)) await entregarAviso({ usuarioId, tipo: "pesagem", chave: `${data}:pesagem:${sufixo}`, titulo: "Hora da pesagem", mensagem: sufixo === "principal" ? "Registre seu peso de hoje." : "Sua pesagem ainda não foi registrada.", link: "/evolucao#registrar-peso" }, c, agora);
+      }
+    }
+    if (c["treino.ativo"]) for (const data of [hoje, ontem, amanha]) {
+      const planejado = instant(data, c["treino.lembrete_hora"], offset) - c["treino.lembrete_antecedencia_min"] * 60000;
+      if (due(agora.getTime(), planejado)) {
+        await entregarAviso({ usuarioId, tipo: "treino", chave: `${data}:treino`, titulo: "Hora do treino", mensagem: "Seu treino está chegando.", link: "/treinos" }, c, agora);
+      }
+    }
+    if (c["notificacoes.resumo_ativo"] && c["notificacoes.resumo_hora"]) for (const data of [hoje, ontem]) {
+      if (due(agora.getTime(), instant(data, c["notificacoes.resumo_hora"], offset))) {
+        const resumo = getResumoDoDia(usuarioId, data);
+        await entregarAviso({ usuarioId, tipo: "resumo", chave: `${data}:resumo`, titulo: "Resumo do dia", mensagem: `${resumo.treinosConcluidos} treinos, ${resumo.minutosAtivos} min hoje.`, link: "/" }, c, agora);
       }
     }
   }

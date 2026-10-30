@@ -6,6 +6,12 @@ import { RefeicaoSection } from "@/components/nutricao/RefeicaoSection";
 import { NutricaoVazio } from "@/components/nutricao/NutricaoVazio";
 import { MacroBar } from "@/components/charts/MacroBar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { PlanoAlimentar } from "@/components/nutricao/PlanoAlimentar";
+import { getUsuarioAtual } from "@/lib/db/repositories/usuario";
+import { getUltimoPeso } from "@/lib/db/repositories/evolucao";
+import { getAllConfig } from "@/lib/db/repositories/configuracao";
+import { calcularPlano, idadeEm } from "@/lib/domain/configuracao/metasAuto";
+import { dataLocalRecife } from "@/lib/domain/configuracao/horario";
 
 export const dynamic = "force-dynamic";
 
@@ -16,6 +22,23 @@ export default async function NutricaoPage({ searchParams }: PageProps<"/nutrica
   const data = dataParam ?? hoje;
 
   const nutricao = await getNutricaoData(data);
+  const usuario = getUsuarioAtual();
+  const peso = getUltimoPeso(usuario.id)?.peso_kg;
+  const config = getAllConfig(usuario.id);
+  const plano = peso !== undefined && usuario.altura_cm && usuario.data_nascimento
+    ? calcularPlano({
+        pesoKg: peso, alturaCm: usuario.altura_cm,
+        idade: idadeEm(usuario.data_nascimento, dataLocalRecife()),
+        sexo: usuario.sexo ?? "outro", diasTreino: config["perfil.dias_treino_semana"],
+        objetivo: config["perfil.objetivo"],
+      }, {
+        tmb: config["nutricao.override_tmb"], fator: config["nutricao.override_fator"],
+        kcal: config["nutricao.kcal_modo"] === "manual" ? nutricao.metaKcal : config["nutricao.override_kcal"],
+        proteina: config["nutricao.macros_modo"] === "manual" ? nutricao.metaProteina : config["nutricao.override_proteina"],
+        gordura: config["nutricao.macros_modo"] === "manual" ? nutricao.metaGordura : config["nutricao.override_gordura"],
+        carbo: config["nutricao.macros_modo"] === "manual" ? nutricao.metaCarbo : config["nutricao.override_carbo"],
+      })
+    : null;
 
   const kcalAtual = Math.round(nutricao.totais.kcal);
   const acimaDaMeta = nutricao.metaKcal !== null && kcalAtual > nutricao.metaKcal;
@@ -28,6 +51,8 @@ export default async function NutricaoPage({ searchParams }: PageProps<"/nutrica
       </div>
 
       <SeletorData data={data} hoje={hoje} />
+
+      <PlanoAlimentar config={config} plano={plano} metas={{ kcal: nutricao.metaKcal, proteina: nutricao.metaProteina, carbo: nutricao.metaCarbo, gordura: nutricao.metaGordura }} />
 
       <Card className="gap-[var(--s-4)]">
         <CardHeader className="flex-row items-baseline justify-between">

@@ -6,6 +6,7 @@ import { getDb } from "@/lib/db/client";
 import { ALIMENTOS_SEED, EXERCICIOS_SEED } from "@/lib/db/seedData";
 import { isoLocalDiasAtras } from "@/lib/domain/dataLocal";
 import { getSeedDatabasePath } from "@/lib/db/seedTarget";
+import { calcularAguaMl } from "@/lib/domain/configuracao/metasAuto";
 
 process.env.VITA_DB_PATH = getSeedDatabasePath(process.env.VITA_DB_PATH);
 
@@ -132,9 +133,11 @@ async function seed() {
       `INSERT INTO medida (usuario_id, data, cintura_cm, braco_cm, coxa_cm, peito_cm) VALUES (?, ?, ?, ?, ?, ?)`
     );
     const pesoInicial = 78.5;
+    let ultimoPeso = pesoInicial;
     for (let diasAtras = 83; diasAtras >= 0; diasAtras -= 3) {
       const progresso = (83 - diasAtras) / 83;
       const peso = Math.round((pesoInicial + progresso * 2.2 + (rng() - 0.5) * 0.6) * 10) / 10;
+      ultimoPeso = peso;
       insertPeso.run(usuarioId, isoLocalDiasAtras(diasAtras), peso);
     }
     for (let diasAtras = 77; diasAtras >= 0; diasAtras -= 14) {
@@ -185,7 +188,7 @@ async function seed() {
     insertMeta.run(usuarioId, "proteina_g_dia", 170);
     insertMeta.run(usuarioId, "carbo_g_dia", 280);
     insertMeta.run(usuarioId, "gordura_g_dia", 80);
-    insertMeta.run(usuarioId, "agua_ml_dia", 3000);
+    insertMeta.run(usuarioId, "agua_ml_dia", calcularAguaMl(ultimoPeso));
     insertMeta.run(usuarioId, "peso_alvo_kg", 82);
 
     console.log(`Seed concluído: usuario=${usuarioId}, exercicios=${exercicioIds.length}, treinos=${treinoIds.length}, sessoes=${rotacao}, alimentos=${alimentoIds.length}`);

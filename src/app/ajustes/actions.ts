@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { aplicarMetasAutomaticas } from "@/lib/ajustes/metasAutomaticas";
 import { getDb, PRODUCTION_DB_PATH } from "@/lib/db/client";
 import { getAllConfig, importarConfiguracoes, setConfig } from "@/lib/db/repositories/configuracao";
-import { definirMeta } from "@/lib/db/repositories/meta";
+import { definirMeta, getMeta } from "@/lib/db/repositories/meta";
 import { limparEnviosDeTeste, registrarEnvioTeste, type NotificacaoEnvio } from "@/lib/db/repositories/notificacaoEnvio";
 import { atualizarCampoUsuario, getUsuarioAtual } from "@/lib/db/repositories/usuario";
 import { ehChaveConfig, ErroConfiguracao, normalizarValor, type ChaveConfig, type ConfigCompleta } from "@/lib/domain/configuracao/catalogo";
@@ -22,7 +22,22 @@ const PAPEL_NO_CALCULO: Partial<Record<ChaveConfig, "modo" | "entrada">> = {
   "nutricao.macros_modo": "modo",
   "perfil.objetivo": "entrada",
   "perfil.dias_treino_semana": "entrada",
+  "nutricao.override_tmb": "entrada",
+  "nutricao.override_fator": "entrada",
+  "nutricao.override_kcal": "entrada",
+  "nutricao.override_proteina": "entrada",
+  "nutricao.override_gordura": "entrada",
+  "nutricao.override_carbo": "entrada",
 };
+
+const METAS_NUTRICAO = {
+  "nutricao.kcal_modo": [["kcal_dia", "nutricao.manual_kcal"]],
+  "nutricao.macros_modo": [
+    ["proteina_g_dia", "nutricao.manual_proteina"],
+    ["carbo_g_dia", "nutricao.manual_carbo"],
+    ["gordura_g_dia", "nutricao.manual_gordura"],
+  ],
+} as const;
 
 function falhou(erro: unknown): { ok: false; mensagem: string } {
   if (erro instanceof ErroConfiguracao) return { ok: false, mensagem: erro.message };
@@ -41,17 +56,32 @@ export async function salvarConfigAction(chave: ChaveConfig, valor: unknown): Pr
     if (!ehChaveConfig(chave)) throw new ErroConfiguracao(`Chave desconhecida: ${String(chave)}`);
     const usuario = getUsuarioAtual();
     const normalizado = normalizarValor(chave, valor);
-    let aviso: string | undefined;
-    const papel = PAPEL_NO_CALCULO[chave];
-    if (papel) {
-      const proposta = { ...getAllConfig(usuario.id), [chave]: normalizado } as ConfigCompleta;
-      const metas = aplicarMetasAutomaticas(proposta);
-      if (!metas.ok && papel === "modo") return { ok: false, mensagem: metas.mensagem };
-      if (!metas.ok) aviso = metas.mensagem;
-    }
-    const salvo = setConfig(usuario.id, chave, normalizado as ConfigCompleta[typeof chave]);
+    const salvo = getDb().transaction(() => {
+      let aviso: string | undefined;
+      const papel = PAPEL_NO_CALCULO[chave];
+      if (papel) {
+        const atual = getAllConfig(usuario.id);
+        const proposta = { ...atual, [chave]: normalizado } as ConfigCompleta;
+        const modo = chave === "nutricao.kcal_modo" || chave === "nutricao.macros_modo" ? chave : undefined;
+        const grupo = modo ? METAS_NUTRICAO[modo] : undefined;
+        const manuais = grupo && modo && atual[modo] === "manual" && normalizado === "auto"
+          ? grupo.map(([tipo, campo]) => [campo, getMeta(usuario.id, tipo)?.valor_alvo ?? null] as const) : [];
+        if (grupo && modo && normalizado === "manual" && atual[modo] === "auto") {
+          for (const [tipo, campo] of grupo) {
+            const valorManual = atual[campo];
+            if (valorManual !== null) definirMeta(usuario.id, tipo, valorManual);
+            else getDb().prepare("DELETE FROM meta WHERE usuario_id = ? AND tipo = ?").run(usuario.id, tipo);
+          }
+        }
+        const metas = aplicarMetasAutomaticas(proposta);
+        if (!metas.ok && papel === "modo") throw new ErroConfiguracao(metas.mensagem);
+        for (const [campo, valorManual] of manuais) setConfig(usuario.id, campo, valorManual);
+        if (!metas.ok) aviso = metas.mensagem;
+      }
+      return { valor: setConfig(usuario.id, chave, normalizado as ConfigCompleta[typeof chave]), aviso };
+    })();
     revalidarTudo();
-    return { ok: true, valor: salvo, aviso };
+    return { ok: true, valor: salvo.valor, aviso: salvo.aviso };
   } catch (erro) {
     return falhou(erro);
   }
@@ -90,6 +120,11 @@ export async function salvarMetaManualAction(tipo: MetaEditavel, valor: number):
       throw new ErroConfiguracao(`Valor entre ${regra.min} e ${regra.max}.`);
     }
     definirMeta(usuario.id, tipo, Math.round(valor));
+    if (tipo !== "agua_ml_dia") {
+      const campo = tipo === "kcal_dia" ? "nutricao.manual_kcal" : tipo === "proteina_g_dia" ? "nutricao.manual_proteina" : tipo === "carbo_g_dia" ? "nutricao.manual_carbo" : "nutricao.manual_gordura";
+      setConfig(usuario.id, campo, Math.round(valor));
+      if (tipo === "kcal_dia") aplicarMetasAutomaticas();
+    }
     revalidarTudo();
     return { ok: true, valor: Math.round(valor) };
   } catch (erro) {
@@ -121,7 +156,24 @@ export async function importarConfiguracoesAction(conteudo: string): Promise<Res
       throw new ErroConfiguracao("JSON sem objeto de configurações.");
     }
     const usuario = getUsuarioAtual();
-    const total = importarConfiguracoes(usuario.id, configuracoes as Record<string, unknown>);
+    const antes = getAllConfig(usuario.id);
+    const dadosConfig = configuracoes as Record<string, unknown>;
+    const reservas = Object.entries(METAS_NUTRICAO).flatMap(([modo, grupo]) =>
+      antes[modo as keyof typeof METAS_NUTRICAO] === "manual" && dadosConfig[modo] === "auto"
+        ? grupo.flatMap(([tipo, campo]) => dadosConfig[campo] === undefined ? [[campo, getMeta(usuario.id, tipo)?.valor_alvo ?? null] as const] : [])
+        : []
+    );
+    const total = importarConfiguracoes(usuario.id, dadosConfig);
+    for (const [campo, valor] of reservas) if (valor !== null) setConfig(usuario.id, campo, valor);
+    const depois = getAllConfig(usuario.id);
+    for (const [modo, grupo] of Object.entries(METAS_NUTRICAO)) {
+      if (depois[modo as keyof typeof METAS_NUTRICAO] === "manual") {
+        for (const [tipo, campo] of grupo) {
+          const valor = depois[campo];
+          if (valor !== null) definirMeta(usuario.id, tipo, valor);
+        }
+      }
+    }
     const metas = aplicarMetasAutomaticas();
     revalidarTudo();
     return { ok: true, valor: total, aviso: metas.ok ? undefined : metas.mensagem };

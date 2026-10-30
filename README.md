@@ -78,7 +78,7 @@ termos de licença; mantenha este uso pessoal e privado, sem redistribuí-los.
 
 `/ajustes` reúne perfil, aparência, lembretes (hidratação, suplementação, pesagem,
 treino, nutrição), notificações, Amazfit T-Rex 3 e dados. Cada controle salva na hora
-na tabela `configuracao` (valor JSON; catálogo de 58 chaves com default em
+na tabela `configuracao` (valor JSON; catálogo e defaults em
 `src/lib/domain/configuracao/catalogo.ts`); chave ausente ou inválida usa o default.
 Horários são gravados como `HH:mm:ss-03:00` (America/Recife). Metas manuais de
 kcal, macros e água ficam na tabela `meta`; a meta automática de água é recalculada
@@ -98,11 +98,15 @@ de ajustes aguardam revisão explícita antes da conversão; continuam na config
 A adesão é uma estimativa baseada nos horários atuais, não em agendas históricas.
 
 O processo Next verifica horários a cada minuto, em America/Recife. Os lembretes
-de água, suplemento e pesagem aparecem no sino de Avisos dentro do VITA; não há
-notificações externas nesta parte. O servidor precisa estar ligado: atrasos de
-até 30 minutos são recuperados, com deduplicação no SQLite. A pesagem quinzenal
-usa semanas alternadas a partir de 05/01/1970. O gráfico exibe médias dos
-registros disponíveis nos últimos sete dias de calendário de cada ponto.
+de água, suplemento, pesagem, treino e resumo aparecem no sino de Avisos e podem ser
+publicados no ntfy local (`DEPLOY.md`). Web Push permanece indisponível. O servidor
+precisa estar ligado: atrasos de até 30 minutos são recuperados, com deduplicação no
+SQLite. A pesagem quinzenal usa semanas alternadas a partir de 05/01/1970. O gráfico
+exibe médias dos registros disponíveis nos últimos sete dias de calendário de cada ponto.
+
+`/hoje` concentra o check-in diário e é a abertura do PWA. A sessão guiada apresenta
+sugestões baseadas nas sessões concluídas; o usuário pode aceitar ou ajustar a carga.
+`/nutricao` mostra TMB, gasto, objetivo e macros, preservando metas manuais.
 
 ## Documentos da entrega
 

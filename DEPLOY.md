@@ -101,3 +101,23 @@ gravações seguintes somem. Por isso:
   `distDir` `.next-e2e`), nunca contra `next dev`.
 - Com `npm run dev` no ar, não escreva no banco por fora; pare o dev antes.
 - Produção (`next start`) não é afetada: locks verificados antes e depois de actions.
+
+## 7. Notificações ntfy
+
+O agendador publica em `http://localhost:8185/` com JSON e o campo `topic`.
+Para disponibilizar o servidor localmente, o operador pode executar:
+
+```bash
+docker run -d --name vita-ntfy --restart unless-stopped -p 127.0.0.1:8185:80 binwiederhier/ntfy serve
+```
+
+**Atenção:** a porta 8085 já estava ocupada por outro aplicativo na inspeção de
+30/10/2026. Não publique nela nem interrompa o serviço existente. Antes de
+ativar os lembretes, confirme que 8185 está livre e pertence ao ntfy.
+
+Assine os tópicos `vita-agua`, `vita-sup`, `vita-pesagem`, `vita-treino` e
+`vita-resumo` no cliente ntfy. A publicação é registrada como enviada somente
+após resposta HTTP 2xx do servidor; isso não comprova leitura no aparelho.
+Falhas aparecem no histórico em Ajustes. Web Push não está implementado:
+selecionar `ambos` envia ao ntfy e registra Web Push como indisponível.
+O botão “Testar agora” continua simulado, sem publicação.

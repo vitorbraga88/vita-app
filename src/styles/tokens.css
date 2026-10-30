@@ -1,0 +1,83 @@
+/* VITA design tokens — single source of truth, see DESIGN.md. Do not hardcode
+   colors/spacing/radii elsewhere; reference these custom properties. */
+:root,
+[data-theme="dark"] {
+  /* surfaces — depth by LAYER, never by heavy black shadow */
+  --bg-0: #0a0b0f;
+  --bg-1: #12141a;
+  --bg-2: #1a1d26;
+  --bg-3: #232734;
+  /* text */
+  --fg-0: #f5f7fa;
+  --fg-1: #a0a8b8;
+  --fg-2: #8891a1; /* darkened from the brief's #6b7484 — that value measured 3.16–4.17:1 against bg-0..3, below the 4.5:1 rule this same spec requires. See RELATORIO-SKILLS.md / plan.md. */
+  /* single accent — lime green */
+  --accent: #b6f53c;
+  --accent-dim: #8fcc22;
+  --accent-soft: rgba(182, 245, 60, 0.12);
+  /* fixed dark ink for text/icons on top of the accent surface — NOT tied to
+     --bg-0, which flips to near-white in light mode and would make
+     accent-colored buttons unreadable (measured 1.23:1 — see check-contrast.mjs) */
+  --accent-ink: #0a0b0f;
+  /* accent as foreground TEXT/icon color — kept equal to --accent in dark
+     mode (already ≥4.5:1 everywhere) but darkened in light mode, where raw
+     --accent on white measures 1.23:1. Graphical elements (ring strokes, bar
+     fills, badge soft backgrounds) keep --accent unchanged per the brief. */
+  --accent-text: var(--accent);
+  /* semantic */
+  --ok: #34d399;
+  --warn: #fbbf24;
+  --err: #f87171;
+  --info: #38bdf8; /* reserved for charts, never UI chrome */
+  /* borders and radii */
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.14);
+  --r-sm: 10px;
+  --r-md: 16px;
+  --r-lg: 22px;
+  --r-full: 999px;
+  /* spacing — 4pt scale */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 20px;
+  --s-6: 24px;
+  --s-8: 32px;
+  --s-10: 40px;
+  /* typography */
+  --t-cap: 12px;
+  --t-fn: 15px;
+  --t-body: 17px;
+  --t-t3: 20px;
+  --t-t2: 22px;
+  --t-t1: 28px;
+  --t-xl: 34px;
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+  --font-num: ui-rounded, "SF Pro Rounded", system-ui, sans-serif;
+  /* motion */
+  --ease: cubic-bezier(0.32, 0.72, 0, 1);
+  --dur: 220ms;
+  /* overlay shadow — the only heavy shadow allowed (sheets/modals) */
+  --shadow-overlay: 0 24px 64px -12px rgba(0, 0, 0, 0.6);
+  /* glass surfaces (topbar / tab bar) */
+  --glass-bg: rgba(18, 20, 26, 0.72);
+  --glass-blur: blur(24px) saturate(180%);
+}
+
+[data-theme="light"] {
+  --bg-0: #f7f8fa;
+  --bg-1: #ffffff;
+  --bg-2: #f0f2f5;
+  --bg-3: #e5e8ed;
+  --fg-0: #14161b;
+  --fg-1: #4a5160;
+  --fg-2: #5d6574; /* same reason as the dark value above, computed against the light surfaces */
+  --border: rgba(10, 11, 15, 0.08);
+  --border-strong: rgba(10, 11, 15, 0.14);
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --accent-text: #4b6f06;
+  --ok: #1d845f;
+  --warn: #986e03;
+  --err: #ed0c0c;
+}

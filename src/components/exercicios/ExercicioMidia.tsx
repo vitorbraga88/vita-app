@@ -106,18 +106,18 @@ export function ExercicioDetalheSheet({ exercicio, open, onOpenChange }: Exercic
           </div>
 
           <section aria-labelledby="instrucoes-exercicio">
-            <h3 id="instrucoes-exercicio" className="mb-[var(--s-3)] text-[var(--t-t3)] font-semibold text-fg-0">Como executar</h3>
+            <h3 id="instrucoes-exercicio" className="mb-[var(--s-3)] text-[length:var(--t-t3)] font-semibold text-fg-0">Como executar</h3>
             {instrucoes.length > 0 ? (
               <ol className="flex list-none flex-col gap-[var(--s-3)]">
                 {instrucoes.map((instrucao, index) => (
-                  <li key={instrucao} className="flex gap-[var(--s-3)] text-[var(--t-fn)] leading-6 text-fg-1">
+                  <li key={instrucao} className="flex gap-[var(--s-3)] text-[length:var(--t-fn)] leading-6 text-fg-1">
                     <span className="font-num text-accent-text">{String(index + 1).padStart(2, "0")}</span>
                     <span>{instrucao}</span>
                   </li>
                 ))}
               </ol>
             ) : (
-              <p className="text-[var(--t-fn)] text-fg-2">Nenhuma instrução cadastrada para este exercício.</p>
+              <p className="text-[length:var(--t-fn)] text-fg-2">Nenhuma instrução cadastrada para este exercício.</p>
             )}
           </section>
         </div>

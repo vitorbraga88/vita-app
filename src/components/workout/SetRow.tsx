@@ -24,7 +24,7 @@ export function SetRow({ numero, reps, cargaKg, concluida, pr, onRepsChange, onC
         concluida && "border-accent/40 bg-accent-soft"
       )}
     >
-      <span className="font-num w-6 shrink-0 text-center text-[var(--t-fn)] font-semibold text-fg-1">{numero}</span>
+      <span className="font-num w-6 shrink-0 text-center text-[length:var(--t-fn)] font-semibold text-fg-1">{numero}</span>
       <label className="flex flex-1 flex-col gap-0.5">
         <span className="sr-only">Repetições da série {numero}</span>
         <Input
@@ -53,7 +53,7 @@ export function SetRow({ numero, reps, cargaKg, concluida, pr, onRepsChange, onC
           aria-label={`Carga em quilos da série ${numero}`}
         />
       </label>
-      <span className="text-[var(--t-cap)] text-fg-2">kg</span>
+      <span className="text-[length:var(--t-cap)] text-fg-2">kg</span>
       {pr && (
         <Badge variant="accent" className="gap-1">
           <Trophy className="size-3" aria-hidden="true" /> PR

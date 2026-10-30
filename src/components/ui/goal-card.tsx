@@ -18,7 +18,7 @@ export function GoalCard({ label, valorAtual, valorAlvo, unidade }: GoalCardProp
         valorCentral={`${Math.round(valorAtual)}`}
         tamanho={88}
       />
-      <p className="text-[var(--t-cap)] text-fg-2">
+      <p className="text-[length:var(--t-cap)] text-fg-2">
         meta: <span className="font-num text-fg-1">{valorAlvo}{unidade}</span>
       </p>
     </Card>

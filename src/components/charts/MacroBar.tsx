@@ -12,7 +12,7 @@ export function MacroBar({ label, atualG, metaG, destaque }: MacroBarProps) {
   const percentual = metaG > 0 ? Math.min(100, Math.round((atualG / metaG) * 100)) : 0;
   return (
     <div className="flex flex-col gap-[var(--s-1)]">
-      <div className="flex items-baseline justify-between text-[var(--t-cap)]">
+      <div className="flex items-baseline justify-between text-[length:var(--t-cap)]">
         <span className="font-medium tracking-[.06em] text-fg-2 uppercase">{label}</span>
         <span className="font-num text-fg-1">
           {Math.round(atualG)}g <span className="text-fg-2">/ {metaG}g</span>

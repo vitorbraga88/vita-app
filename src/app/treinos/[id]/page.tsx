@@ -22,7 +22,7 @@ export default async function SessaoTreinoPage({ params }: { params: Promise<{ i
   if (treino.exercicios.length === 0) {
     return (
       <div className="flex flex-col gap-[var(--s-6)]">
-        <h1 className="text-[var(--t-t1)] font-semibold text-fg-0">{treino.nome}</h1>
+        <h1 className="text-[length:var(--t-t1)] font-semibold text-fg-0">{treino.nome}</h1>
         <div className="flex flex-col items-center gap-[var(--s-4)]">
           <EmptyState
             icon={Dumbbell}

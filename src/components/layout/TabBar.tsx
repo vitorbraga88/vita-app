@@ -28,7 +28,7 @@ export function TabBar() {
             href={item.href}
             aria-current={ativo ? "page" : undefined}
             className={cn(
-              "press-scale flex min-h-12 flex-1 flex-col items-center justify-center gap-0.5 py-[var(--s-2)] text-[var(--t-cap)]",
+              "press-scale flex min-h-12 flex-1 flex-col items-center justify-center gap-0.5 py-[var(--s-2)] text-[length:var(--t-cap)]",
               ativo ? "text-accent-text" : "text-fg-2"
             )}
           >

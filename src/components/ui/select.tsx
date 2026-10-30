@@ -71,7 +71,7 @@ function SelectContent({
 }
 
 function SelectLabel({ className, ...props }: SelectPrimitive.GroupLabel.Props) {
-  return <SelectPrimitive.GroupLabel data-slot="select-label" className={cn("px-[var(--s-2)] py-1 text-[var(--t-cap)] text-fg-2", className)} {...props} />;
+  return <SelectPrimitive.GroupLabel data-slot="select-label" className={cn("px-[var(--s-2)] py-1 text-[length:var(--t-cap)] text-fg-2", className)} {...props} />;
 }
 
 function SelectItem({ className, children, ...props }: SelectPrimitive.Item.Props) {
@@ -79,7 +79,7 @@ function SelectItem({ className, children, ...props }: SelectPrimitive.Item.Prop
     <SelectPrimitive.Item
       data-slot="select-item"
       className={cn(
-        "relative flex w-full cursor-default items-center gap-[var(--s-2)] rounded-[var(--r-sm)] py-[var(--s-2)] pr-8 pl-[var(--s-3)] text-[var(--t-fn)] text-fg-0 outline-hidden select-none data-highlighted:bg-bg-3 data-disabled:pointer-events-none data-disabled:opacity-40",
+        "relative flex w-full cursor-default items-center gap-[var(--s-2)] rounded-[var(--r-sm)] py-[var(--s-2)] pr-8 pl-[var(--s-3)] text-[length:var(--t-fn)] text-fg-0 outline-hidden select-none data-highlighted:bg-bg-3 data-disabled:pointer-events-none data-disabled:opacity-40",
         className
       )}
       {...props}

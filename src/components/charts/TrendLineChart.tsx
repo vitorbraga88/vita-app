@@ -24,7 +24,7 @@ function TooltipConteudo({
   if (!active || !payload?.length) return null;
   const ponto = payload[0].payload;
   return (
-    <div className="rounded-[var(--r-sm)] border border-border-strong bg-bg-2 px-[var(--s-3)] py-[var(--s-2)] text-[var(--t-cap)] text-fg-0">
+    <div className="rounded-[var(--r-sm)] border border-border-strong bg-bg-2 px-[var(--s-3)] py-[var(--s-2)] text-[length:var(--t-cap)] text-fg-0">
       <p className="text-fg-2">{formatarDataCurta(ponto.data)}</p>
       <p className="font-num font-semibold">
         {ponto.valor} {unidade}

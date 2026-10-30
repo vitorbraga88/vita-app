@@ -115,7 +115,7 @@ export function RestTimer({ duracaoInicialSeg = DURACAO_PADRAO_SEG }: { duracaoI
           <Plus className="size-4" />
         </Button>
       </div>
-      <p className="max-w-xs text-center text-[var(--t-cap)] text-fg-2">
+      <p className="max-w-xs text-center text-[length:var(--t-cap)] text-fg-2">
         O som pode atrasar se esta aba ficar em segundo plano — o tempo exibido se corrige sozinho ao voltar o foco.
       </p>
     </div>

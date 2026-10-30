@@ -4,7 +4,7 @@ import { Loader2 } from "lucide-react";
 import { cn } from "cn";
 
 const buttonVariants = cva(
-  "press-scale inline-flex shrink-0 items-center justify-center gap-2 rounded-[var(--r-md)] text-[var(--t-fn)] font-semibold whitespace-nowrap outline-none disabled:pointer-events-none disabled:opacity-40 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "press-scale inline-flex shrink-0 items-center justify-center gap-2 rounded-[var(--r-md)] text-[length:var(--t-fn)] font-semibold whitespace-nowrap outline-none disabled:pointer-events-none disabled:opacity-40 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {

@@ -83,7 +83,7 @@ function SheetFooter({ className, ...props }: React.ComponentProps<"div">) {
 
 function SheetTitle({ className, ...props }: SheetPrimitive.Title.Props) {
   return (
-    <SheetPrimitive.Title data-slot="sheet-title" className={cn("text-[var(--t-t3)] font-semibold text-fg-0", className)} {...props} />
+    <SheetPrimitive.Title data-slot="sheet-title" className={cn("text-[length:var(--t-t3)] font-semibold text-fg-0", className)} {...props} />
   );
 }
 
@@ -91,7 +91,7 @@ function SheetDescription({ className, ...props }: SheetPrimitive.Description.Pr
   return (
     <SheetPrimitive.Description
       data-slot="sheet-description"
-      className={cn("text-[var(--t-fn)] text-fg-1", className)}
+      className={cn("text-[length:var(--t-fn)] text-fg-1", className)}
       {...props}
     />
   );

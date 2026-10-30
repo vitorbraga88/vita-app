@@ -121,7 +121,7 @@ export function MedidasSecao({ hoje, medidas }: MedidasSecaoProps) {
                   key={m.id}
                   className="flex flex-col gap-[var(--s-2)] border-b border-border pb-[var(--s-4)] last:border-0 last:pb-0"
                 >
-                  <p className="text-[var(--t-cap)] font-medium tracking-[.06em] text-fg-2 uppercase">{formatarDataCurta(m.data)}</p>
+                  <p className="text-[length:var(--t-cap)] font-medium tracking-[.06em] text-fg-2 uppercase">{formatarDataCurta(m.data)}</p>
                   <div className="grid grid-cols-2 gap-[var(--s-3)] sm:grid-cols-4">
                     {CAMPOS.map(({ chave, label }) => {
                       const valor = m[chave];
@@ -129,15 +129,15 @@ export function MedidasSecao({ hoje, medidas }: MedidasSecaoProps) {
                       const variacao = valor !== null && valorAnterior !== null ? valor - valorAnterior : null;
                       return (
                         <div key={chave} className="flex flex-col gap-0.5">
-                          <span className="text-[var(--t-cap)] text-fg-2">{label}</span>
+                          <span className="text-[length:var(--t-cap)] text-fg-2">{label}</span>
                           {valor !== null ? (
                             <div className="flex items-baseline gap-1">
-                              <span className="font-num text-[var(--t-body)] font-semibold text-fg-0">{valor}</span>
-                              <span className="text-[var(--t-cap)] text-fg-2">cm</span>
+                              <span className="font-num text-[length:var(--t-body)] font-semibold text-fg-0">{valor}</span>
+                              <span className="text-[length:var(--t-cap)] text-fg-2">cm</span>
                               {variacao !== null && variacao !== 0 && (
                                 <span
                                   className={cn(
-                                    "flex items-center gap-0.5 text-[var(--t-cap)] font-medium",
+                                    "flex items-center gap-0.5 text-[length:var(--t-cap)] font-medium",
                                     variacao > 0 ? "text-ok" : "text-err"
                                   )}
                                 >
@@ -147,7 +147,7 @@ export function MedidasSecao({ hoje, medidas }: MedidasSecaoProps) {
                               )}
                             </div>
                           ) : (
-                            <span className="text-[var(--t-fn)] text-fg-2">—</span>
+                            <span className="text-[length:var(--t-fn)] text-fg-2">—</span>
                           )}
                         </div>
                       );

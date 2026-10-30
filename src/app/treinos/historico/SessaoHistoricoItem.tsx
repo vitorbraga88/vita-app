@@ -55,10 +55,10 @@ export function SessaoHistoricoItem({ sessao }: { sessao: SessaoResumo }) {
         }
       >
         <div className="flex flex-col gap-0.5">
-          <p className="text-[var(--t-t3)] font-semibold text-fg-0">{sessao.treinoNome}</p>
-          <p className="text-[var(--t-cap)] text-fg-2">{formatarDataHora(sessao.iniciadoEm)}</p>
+          <p className="text-[length:var(--t-t3)] font-semibold text-fg-0">{sessao.treinoNome}</p>
+          <p className="text-[length:var(--t-cap)] text-fg-2">{formatarDataHora(sessao.iniciadoEm)}</p>
         </div>
-        <div className="flex items-center gap-[var(--s-4)] text-[var(--t-cap)] text-fg-1">
+        <div className="flex items-center gap-[var(--s-4)] text-[length:var(--t-cap)] text-fg-1">
           <span className="flex items-center gap-1">
             <Timer className="size-3.5" aria-hidden="true" />
             <span className="font-num">{sessao.duracaoMin}</span> min
@@ -81,18 +81,18 @@ export function SessaoHistoricoItem({ sessao }: { sessao: SessaoResumo }) {
         <div className="flex flex-col gap-[var(--s-4)] overflow-y-auto">
           {carregando && !detalhe && [0, 1, 2].map((i) => <Skeleton key={i} className="h-16 w-full" />)}
           {!carregando && detalhe && detalhe.series.length === 0 && (
-            <p className="text-[var(--t-fn)] text-fg-1">Nenhuma série registrada nesta sessão.</p>
+            <p className="text-[length:var(--t-fn)] text-fg-1">Nenhuma série registrada nesta sessão.</p>
           )}
           {!carregando &&
             detalhe &&
             agruparPorExercicio(detalhe.series).map(([nome, series]) => (
               <div key={nome} className="flex flex-col gap-[var(--s-2)]">
-                <p className="text-[var(--t-fn)] font-semibold text-fg-0">{nome}</p>
+                <p className="text-[length:var(--t-fn)] font-semibold text-fg-0">{nome}</p>
                 <div className="flex flex-col gap-1">
                   {series.map((s) => (
                     <div
                       key={s.id}
-                      className="flex items-center justify-between gap-[var(--s-2)] rounded-[var(--r-sm)] border border-border bg-bg-1 px-[var(--s-3)] py-[var(--s-2)] text-[var(--t-fn)]"
+                      className="flex items-center justify-between gap-[var(--s-2)] rounded-[var(--r-sm)] border border-border bg-bg-1 px-[var(--s-3)] py-[var(--s-2)] text-[length:var(--t-fn)]"
                     >
                       <span className="text-fg-1">Série {s.numero_serie}</span>
                       <span className="font-num text-fg-0">
@@ -109,7 +109,7 @@ export function SessaoHistoricoItem({ sessao }: { sessao: SessaoResumo }) {
               </div>
             ))}
           {!carregando && !detalhe && (
-            <p className="text-[var(--t-fn)] text-fg-1">Não foi possível carregar o detalhe desta sessão.</p>
+            <p className="text-[length:var(--t-fn)] text-fg-1">Não foi possível carregar o detalhe desta sessão.</p>
           )}
         </div>
       </SheetContent>

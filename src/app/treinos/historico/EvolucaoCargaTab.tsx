@@ -54,12 +54,12 @@ export function EvolucaoCargaTab({ exercicios, exercicioInicialId, evolucaoInici
       </Select>
 
       {dados.length === 0 ? (
-        <p className="py-[var(--s-8)] text-center text-[var(--t-fn)] text-fg-1">
+        <p className="py-[var(--s-8)] text-center text-[length:var(--t-fn)] text-fg-1">
           {carregando ? "Carregando..." : "Ainda sem dados de carga para este exercício."}
         </p>
       ) : (
         <>
-          <div className={cn("flex items-baseline gap-1 text-[var(--t-fn)] font-medium", positiva ? "text-ok" : "text-err")}>
+          <div className={cn("flex items-baseline gap-1 text-[length:var(--t-fn)] font-medium", positiva ? "text-ok" : "text-err")}>
             {positiva ? <TrendingUp className="size-4" aria-hidden="true" /> : <TrendingDown className="size-4" aria-hidden="true" />}
             <span className="font-num">
               {positiva ? "+" : ""}

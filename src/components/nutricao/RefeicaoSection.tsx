@@ -22,7 +22,7 @@ export function RefeicaoSection({ periodo, label, data, refeicao }: RefeicaoSect
       </CardHeader>
       <CardContent className="flex flex-col gap-[var(--s-1)]">
         {itens.length === 0 ? (
-          <p className="text-[var(--t-fn)] text-fg-2">Nenhum item adicionado.</p>
+          <p className="text-[length:var(--t-fn)] text-fg-2">Nenhum item adicionado.</p>
         ) : (
           itens.map((item) => (
             <ItemRefeicaoRow

@@ -52,7 +52,7 @@ export function ProgressRing({ percentual, label, valorCentral, tamanho = 96, cl
           {valorCentral}
         </text>
       </svg>
-      <span className="text-center text-[var(--t-cap)] font-medium tracking-[.06em] text-fg-2 uppercase">{label}</span>
+      <span className="text-center text-[length:var(--t-cap)] font-medium tracking-[.06em] text-fg-2 uppercase">{label}</span>
     </div>
   );
 }

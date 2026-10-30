@@ -122,7 +122,7 @@ export function EditarExerciciosSheet({ open, onOpenChange, treino, exerciciosDi
         <div className="flex flex-1 flex-col gap-[var(--s-4)] overflow-y-auto">
           <div className="flex flex-col gap-[var(--s-2)]">
             {itens.length === 0 && (
-              <p className="text-[var(--t-fn)] text-fg-2">Nenhum exercício adicionado ainda.</p>
+              <p className="text-[length:var(--t-fn)] text-fg-2">Nenhum exercício adicionado ainda.</p>
             )}
             {itens.map((item, indice) => (
               <div key={item.exercicio_id} className="flex items-center gap-[var(--s-2)] rounded-[var(--r-md)] border border-border bg-bg-1 p-[var(--s-3)]">
@@ -147,7 +147,7 @@ export function EditarExerciciosSheet({ open, onOpenChange, treino, exerciciosDi
                   </button>
                 </div>
                 <ExercicioThumbnail exercicio={item} tamanho="editor" />
-                <p className="flex-1 text-[var(--t-fn)] font-medium text-fg-0">{item.nome}</p>
+                <p className="flex-1 text-[length:var(--t-fn)] font-medium text-fg-0">{item.nome}</p>
                 <Input
                   type="number"
                   inputMode="numeric"
@@ -189,7 +189,7 @@ export function EditarExerciciosSheet({ open, onOpenChange, treino, exerciciosDi
             </div>
             <div className="flex max-h-48 flex-col gap-1 overflow-y-auto">
               {candidatos.length === 0 ? (
-                <p className="px-[var(--s-1)] py-[var(--s-2)] text-[var(--t-cap)] text-fg-2">
+                <p className="px-[var(--s-1)] py-[var(--s-2)] text-[length:var(--t-cap)] text-fg-2">
                   {exerciciosDisponiveis.length === 0 ? "Nenhum exercício cadastrado." : "Nenhum exercício disponível para adicionar."}
                 </p>
               ) : (
@@ -198,7 +198,7 @@ export function EditarExerciciosSheet({ open, onOpenChange, treino, exerciciosDi
                     key={exercicio.id}
                     type="button"
                     onClick={() => adicionar(exercicio)}
-                    className="press-scale flex items-center justify-between gap-[var(--s-2)] rounded-[var(--r-sm)] px-[var(--s-2)] py-[var(--s-2)] text-left text-[var(--t-fn)] text-fg-0 hover:bg-bg-2"
+                    className="press-scale flex items-center justify-between gap-[var(--s-2)] rounded-[var(--r-sm)] px-[var(--s-2)] py-[var(--s-2)] text-left text-[length:var(--t-fn)] text-fg-0 hover:bg-bg-2"
                   >
                     {exercicio.nome}
                     <Plus className="size-4 shrink-0 text-accent-text" aria-hidden="true" />

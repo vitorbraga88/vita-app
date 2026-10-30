@@ -13,8 +13,8 @@ export function EmptyState({ icon: Icon, titulo, descricao, acaoLabel, onAcao }:
   return (
     <div className="flex flex-col items-center justify-center gap-[var(--s-3)] px-[var(--s-5)] py-[var(--s-10)] text-center">
       <Icon className="size-10 text-fg-2" aria-hidden="true" />
-      <p className="text-[var(--t-t3)] font-semibold text-fg-0">{titulo}</p>
-      <p className="max-w-sm text-[var(--t-fn)] text-fg-1">{descricao}</p>
+      <p className="text-[length:var(--t-t3)] font-semibold text-fg-0">{titulo}</p>
+      <p className="max-w-sm text-[length:var(--t-fn)] text-fg-1">{descricao}</p>
       {acaoLabel && onAcao && (
         <Button variant="ghost" onClick={onAcao} className="mt-[var(--s-2)]">
           {acaoLabel}

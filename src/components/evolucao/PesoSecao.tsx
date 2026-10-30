@@ -110,7 +110,7 @@ export function PesoSecao({ hoje, registros, metaAlvoKg }: PesoSecaoProps) {
                     type="button"
                     onClick={() => setJanela(j)}
                     className={cn(
-                      "rounded-[var(--r-sm)] px-[var(--s-3)] py-1 text-[var(--t-cap)] font-medium transition-colors",
+                      "rounded-[var(--r-sm)] px-[var(--s-3)] py-1 text-[length:var(--t-cap)] font-medium transition-colors",
                       janela === j ? "bg-accent text-accent-ink" : "text-fg-1 hover:text-fg-0"
                     )}
                   >
@@ -123,7 +123,7 @@ export function PesoSecao({ hoje, registros, metaAlvoKg }: PesoSecaoProps) {
               {dadosGrafico.length > 0 ? (
                 <TrendLineChart dados={dadosGrafico} unidade="kg" metaValor={metaAlvoKg ?? undefined} />
               ) : (
-                <p className="py-[var(--s-6)] text-center text-[var(--t-fn)] text-fg-2">Sem registros nesse período.</p>
+                <p className="py-[var(--s-6)] text-center text-[length:var(--t-fn)] text-fg-2">Sem registros nesse período.</p>
               )}
             </CardContent>
           </Card>

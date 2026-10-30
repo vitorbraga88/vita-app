@@ -131,7 +131,7 @@ export function SessaoGuiadaClient({ sessaoId: sessaoInicial, treinoId, treinoNo
   return (
     <div className="flex flex-col gap-[var(--s-6)] pb-[var(--s-10)]">
       <div className="flex items-center justify-between gap-[var(--s-4)]">
-        <h1 className="text-[var(--t-t1)] font-semibold text-fg-0">{treinoNome}</h1>
+        <h1 className="text-[length:var(--t-t1)] font-semibold text-fg-0">{treinoNome}</h1>
         <Button variant="ghost" onClick={() => setMostrarTimer((v) => !v)}>
           <Timer className="size-4" aria-hidden="true" />
           {mostrarTimer ? "Ocultar descanso" : "Descansar"}

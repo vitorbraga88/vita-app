@@ -40,7 +40,7 @@ export function SeletorData({ data, hoje }: SeletorDataProps) {
       >
         <ChevronLeft className="size-4" />
       </Button>
-      <p className="text-[var(--t-t3)] font-semibold text-fg-0 capitalize">{label}</p>
+      <p className="text-[length:var(--t-t3)] font-semibold text-fg-0 capitalize">{label}</p>
       <Button
         variant="ghost"
         size="icon"

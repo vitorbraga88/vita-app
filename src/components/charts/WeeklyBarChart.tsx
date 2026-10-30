@@ -17,7 +17,7 @@ function formatarDiaCurto(iso: string): string {
 function TooltipConteudo({ active, payload, label }: { active?: boolean; payload?: Array<{ value: number }>; label?: string }) {
   if (!active || !payload?.length) return null;
   return (
-    <div className="rounded-[var(--r-sm)] border border-border-strong bg-bg-2 px-[var(--s-3)] py-[var(--s-2)] text-[var(--t-cap)] text-fg-0">
+    <div className="rounded-[var(--r-sm)] border border-border-strong bg-bg-2 px-[var(--s-3)] py-[var(--s-2)] text-[length:var(--t-cap)] text-fg-0">
       <p className="text-fg-2">{label}</p>
       <p className="font-num font-semibold">{payload[0].value} treino(s)</p>
     </div>

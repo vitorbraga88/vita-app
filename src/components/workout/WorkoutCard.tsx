@@ -27,8 +27,8 @@ export function WorkoutCard({ treinoId, nome, divisao, numeroExercicios }: Worko
           <Dumbbell className="size-5" aria-hidden="true" />
         </span>
         <div className="flex flex-col gap-0.5">
-          <p className="text-[var(--t-t3)] font-semibold text-fg-0">{nome}</p>
-          <p className="text-[var(--t-fn)] text-fg-1">
+          <p className="text-[length:var(--t-t3)] font-semibold text-fg-0">{nome}</p>
+          <p className="text-[length:var(--t-fn)] text-fg-1">
             {LABEL_DIVISAO[divisao] ?? divisao} · {numeroExercicios} exercícios
           </p>
         </div>

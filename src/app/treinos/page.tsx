@@ -19,7 +19,7 @@ export default async function TreinosPage() {
   return (
     <div className="flex flex-col gap-[var(--s-6)]">
       <div className="flex flex-col gap-[var(--s-4)]">
-        <h1 className="text-[var(--t-t1)] font-semibold text-fg-0">Treinos</h1>
+        <h1 className="text-[length:var(--t-t1)] font-semibold text-fg-0">Treinos</h1>
         <SecaoNav />
       </div>
       <TreinosClient treinos={treinos} exerciciosDisponiveis={exerciciosDisponiveis} />

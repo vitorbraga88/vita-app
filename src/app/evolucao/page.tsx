@@ -20,7 +20,7 @@ export default async function EvolucaoPage() {
 
   return (
     <div className="flex flex-col gap-[var(--s-6)]">
-      <h1 className="text-[var(--t-t1)] font-semibold text-fg-0">Evolução</h1>
+      <h1 className="text-[length:var(--t-t1)] font-semibold text-fg-0">Evolução</h1>
 
       <Tabs defaultValue="peso">
         <TabsList>

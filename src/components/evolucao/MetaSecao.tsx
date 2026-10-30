@@ -89,8 +89,8 @@ export function MetaSecao({ metaAlvoKg }: MetaSecaoProps) {
           </form>
         ) : (
           <div className="flex items-center justify-between">
-            <p className="text-[var(--t-fn)] text-fg-1">
-              Peso alvo: <span className="font-num text-[var(--t-t2)] font-semibold text-fg-0">{metaAlvoKg}</span> kg
+            <p className="text-[length:var(--t-fn)] text-fg-1">
+              Peso alvo: <span className="font-num text-[length:var(--t-t2)] font-semibold text-fg-0">{metaAlvoKg}</span> kg
             </p>
             <Button variant="ghost" onClick={() => setEditando(true)}>
               Editar

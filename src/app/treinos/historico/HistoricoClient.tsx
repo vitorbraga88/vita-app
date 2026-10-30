@@ -28,7 +28,7 @@ export function HistoricoClient({ sessoes, exerciciosComHistorico, exercicioInic
 
   return (
     <div className="flex flex-col gap-[var(--s-6)]">
-      <h1 className="text-[var(--t-t1)] font-semibold text-fg-0">Histórico de treinos</h1>
+      <h1 className="text-[length:var(--t-t1)] font-semibold text-fg-0">Histórico de treinos</h1>
 
       <Tabs defaultValue="historico">
         <TabsList>
@@ -42,7 +42,7 @@ export function HistoricoClient({ sessoes, exerciciosComHistorico, exercicioInic
         </TabsContent>
         <TabsContent value="evolucao">
           {exerciciosComHistorico.length === 0 ? (
-            <p className="py-[var(--s-8)] text-center text-[var(--t-fn)] text-fg-1">
+            <p className="py-[var(--s-8)] text-center text-[length:var(--t-fn)] text-fg-1">
               Registre cargas em um treino para acompanhar sua evolução aqui.
             </p>
           ) : (

@@ -23,7 +23,7 @@ export function SecaoNav() {
             href={item.href}
             aria-current={ativo ? "page" : undefined}
             className={cn(
-              "relative inline-flex h-11 items-center justify-center whitespace-nowrap px-[var(--s-1)] text-[var(--t-fn)] font-medium text-fg-1 outline-none transition-colors",
+              "relative inline-flex h-11 items-center justify-center whitespace-nowrap px-[var(--s-1)] text-[length:var(--t-fn)] font-medium text-fg-1 outline-none transition-colors",
               "hover:text-fg-0",
               "after:absolute after:inset-x-0 after:-bottom-px after:h-0.5 after:scale-x-0 after:bg-accent after:transition-transform after:content-['']",
               ativo && "text-fg-0 after:scale-x-100"

@@ -136,11 +136,11 @@ export function AdicionarItemSheet({
 
         {selecionado ? (
           <div className="flex items-center justify-between rounded-[var(--r-md)] border border-accent/30 bg-accent-soft px-[var(--s-4)] py-[var(--s-3)]">
-            <span className="text-[var(--t-fn)] font-medium text-fg-0">{selecionado.nome}</span>
+            <span className="text-[length:var(--t-fn)] font-medium text-fg-0">{selecionado.nome}</span>
             <Button
               type="button"
               variant="ghost"
-              className="h-auto px-2 py-1 text-[var(--t-cap)]"
+              className="h-auto px-2 py-1 text-[length:var(--t-cap)]"
               onClick={() => setSelecionado(null)}
             >
               Trocar
@@ -148,9 +148,9 @@ export function AdicionarItemSheet({
           </div>
         ) : (
           <div className="flex max-h-56 flex-col gap-1 overflow-y-auto">
-            {buscando && <p className="px-1 text-[var(--t-cap)] text-fg-2">Buscando…</p>}
+            {buscando && <p className="px-1 text-[length:var(--t-cap)] text-fg-2">Buscando…</p>}
             {!buscando && busca.trim() && resultados.length === 0 && (
-              <p className="px-1 text-[var(--t-cap)] text-fg-2">Nenhum alimento encontrado.</p>
+              <p className="px-1 text-[length:var(--t-cap)] text-fg-2">Nenhum alimento encontrado.</p>
             )}
             {resultados.map((alimento) => (
               <button
@@ -159,8 +159,8 @@ export function AdicionarItemSheet({
                 onClick={() => setSelecionado(alimento)}
                 className="press-scale flex items-center justify-between rounded-[var(--r-md)] border border-border px-[var(--s-4)] py-[var(--s-3)] text-left transition-colors hover:border-border-strong hover:bg-bg-2"
               >
-                <span className="text-[var(--t-fn)] text-fg-0">{alimento.nome}</span>
-                <span className="font-num text-[var(--t-cap)] text-fg-2">{alimento.kcal_100g} kcal/100g</span>
+                <span className="text-[length:var(--t-fn)] text-fg-0">{alimento.nome}</span>
+                <span className="font-num text-[length:var(--t-cap)] text-fg-2">{alimento.kcal_100g} kcal/100g</span>
               </button>
             ))}
           </div>

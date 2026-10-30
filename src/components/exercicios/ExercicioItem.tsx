@@ -20,7 +20,7 @@ export function ExercicioItem({ exercicio, onEditar, onExcluir, onMostrarDetalhe
         <ExercicioThumbnail exercicio={exercicio} onAbrir={onMostrarDetalhes} />
         <div className="min-w-0 flex-1">
           <div className="flex items-start justify-between gap-[var(--s-2)]">
-            <p className="text-[var(--t-fn)] font-semibold text-fg-0">{exercicio.nome}</p>
+            <p className="text-[length:var(--t-fn)] font-semibold text-fg-0">{exercicio.nome}</p>
             <div className="flex shrink-0 items-center gap-1">
               <Button
                 variant="ghost"

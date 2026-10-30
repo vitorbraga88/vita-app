@@ -30,8 +30,8 @@ export function ItemRefeicaoRow({ itemId, nome, quantidadeG, kcal }: ItemRefeica
   return (
     <div className="flex items-center justify-between gap-[var(--s-3)] rounded-[var(--r-md)] px-[var(--s-2)] py-[var(--s-2)] transition-colors hover:bg-bg-2">
       <div className="flex flex-col">
-        <span className="text-[var(--t-fn)] text-fg-0">{nome}</span>
-        <span className="text-[var(--t-cap)] text-fg-2">
+        <span className="text-[length:var(--t-fn)] text-fg-0">{nome}</span>
+        <span className="text-[length:var(--t-cap)] text-fg-2">
           <span className="font-num">{quantidadeG}</span>g · <span className="font-num">{kcal}</span> kcal
         </span>
       </div>

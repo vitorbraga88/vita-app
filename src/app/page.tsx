@@ -18,14 +18,14 @@ export default async function DashboardPage() {
   return (
     <div className="flex flex-col gap-[var(--s-6)]">
       <div className="flex flex-col gap-1">
-        <h1 className="text-[var(--t-t1)] font-semibold text-fg-0">Olá, {dados.usuarioNome.split(" ")[0]}</h1>
-        <p className="text-[var(--t-fn)] text-fg-1 capitalize">{hoje}</p>
+        <h1 className="text-[length:var(--t-t1)] font-semibold text-fg-0">Olá, {dados.usuarioNome.split(" ")[0]}</h1>
+        <p className="text-[length:var(--t-fn)] text-fg-1 capitalize">{hoje}</p>
       </div>
 
       {dados.streak > 0 && (
         <div className="flex items-center gap-[var(--s-2)] rounded-[var(--r-md)] border border-accent/30 bg-accent-soft px-[var(--s-4)] py-[var(--s-3)]">
           <Flame className="size-5 text-accent-text" aria-hidden="true" />
-          <p className="text-[var(--t-fn)] font-medium text-fg-0">
+          <p className="text-[length:var(--t-fn)] font-medium text-fg-0">
             <span className="font-num font-semibold">{dados.streak}</span> {dados.streak === 1 ? "dia seguido" : "dias seguidos"} de treino
           </p>
         </div>
@@ -38,7 +38,7 @@ export default async function DashboardPage() {
       </div>
 
       <section aria-labelledby="metas-heading" className="flex flex-col gap-[var(--s-4)]">
-        <h2 id="metas-heading" className="text-[var(--t-t2)] font-semibold text-fg-0">
+        <h2 id="metas-heading" className="text-[length:var(--t-t2)] font-semibold text-fg-0">
           Metas de hoje
         </h2>
         <div className="grid grid-cols-1 gap-[var(--s-4)] sm:grid-cols-3">
@@ -55,7 +55,7 @@ export default async function DashboardPage() {
       <Card>
         <CardHeader className="flex-row items-baseline justify-between">
           <CardTitle>Evolução semanal</CardTitle>
-          <span className="text-[var(--t-cap)] text-fg-2">
+          <span className="text-[length:var(--t-cap)] text-fg-2">
             <span className="font-num text-fg-1">{dados.treinosPorDia.reduce((acc, d) => acc + d.total, 0)}</span> treinos nos últimos 7 dias
           </span>
         </CardHeader>
@@ -65,7 +65,7 @@ export default async function DashboardPage() {
       </Card>
 
       <section aria-labelledby="proximo-treino-heading" className="flex flex-col gap-[var(--s-4)]">
-        <h2 id="proximo-treino-heading" className="text-[var(--t-t2)] font-semibold text-fg-0">
+        <h2 id="proximo-treino-heading" className="text-[length:var(--t-t2)] font-semibold text-fg-0">
           Próximo treino
         </h2>
         {dados.proximoTreino ? (

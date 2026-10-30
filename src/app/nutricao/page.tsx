@@ -23,8 +23,8 @@ export default async function NutricaoPage({ searchParams }: PageProps<"/nutrica
   return (
     <div className="flex flex-col gap-[var(--s-6)]">
       <div className="flex flex-col gap-1">
-        <h1 className="text-[var(--t-t1)] font-semibold text-fg-0">Nutrição</h1>
-        <p className="text-[var(--t-fn)] text-fg-1">Acompanhe suas refeições e macros do dia.</p>
+        <h1 className="text-[length:var(--t-t1)] font-semibold text-fg-0">Nutrição</h1>
+        <p className="text-[length:var(--t-fn)] text-fg-1">Acompanhe suas refeições e macros do dia.</p>
       </div>
 
       <SeletorData data={data} hoje={hoje} />
@@ -33,9 +33,9 @@ export default async function NutricaoPage({ searchParams }: PageProps<"/nutrica
         <CardHeader className="flex-row items-baseline justify-between">
           <CardTitle>Total do dia</CardTitle>
           <div className="flex items-baseline gap-1">
-            <span className="font-num text-[var(--t-t2)] font-semibold text-fg-0">{kcalAtual}</span>
+            <span className="font-num text-[length:var(--t-t2)] font-semibold text-fg-0">{kcalAtual}</span>
             {nutricao.metaKcal !== null && (
-              <span className="font-num text-[var(--t-fn)] text-fg-2">/ {nutricao.metaKcal} kcal</span>
+              <span className="font-num text-[length:var(--t-fn)] text-fg-2">/ {nutricao.metaKcal} kcal</span>
             )}
           </div>
         </CardHeader>
@@ -43,7 +43,7 @@ export default async function NutricaoPage({ searchParams }: PageProps<"/nutrica
         {acimaDaMeta && (
           <div className="flex items-center gap-[var(--s-2)] rounded-[var(--r-md)] border border-warn/30 bg-warn/10 px-[var(--s-4)] py-[var(--s-2)]">
             <TriangleAlert className="size-4 shrink-0 text-warn" aria-hidden="true" />
-            <p className="text-[var(--t-cap)] font-medium text-warn">Você passou da meta de calorias de hoje.</p>
+            <p className="text-[length:var(--t-cap)] font-medium text-warn">Você passou da meta de calorias de hoje.</p>
           </div>
         )}
 
@@ -89,7 +89,7 @@ export default async function NutricaoPage({ searchParams }: PageProps<"/nutrica
  * but the UI must still degrade gracefully instead of rendering a 0%-filled bar as if it meant something). */
 function MetaAusente({ label }: { label: string }) {
   return (
-    <div className="flex items-center justify-between text-[var(--t-cap)] text-fg-2">
+    <div className="flex items-center justify-between text-[length:var(--t-cap)] text-fg-2">
       <span className="font-medium tracking-[.06em] uppercase">{label}</span>
       <span>meta não definida</span>
     </div>

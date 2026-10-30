@@ -16,7 +16,7 @@ export default async function HistoricoPage() {
   if (sessoes.length === 0) {
     return (
       <div className="flex flex-col gap-[var(--s-6)]">
-        <h1 className="text-[var(--t-t1)] font-semibold text-fg-0">Histórico de treinos</h1>
+        <h1 className="text-[length:var(--t-t1)] font-semibold text-fg-0">Histórico de treinos</h1>
         <div className="flex flex-col items-center gap-[var(--s-4)]">
           <EmptyState
             icon={History}

@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@0.0.83", "--headless", "--isolated"]
+    }
+  },
+  "_pendencias": {
+    "figma": "Servidor 'figma-developer-mcp@0.13.2' (Framelink) não foi adicionado: requer FIGMA_API_KEY, ausente neste ambiente (ver .env.example). Para habilitar, defina a variável e adicione manualmente: { \"command\": \"npx\", \"args\": [\"-y\", \"figma-developer-mcp\", \"--stdio\"], \"env\": { \"FIGMA_API_KEY\": \"${FIGMA_API_KEY}\" } }"
+  }
+}

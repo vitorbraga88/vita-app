@@ -191,9 +191,52 @@ não está concluída.
 
 ## 5. Processo de iteração do Dashboard (v1 → v3)
 
-Documentado com screenshots em `screenshots/v1-dashboard.png`,
-`v2-dashboard.png`, `v3-dashboard.png`. Resumo das mudanças em cada round em
-`progresso.md`.
+Screenshots em `screenshots/v1-dashboard.png`, `v2-dashboard.png`,
+`v3-dashboard.png` (+ variantes `-mobile`). O que mudou em cada rodada, com
+evidência real (não estética hipotética):
+
+**v1 → v2** — analisado com `npx tsc`, console do navegador e um script de
+contraste WCAG real:
+1. **Bug de console real**: Base UI `Button` avisava "expected a native
+   `<button>`" ao renderizar como `<Link>` via `render=`. Corrigido: `Button`
+   agora define `nativeButton={false}` automaticamente quando recebe `render`.
+2. **Violação de contraste medida**: `--fg-2` do próprio prompt (`#6B7484`)
+   mede 3.16–4.17:1 contra `--bg-0..3` — abaixo do mínimo 4.5:1 que a mesma
+   spec exige para texto normal (labels `--t-cap` usam `--fg-2`). Recalculado
+   um tom mais claro (`#8891A1` dark / `#5D6574` light) que mede ≥4.5:1 em
+   todas as camadas — ver `scripts/check-contrast.mjs`.
+3. **Bug de fuso horário real**: o gráfico semanal mostrava o rótulo de dia
+   errado (ex.: "sex" na barra de hoje quando hoje era quinta) porque
+   `toISOString()` (UTC) e `date('now')` do SQLite (UTC) divergem da data
+   local em America/Recife (UTC-3) à noite. Corrigido com
+   `src/lib/domain/dataLocal.ts`, usado em todo lugar que antes chamava
+   `toISOString()` ou `date('now', ...)`.
+4. Removida a faixa de "dev tools indicator" do Next.js dos screenshots
+   (`devIndicators: false`) — poluía a leitura visual perto da tab bar mobile.
+5. **Bug cross-tema real, achado pelo próprio script de contraste**: o botão
+   primário usava `text-bg-0` para o texto sobre fundo `--accent` — funciona
+   no dark (`--bg-0` é quase preto) mas no light `--bg-0` vira quase branco,
+   deixando o texto do botão ilegível sobre o lime (medido 1.23:1). Criado
+   `--accent-ink` (preto fixo, não amarra ao tema) para texto sobre
+   superfícies de acento, e `--accent-text` (variante escurecida só no light)
+   para quando o acento é a cor do TEXTO em vez do fundo (logo "VITA", label
+   ativo da tab bar, ícones decorativos, badge "PR"). Gráficos (anéis/barras)
+   mantêm `--accent` puro nos dois temas — são visualização de dado, exceção
+   comum em WCAG, não texto. `ok`/`warn`/`err` também ganharam tons mais
+   escuros só no light (`#1D845F`/`#986E03`/`#ED0C0C`) pelo mesmo motivo.
+
+**v2 → v3** — polimento de informação, não só estética:
+1. Card "Evolução semanal" ganhou contagem total ("N treinos nos últimos 7
+   dias") ao lado do título — antes o card não dizia o total, só mostrava
+   barras.
+2. Barras do gráfico ganharam rótulo de valor no topo (`LabelList`) para
+   leitura sem precisar hover no tooltip.
+3. **Bug descoberto ao verificar o próprio fix**: os rótulos não apareciam no
+   screenshot mesmo estando no DOM com cor/posição corretas — causa real:
+   animação de entrada do Recharts (`animationDuration` padrão) ainda rodando
+   no momento do screenshot. Corrigido com `isAnimationActive={false}` nos
+   gráficos (também torna screenshots determinísticos para QA).
+
 
 ## 6. Modo claro (opcional, toggle em /perfil)
 

@@ -32,7 +32,7 @@ ambiente (ver `RELATORIO-SKILLS.md`, seção de auditoria).
 | `npm run dev` | servidor de desenvolvimento, porta 3900 |
 | `npm run build` | build de produção |
 | `npm run start` | serve o build, porta 3900 |
-| `npm run seed` | recria o banco e reaplica o catálogo local de mídia de exercícios |
+| `npm run seed` | recria `data/vita.dev.db` e reaplica o catálogo local de mídia |
 | `npm run test` | testes unitários (Vitest) — regras de negócio em `src/lib/domain/` |
 | `npm run test:e2e` | testes end-to-end (Playwright) |
 | `node scripts/aplicar-midia.mjs` | migration aditiva e idempotente do catálogo de mídia |
@@ -50,10 +50,10 @@ Ver `plan.md` para a árvore completa e as decisões de arquitetura. Resumo:
 
 ## Dados
 
-Banco em `data/vita.db` (SQLite, fora do git — `.gitignore`). `npm run seed`
-recria do zero: 1 usuário, 33 exercícios, 3 treinos (Push/Pull/Legs), 12
-semanas de sessões com progressão de carga plausível, histórico de peso e
-medidas, 20 alimentos, uma semana de refeições e o catálogo de mídia local.
+O banco em produção é `data/vita.db` (SQLite, fora do git — `.gitignore`).
+Por segurança, `npm run seed` sempre recria a base isolada
+`data/vita.dev.db`; ele recusa explicitamente `data/vita.db`. Os dados da
+aplicação em produção não são reescritos por testes ou seeds.
 
 ### Mídia de exercícios
 
@@ -61,6 +61,10 @@ medidas, 20 alimentos, uma semana de refeições e o catálogo de mídia local.
 catálogo [openGym](https://github.com/DuarteSantos8/openGym). O seed baixa uma
 vez e serve localmente 32 thumbnails WebP e 32 clipes MP4; a Cadeira abdutora
 permanece propositalmente sem arquivo para exercitar o fallback desenhado.
+Cada thumbnail da biblioteca e do editor abre o sheet com vídeo em loop, metadados
+e instruções; na sessão guiada, a miniatura abre esse mesmo sheet sem tirar o
+foco do registro de séries.
+
 O app não busca mídia em runtime. Os arquivos vêm da fonte com seus próprios
 termos de licença; mantenha este uso pessoal e privado, sem redistribuí-los.
 

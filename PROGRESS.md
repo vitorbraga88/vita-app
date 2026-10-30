@@ -52,3 +52,11 @@ de entrega (funcionalidades concluídas × pendentes × bloqueadas).
   da biblioteca mostra vídeo em loop, passos em pt-BR e tags de catálogo.
 - Verificação da fase: Vitest 26/26, Playwright 6/6 após reseed, build de
   produção aprovado; os 8 caminhos retornaram HTTP 200 pelo `next start`.
+
+- A miniatura na sessão guiada agora é um controle acessível que abre o mesmo
+  sheet de demonstração da biblioteca; o usuário não perde o contexto das
+  séries. Evidência: `desktop-treino-sessao-midia.png`, vídeo local 180×180
+  decodificado e console sem mensagens.
+- Fallback de `Cadeira abdutora` conferido na aplicação de produção e registrado
+  em `desktop-exercicios-fallback-cadeira-abdutora.png`; os sete fluxos E2E e os
+  29 testes unitários passaram após a alteração.

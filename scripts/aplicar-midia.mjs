@@ -5,8 +5,10 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const DB_PATH = path.join(ROOT, "data", "vita.db");
+const PRODUCTION_DB_PATH = path.join(ROOT, "data", "vita.db");
+const DB_PATH = path.resolve(ROOT, process.env.VITA_DB_PATH ?? "data/vita.dev.db");
 const MAP_PATH = path.join(ROOT, "data", "mapa-midia.json");
+if (DB_PATH === PRODUCTION_DB_PATH) throw new Error("Media seed must not target the production database.");
 const OPEN_GYM = "https://raw.githubusercontent.com/DuarteSantos8/openGym/main/catalogue";
 
 const COLUNAS_MIDIA = {

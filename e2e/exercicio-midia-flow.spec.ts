@@ -19,6 +19,7 @@ test("abre a demonstração local da biblioteca e mostra o fallback sem mídia",
 
 test("exibe clipes locais na sessão guiada", async ({ page }) => {
   await page.goto("/treinos/1");
+  await page.getByRole("button", { name: "Ver demonstração de Supino reto" }).click();
 
   const clip = page.getByLabel("Demonstração em vídeo de Supino reto");
   await expect(clip).toBeVisible();
@@ -34,4 +35,12 @@ test("mostra thumbnails no editor de composição do treino", async ({ page }) =
   const thumbnail = page.getByAltText("Demonstração de Supino reto");
   await expect(thumbnail).toBeVisible();
   await expect(thumbnail).toHaveAttribute("loading", "lazy");
+});
+
+test("abre a demonstração pela thumbnail da sessão guiada", async ({ page }) => {
+  await page.goto("/treinos/1");
+
+  await page.getByRole("button", { name: "Ver demonstração de Supino reto" }).click();
+  await expect(page.getByRole("heading", { name: "Supino reto" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Como executar" })).toBeVisible();
 });

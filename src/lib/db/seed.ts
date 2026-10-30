@@ -5,6 +5,9 @@
 import { getDb } from "@/lib/db/client";
 import { ALIMENTOS_SEED, EXERCICIOS_SEED } from "@/lib/db/seedData";
 import { isoLocalDiasAtras } from "@/lib/domain/dataLocal";
+import { getSeedDatabasePath } from "@/lib/db/seedTarget";
+
+process.env.VITA_DB_PATH = getSeedDatabasePath(process.env.VITA_DB_PATH);
 
 const TABELAS_EM_ORDEM_DE_LIMPEZA = [
   "refeicao_item", "refeicao", "medida", "peso_registro", "sessao_serie",

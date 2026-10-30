@@ -6,16 +6,20 @@ import fs from "node:fs";
 import path from "node:path";
 
 const DATA_DIR = path.join(process.cwd(), "data");
-const DB_PATH = path.join(DATA_DIR, "vita.db");
+const PRODUCTION_DB_PATH = path.join(DATA_DIR, "vita.db");
 const SCHEMA_PATH = path.join(process.cwd(), "src", "lib", "db", "schema.sql");
 
 let instance: Database.Database | null = null;
+
+export function resolveDatabasePath(configuredPath = process.env.VITA_DB_PATH): string {
+  return configuredPath ? path.join(DATA_DIR, path.basename(configuredPath)) : PRODUCTION_DB_PATH;
+}
 
 function createConnection(): Database.Database {
   if (!fs.existsSync(DATA_DIR)) {
     fs.mkdirSync(DATA_DIR, { recursive: true });
   }
-  const db = new Database(DB_PATH);
+  const db = new Database(resolveDatabasePath());
   db.pragma("journal_mode = WAL");
   db.pragma("foreign_keys = ON");
   const schema = fs.readFileSync(SCHEMA_PATH, "utf-8");
@@ -31,4 +35,4 @@ export function getDb(): Database.Database {
   return instance;
 }
 
-export { DB_PATH };
+export { PRODUCTION_DB_PATH };

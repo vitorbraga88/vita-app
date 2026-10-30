@@ -8,13 +8,13 @@ import { Card } from "@/components/ui/card";
 import { RestTimer } from "@/components/workout/RestTimer";
 import { ExercicioSessaoCard, type SetState } from "./ExercicioSessaoCard";
 import { finalizarTreinoAction, registrarSerieAction } from "./actions";
+import type { Exercicio } from "@/lib/db/types";
 
 export interface ExercicioSessaoData {
   treinoExercicioId: number;
   exercicioId: number;
+  exercicio: Exercicio;
   nome: string;
-  midiaStill: string | null;
-  midiaClip: string | null;
   seriesAlvo: number;
   repsAlvo: string;
   ultimaReps: number;
@@ -143,9 +143,7 @@ export function SessaoGuiadaClient({ sessaoId, treinoId, treinoNome, exercicios 
         {estado.map((ex, exIndex) => (
           <ExercicioSessaoCard
             key={ex.treinoExercicioId}
-            nome={ex.nome}
-            midiaStill={ex.midiaStill}
-            midiaClip={ex.midiaClip}
+            exercicio={ex.exercicio}
             repsAlvo={ex.repsAlvo}
             sets={ex.sets}
             onRepsChange={(setIndex, reps) => atualizarSet(exIndex, setIndex, { reps })}

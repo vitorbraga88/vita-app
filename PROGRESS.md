@@ -71,3 +71,11 @@ de entrega (funcionalidades concluídas × pendentes × bloqueadas).
   do `next dev` (perde locks do SQLite após Server Action) para build de produção.
 - Verificação: Vitest 61/61 (16 arquivos), Playwright 15/15 em 3 execuções seguidas,
   axe 0 violações com seções abertas, build de produção e provas a–i em `RELATORIO-SKILLS.md` §10.
+
+- Fase 4A entregue para validação: migração aditiva com backup
+  `data/vita.db.bak-2026-10-30T14-57-42-924Z-pre-fase4a`; contagens protegidas
+  795/36/28/1/132 e configurações inalteradas. Água, suplementos, gráfico de média
+  móvel e agendador de avisos no app implementados; ntfy/Web Push ficam para a
+  Parte 2. Detalhes e evidências em `RELATORIO-FASE4A.md`.
+- Verificação: Vitest 79/79, Playwright 18/18, build de produção; axe sem violações
+  nas três rotas em 1440/390 px. Prova de idempotência e console no relatório.

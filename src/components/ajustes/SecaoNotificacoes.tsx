@@ -60,7 +60,7 @@ export function SecaoNotificacoes({ config, envios }: { config: ConfigCompleta; 
   return (
     <Secao id="notificacoes" titulo="Notificações">
       <p className="rounded-[var(--r-md)] border border-border px-[var(--s-4)] py-[var(--s-3)] text-[length:var(--t-fn)] text-fg-1">
-        Nesta versão, “Testar agora” registra um envio <strong className="text-fg-0">simulado</strong> no histórico. A entrega real por ntfy/Web Push chega na Fase 4.
+        “Testar agora” registra um envio <strong className="text-fg-0">simulado</strong> no histórico. Os lembretes de água, suplementos e pesagem aparecem em Avisos no VITA; ntfy e Web Push ficam para a Parte 2.
       </p>
       <CampoSelect
         rotulo="Canal"

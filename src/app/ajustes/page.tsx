@@ -13,17 +13,19 @@ import { getUltimoPeso } from "@/lib/db/repositories/evolucao";
 import { getMeta } from "@/lib/db/repositories/meta";
 import { listarEnvios } from "@/lib/db/repositories/notificacaoEnvio";
 import { getUsuarioAtual } from "@/lib/db/repositories/usuario";
+import { getMetaAguaAtual } from "@/lib/agua/metaAtual";
 import type { MetaEditavel } from "./actions";
 
 export const dynamic = "force-dynamic";
 
 const METAS: MetaEditavel[] = ["kcal_dia", "proteina_g_dia", "carbo_g_dia", "gordura_g_dia", "agua_ml_dia"];
 
-export default function AjustesPage() {
+export default async function AjustesPage() {
   const usuario = getUsuarioAtual();
   const config = getAllConfig(usuario.id);
   const peso = getUltimoPeso(usuario.id);
   const metas = Object.fromEntries(METAS.map((t) => [t, getMeta(usuario.id, t)?.valor_alvo ?? null])) as Record<MetaEditavel, number | null>;
+  const metaAgua = config["hidratacao.meta_modo"] === "auto" ? await getMetaAguaAtual(usuario.id) : null;
 
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-col gap-[var(--s-6)]">
@@ -38,7 +40,7 @@ export default function AjustesPage() {
           pesoAtual={peso ? { pesoKg: peso.peso_kg, data: peso.data } : null}
         />
         <SecaoAparencia config={config} />
-        <SecaoHidratacao config={config} metaAguaMl={metas.agua_ml_dia} />
+        <SecaoHidratacao config={config} metaAguaMl={metaAgua?.ok ? metaAgua.ml : metas.agua_ml_dia} />
         <SecaoSuplementacao config={config} />
         <SecaoPesagem config={config} />
         <SecaoTreino config={config} />

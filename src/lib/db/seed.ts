@@ -10,6 +10,7 @@ import { getSeedDatabasePath } from "@/lib/db/seedTarget";
 process.env.VITA_DB_PATH = getSeedDatabasePath(process.env.VITA_DB_PATH);
 
 const TABELAS_EM_ORDEM_DE_LIMPEZA = [
+  "suplemento_legado", "dose_log", "suplemento", "agua_log", "notif_log",
   "refeicao_item", "refeicao", "medida", "peso_registro", "sessao_serie",
   "sessao", "treino_exercicio", "treino", "meta", "alimento", "exercicio", "usuario",
 ];

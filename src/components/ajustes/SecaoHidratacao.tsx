@@ -34,7 +34,7 @@ export function SecaoHidratacao({ config, metaAguaMl }: SecaoHidratacaoProps) {
 
   return (
     <Secao id="hidratacao" titulo="Hidratação" resumo={rotuloAtivo(ativo)} resumoAtivo={ativo}>
-      <CampoSwitch rotulo="Lembretes de hidratação" descricao="Envio dos lembretes chega na Fase 4." valor={ativo} onMudar={setAtivo} />
+      <CampoSwitch rotulo="Lembretes de hidratação" descricao="Os avisos aparecem no VITA." valor={ativo} onMudar={setAtivo} />
       <Dependentes ativo={ativo} rotulo="Opções de hidratação">
         <CampoSelect
           rotulo="Meta diária"
@@ -49,7 +49,7 @@ export function SecaoHidratacao({ config, metaAguaMl }: SecaoHidratacaoProps) {
           <CampoEntrada
             rotulo="Meta de água"
             unidade="ml"
-            descricao={modo === "auto" ? "Calculada pelo seu último peso." : undefined}
+            descricao={modo === "auto" ? "Calculada pelo último peso e ajustada pela temperatura do dia." : undefined}
             tipo="number"
             min={500}
             max={8000}

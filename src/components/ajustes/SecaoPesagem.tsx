@@ -16,7 +16,7 @@ export function SecaoPesagem({ config }: { config: ConfigCompleta }) {
 
   return (
     <Secao id="pesagem" titulo="Pesagem" resumo={rotuloAtivo(ativo)} resumoAtivo={ativo}>
-      <CampoSwitch rotulo="Lembrete de pesagem" descricao="Envio do lembrete chega na Fase 4." valor={ativo} onMudar={setAtivo} />
+      <CampoSwitch rotulo="Lembrete de pesagem" descricao="Os avisos aparecem no VITA." valor={ativo} onMudar={setAtivo} />
       <Dependentes ativo={ativo} rotulo="Opções de pesagem">
         <CampoSelect rotulo="Dia da pesagem" valor={dia} opcoes={DIAS_SEMANA.map((d) => ({ valor: d.valor as number, rotulo: d.rotulo }))} onMudar={setDia} />
         <CampoHorario rotulo="Hora da pesagem" descricao="Horário de Recife (UTC−3)" valor={hora} onConfirmar={setHora} />

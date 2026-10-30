@@ -19,9 +19,9 @@ function fatorAtividade(diasTreino: number): number {
   return 1.725;
 }
 
-/** Daily water target: body weight × 35 ml, rounded to 50 ml. */
+/** Base water target, without the day's heat adjustment. */
 export function calcularAguaMl(pesoKg: number): number {
-  return Math.round((pesoKg * 35) / 50) * 50;
+  return Math.round((pesoKg * 35) / 250) * 250;
 }
 
 /** Whole years between a birth date and a reference date (both YYYY-MM-DD). */

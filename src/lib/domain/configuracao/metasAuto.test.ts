@@ -2,9 +2,9 @@ import { describe, expect, it } from "vitest";
 import { calcularAguaMl, calcularMacros, calcularTdee, idadeEm } from "./metasAuto";
 
 describe("metas automáticas", () => {
-  it("água = peso × 35 ml arredondado para 50 ml", () => {
-    expect(calcularAguaMl(80)).toBe(2800);
-    expect(calcularAguaMl(81.3)).toBe(2850);
+  it("água = peso × 35 ml arredondado para 250 ml", () => {
+    expect(calcularAguaMl(80)).toBe(2750);
+    expect(calcularAguaMl(82.2)).toBe(3000);
   });
 
   it("idade completa considera se o aniversário já passou", () => {

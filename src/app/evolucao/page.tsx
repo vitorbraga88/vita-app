@@ -13,7 +13,8 @@ export default async function EvolucaoPage() {
   const usuario = getUsuarioAtual();
   const hoje = hojeISOLocal();
 
-  const pesoRegistros = listarPesoRegistros(usuario.id, 90);
+  // Six earlier days supply the trailing average at the edge of the 90-day chart.
+  const pesoRegistros = listarPesoRegistros(usuario.id, 96);
   const medidas = listarMedidas(usuario.id);
   const metaPeso = getMeta(usuario.id, "peso_alvo_kg");
   const metaAlvoKg = metaPeso?.valor_alvo ?? null;

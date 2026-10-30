@@ -1,4 +1,4 @@
-import { Apple, Dumbbell, LayoutDashboard, Settings, TrendingUp, type LucideIcon } from "lucide-react";
+import { Apple, Droplets, Dumbbell, LayoutDashboard, Pill, Settings, TrendingUp, type LucideIcon } from "lucide-react";
 
 export interface NavItem {
   href: string;
@@ -11,5 +11,7 @@ export const NAV_ITEMS: NavItem[] = [
   { href: "/treinos", label: "Treinos", icon: Dumbbell },
   { href: "/evolucao", label: "Evolução", icon: TrendingUp },
   { href: "/nutricao", label: "Nutrição", icon: Apple },
+  { href: "/agua", label: "Água", icon: Droplets },
+  { href: "/suplementos", label: "Suplementos", icon: Pill },
   { href: "/ajustes", label: "Ajustes", icon: Settings },
 ];

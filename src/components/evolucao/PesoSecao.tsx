@@ -13,6 +13,7 @@ import { GoalCard } from "@/components/ui/goal-card";
 import { TrendLineChart } from "@/components/charts/TrendLineChart";
 import { registrarPesoAction } from "@/app/evolucao/actions";
 import { isoLocalDiasAtras } from "@/lib/domain/dataLocal";
+import { calcularMediaPeso } from "@/lib/domain/mediaPeso";
 import type { PesoRegistro } from "@/lib/db/types";
 
 const JANELAS = [7, 30, 90] as const;
@@ -50,7 +51,7 @@ export function PesoSecao({ hoje, registros, metaAlvoKg }: PesoSecaoProps) {
 
   const corteJanela = isoLocalDiasAtras(janela);
   const dadosGrafico = useMemo(
-    () => registros.filter((r) => r.data >= corteJanela).map((r) => ({ data: r.data, valor: r.peso_kg })),
+    () => calcularMediaPeso(registros, corteJanela),
     [registros, corteJanela]
   );
   const ultimoRegistro = registros.length > 0 ? registros[registros.length - 1] : null;
@@ -62,7 +63,7 @@ export function PesoSecao({ hoje, registros, metaAlvoKg }: PesoSecaoProps) {
           <CardTitle>Registrar peso</CardTitle>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="flex flex-col gap-[var(--s-4)] sm:flex-row sm:items-end">
+          <form id="registrar-peso" onSubmit={handleSubmit} className="flex scroll-mt-4 flex-col gap-[var(--s-4)] sm:flex-row sm:items-end">
             <div className="flex flex-1 flex-col gap-1">
               <Label htmlFor="peso-data">Data</Label>
               <Input id="peso-data" type="date" value={data} max={hoje} onChange={(e) => setData(e.target.value)} />
@@ -108,6 +109,7 @@ export function PesoSecao({ hoje, registros, metaAlvoKg }: PesoSecaoProps) {
                   <button
                     key={j}
                     type="button"
+                    aria-pressed={janela === j}
                     onClick={() => setJanela(j)}
                     className={cn(
                       "rounded-[var(--r-sm)] px-[var(--s-3)] py-1 text-[length:var(--t-cap)] font-medium transition-colors",
@@ -121,7 +123,30 @@ export function PesoSecao({ hoje, registros, metaAlvoKg }: PesoSecaoProps) {
             </CardHeader>
             <CardContent>
               {dadosGrafico.length > 0 ? (
-                <TrendLineChart dados={dadosGrafico} unidade="kg" metaValor={metaAlvoKg ?? undefined} />
+                <>
+                  <div className="mb-[var(--s-3)] flex flex-wrap gap-x-[var(--s-4)] gap-y-1 text-[length:var(--t-cap)] text-fg-1" aria-label="Legenda do gráfico">
+                    <span><span aria-hidden="true" className="mr-1 inline-block w-5 align-middle border-t-2 border-accent" />Peso</span>
+                    <span><span aria-hidden="true" className="mr-1 inline-block w-5 align-middle border-t-2 border-dashed border-info" />Média de 7 dias</span>
+                    {metaAlvoKg !== null && <span><span aria-hidden="true" className="mr-1 inline-block w-5 align-middle border-t-2 border-dashed border-fg-2" />Meta: {metaAlvoKg.toLocaleString("pt-BR")} kg</span>}
+                  </div>
+                  <TrendLineChart dados={dadosGrafico} unidade="kg" metaValor={metaAlvoKg ?? undefined} mostrarMedia />
+                  <details className="mt-[var(--s-3)] text-[length:var(--t-cap)] text-fg-1">
+                    <summary className="cursor-pointer">Ver dados do gráfico</summary>
+                    <table className="mt-2 w-full text-left">
+                      <caption className="sr-only">Peso e média móvel de 7 dias em quilogramas</caption>
+                      <thead><tr><th scope="col">Data</th><th scope="col">Peso (kg)</th><th scope="col">Média de 7 dias (kg)</th></tr></thead>
+                      <tbody>
+                        {dadosGrafico.map((ponto) => (
+                          <tr key={ponto.data}>
+                            <td>{ponto.data.split("-").reverse().join("/")}</td>
+                            <td>{ponto.valor.toLocaleString("pt-BR")}</td>
+                            <td>{ponto.media.toLocaleString("pt-BR", { maximumFractionDigits: 2 })}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </details>
+                </>
               ) : (
                 <p className="py-[var(--s-6)] text-center text-[length:var(--t-fn)] text-fg-2">Sem registros nesse período.</p>
               )}

@@ -41,6 +41,7 @@ ambiente (ver `RELATORIO-SKILLS.md`, seção de auditoria).
 | `npm run lint` | ESLint |
 | `node scripts/check-contrast.mjs` | razão de contraste WCAG de cada par texto/fundo dos tokens |
 | `node scripts/migrar-configuracao.mjs` | migração aditiva (backup + `schema.sql`) das tabelas de ajustes em `data/vita.db` |
+| `node scripts/migrar-fase4a.mjs` | backup consistente e migração aditiva para água, suplementos e avisos |
 | `scripts/reiniciar-producao.sh` | troca o servidor da porta 3900 pelo build atual e espera HTTP 200 |
 
 ## Estrutura
@@ -79,9 +80,29 @@ termos de licença; mantenha este uso pessoal e privado, sem redistribuí-los.
 treino, nutrição), notificações, Amazfit T-Rex 3 e dados. Cada controle salva na hora
 na tabela `configuracao` (valor JSON; catálogo de 58 chaves com default em
 `src/lib/domain/configuracao/catalogo.ts`); chave ausente ou inválida usa o default.
-Horários são gravados como `HH:mm:ss-03:00` (America/Recife). Metas de kcal, macros e
-água continuam na tabela `meta`: o modo automático calcula e grava lá. `/perfil`
-redireciona (308) para `/ajustes`.
+Horários são gravados como `HH:mm:ss-03:00` (America/Recife). Metas manuais de
+kcal, macros e água ficam na tabela `meta`; a meta automática de água é recalculada
+na leitura com o peso atual e a temperatura. `/perfil` redireciona (308) para `/ajustes`.
+
+### Água, suplementos e avisos
+
+`/agua` registra copos, desfaz o último registro de hoje e compara o histórico de
+7/30 dias à meta atual. A meta automática arredonda peso × 35 ml para 250 ml e
+adiciona 500 ml quando a máxima prevista em Igarassu supera 32 °C. A previsão é
+do Open-Meteo; se indisponível, usa a média mensal da
+[Climatempo](https://www.climatempo.com.br/climatologia/1256/igarassu-pe),
+identificada na tela como aproximação, não como previsão diária.
+
+`/suplementos` controla dose, horários e estoque na mesma unidade. Itens antigos
+de ajustes aguardam revisão explícita antes da conversão; continuam na configuração.
+A adesão é uma estimativa baseada nos horários atuais, não em agendas históricas.
+
+O processo Next verifica horários a cada minuto, em America/Recife. Os lembretes
+de água, suplemento e pesagem aparecem no sino de Avisos dentro do VITA; não há
+notificações externas nesta parte. O servidor precisa estar ligado: atrasos de
+até 30 minutos são recuperados, com deduplicação no SQLite. A pesagem quinzenal
+usa semanas alternadas a partir de 05/01/1970. O gráfico exibe médias dos
+registros disponíveis nos últimos sete dias de calendário de cada ponto.
 
 ## Documentos da entrega
 

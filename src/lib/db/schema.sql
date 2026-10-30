@@ -154,6 +154,42 @@ CREATE TABLE IF NOT EXISTS notificacao_envio (
   enviado_em      TEXT NOT NULL
 );
 
+-- Phase 4A: water, supplements, scheduled in-app notifications.
+CREATE TABLE IF NOT EXISTS agua_log (
+  id INTEGER PRIMARY KEY, usuario_id INTEGER NOT NULL REFERENCES usuario(id),
+  ts TEXT NOT NULL, ml INTEGER NOT NULL CHECK (ml > 0),
+  origem TEXT NOT NULL DEFAULT 'app' CHECK (origem IN ('app','ajuste','relogio'))
+);
+CREATE INDEX IF NOT EXISTS idx_agua_user_ts ON agua_log(usuario_id, ts);
+
+CREATE TABLE IF NOT EXISTS suplemento (
+  id INTEGER PRIMARY KEY, usuario_id INTEGER NOT NULL REFERENCES usuario(id),
+  nome TEXT NOT NULL, dose REAL NOT NULL CHECK (dose > 0),
+  unidade TEXT NOT NULL CHECK (unidade IN ('g','mg','caps','ml')),
+  horarios TEXT NOT NULL, estoque REAL NOT NULL DEFAULT 0 CHECK (estoque >= 0),
+  doses_por_embalagem REAL, ativo INTEGER NOT NULL DEFAULT 1, criado_em TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS dose_log (
+  id INTEGER PRIMARY KEY, suplemento_id INTEGER NOT NULL REFERENCES suplemento(id) ON DELETE CASCADE,
+  data TEXT NOT NULL, horario TEXT NOT NULL, tomado_em TEXT,
+  UNIQUE(suplemento_id, data, horario)
+);
+
+CREATE TABLE IF NOT EXISTS suplemento_legado (
+  usuario_id INTEGER NOT NULL REFERENCES usuario(id), indice INTEGER NOT NULL,
+  nome TEXT NOT NULL, horario TEXT NOT NULL,
+  suplemento_id INTEGER REFERENCES suplemento(id) ON DELETE SET NULL,
+  UNIQUE(usuario_id, indice, nome, horario)
+);
+
+CREATE TABLE IF NOT EXISTS notif_log (
+  id INTEGER PRIMARY KEY, usuario_id INTEGER NOT NULL REFERENCES usuario(id),
+  tipo TEXT NOT NULL CHECK (tipo IN ('agua','suplemento','pesagem','treino','resumo')),
+  chave_dia TEXT NOT NULL, enviado_em TEXT NOT NULL,
+  titulo TEXT NOT NULL, mensagem TEXT NOT NULL, link TEXT NOT NULL, lida_em TEXT,
+  UNIQUE(usuario_id, tipo, chave_dia)
+);
+
 CREATE INDEX IF NOT EXISTS idx_sessao_usuario ON sessao(usuario_id, iniciado_em);
 CREATE INDEX IF NOT EXISTS idx_sessao_serie_sessao ON sessao_serie(sessao_id);
 CREATE INDEX IF NOT EXISTS idx_sessao_serie_exercicio ON sessao_serie(exercicio_id, criado_em);
